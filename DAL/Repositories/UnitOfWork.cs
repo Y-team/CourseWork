@@ -20,6 +20,16 @@ namespace DAL.Repositories
         private IBaseRepository<Tariff> tariffRepo;
         private IBaseRepository<Code> codeRepo;
         private IBaseRepository<ApplicationGroup> groupRepo;
+        private IBaseRepository<Basket> basketRepo;
+        private IBaseRepository<BasketCommodities> basketCommoditiesRepo;
+        private IBaseRepository<BlokedUser> blokedUserRepo;
+        private IBaseRepository<Commodity> commodityRepo;
+        private IBaseRepository<LongDescription> longdescriptionRepo;
+        private IBaseRepository<Moderator> moderatorRepo;
+        private IBaseRepository<Order> orderRepo;
+        private IBaseRepository<OrderCommodities> ordercomoditiesRepo;
+        private IBaseRepository<Photo> photoRepo;
+
         private IMailingRepository mailingRepo;
 
         public UnitOfWork(ApplicationDbContext context)
@@ -27,6 +37,11 @@ namespace DAL.Repositories
             this.context = context;
         }
 
+        #region it was
+
+        
+
+       
         public IBaseRepository<Company> Companies
         {
             get
@@ -108,6 +123,88 @@ namespace DAL.Repositories
             }
         }
 
+        public IBaseRepository<Basket> Baskets
+        {
+            get
+            {
+                if (basketRepo == null) { basketRepo = new BaseRepository<Basket>(context); }
+                return basketRepo;
+            }
+        }
+
+        public IBaseRepository<BasketCommodities> BasketCommoditieses
+        {
+            get
+            {
+                if (basketCommoditiesRepo == null) { basketCommoditiesRepo = new BaseRepository<BasketCommodities>(context); }
+                return basketCommoditiesRepo;
+            }
+        }
+
+        public IBaseRepository<BlokedUser> BlokedUsers
+        {
+            get
+            {
+                if (blokedUserRepo == null) { blokedUserRepo = new BaseRepository<BlokedUser>(context); }
+                return blokedUserRepo;
+            }
+        }
+
+        public IBaseRepository<Commodity> Commodities
+        {
+            get
+            {
+                if (commodityRepo == null) { commodityRepo = new BaseRepository<Commodity>(context); }
+                return commodityRepo;
+            }
+        }
+
+        public IBaseRepository<LongDescription> LongDescriptions
+        {
+            get
+            {
+                if (longdescriptionRepo == null) { longdescriptionRepo = new BaseRepository<LongDescription>(context); }
+                return longdescriptionRepo;
+            }
+        }
+
+        public IBaseRepository<Moderator> Moderators
+        {
+            get
+            {
+                if (moderatorRepo == null) { moderatorRepo = new BaseRepository<Moderator>(context); }
+
+                return moderatorRepo;
+            }
+        }
+
+        public IBaseRepository<Order> Orders
+        {
+            get
+            {
+                if (orderRepo == null) { orderRepo = new BaseRepository<Order>(context); }
+                return orderRepo;
+            }
+        }
+
+        public IBaseRepository<OrderCommodities> OrderCommoditieses
+        {
+            get
+            {
+                if (ordercomoditiesRepo == null) { ordercomoditiesRepo = new BaseRepository<OrderCommodities>(context); }
+                return ordercomoditiesRepo;
+            }
+        }
+
+        public IBaseRepository<Photo> Photoes
+        {
+            get
+            {
+                if (photoRepo == null) { photoRepo = new BaseRepository<Photo>(context); }
+                return photoRepo;
+            }
+        }
+
         public IMailingRepository Mailings
         {
             get
@@ -119,7 +216,7 @@ namespace DAL.Repositories
                 return mailingRepo;
             }
         }
-
+        #endregion
         public int Save()
         {
             return context.SaveChanges();

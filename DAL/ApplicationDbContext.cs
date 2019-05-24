@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Model.DB;
 using WebCustomerApp.Models;
 
 namespace WebCustomerApp.Data
@@ -25,6 +26,17 @@ namespace WebCustomerApp.Data
         public DbSet<Tariff> Tariffs { get; set; }
         public DbSet<ApplicationGroup> Groups { get; set; }
 
+
+        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<BasketCommodities> BasketCommoditieses { get; set; }
+        public DbSet<LongDescription> LongDescriptions { get; set; }
+        public DbSet<Commodity> Commodities{ get; set; }
+        public DbSet<Moderator> Moderators { get; set; }
+        public DbSet<Photo> Photoes{ get; set; }
+        public DbSet<BlokedUser> BlokedUsers{ get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public  DbSet<OrderCommodities> OrderCommoditieses { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -43,7 +55,13 @@ namespace WebCustomerApp.Data
             builder.Entity<Tariff>().HasKey(i => i.Id);
             builder.Entity<StopWord>().HasKey(i => i.Id);
             builder.Entity<ApplicationGroup>().HasKey(i => i.Id);
-
+            builder.Entity<Basket>().HasKey(i => i.Id);
+            builder.Entity<LongDescription>().HasKey(i => i.Id);
+            builder.Entity<Commodity>().HasKey(i => i.Id);
+            builder.Entity<Moderator>().HasKey(i => i.Id);
+            builder.Entity<Photo>().HasKey(i => i.Id);
+            builder.Entity<BlokedUser>().HasKey(i => i.Id);
+            builder.Entity<Order>().HasKey(i => i.Id);
             // Compound key for Many-To-Many joining table
 
             // Setting FK

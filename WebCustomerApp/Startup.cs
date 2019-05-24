@@ -47,8 +47,18 @@ namespace WebCustomerApp
 			services.AddTransient<IBaseRepository<Company>, BaseRepository<Company>>();
             services.AddTransient<IMailingRepository, MailingRepository>();
             services.AddTransient<IBaseRepository<ApplicationGroup>, BaseRepository<ApplicationGroup>>();
+            services.AddTransient<IBaseRepository<Basket>, BaseRepository<Basket>>();
+            services.AddTransient<IBaseRepository<BlokedUser>, BaseRepository<BlokedUser>>();
+            services.AddTransient<IBaseRepository<Commodity>, BaseRepository<Commodity>>();
+            services.AddTransient<IBaseRepository<LongDescription>, BaseRepository<LongDescription>>();
+            services.AddTransient<IBaseRepository<Moderator>, BaseRepository<Moderator>>();
+            services.AddTransient<IBaseRepository<Order>, BaseRepository<Order>>();
+            services.AddTransient<IBaseRepository<Photo>, BaseRepository<Photo>>();
 
-			//services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");});
+
+
+
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");});
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>
             {

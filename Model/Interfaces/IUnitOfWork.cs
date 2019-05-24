@@ -16,6 +16,16 @@ namespace Model.Interfaces
         IBaseRepository<Code> Codes { get; }
         IBaseRepository<Tariff> Tariffs { get; }
         IBaseRepository<StopWord> StopWords { get; }
+
+        IBaseRepository<Basket> Baskets { get; }
+        IBaseRepository<BasketCommodities> BasketCommoditieses { get; }
+        IBaseRepository<LongDescription> LongDescriptions { get; }
+        IBaseRepository<Commodity> Commodities { get; }
+        IBaseRepository<Moderator> Moderators { get;  }
+        IBaseRepository<Photo> Photoes { get; }
+        IBaseRepository<BlokedUser> BlokedUsers { get; }
+        IBaseRepository<Order> Orders { get; }
+        IBaseRepository<OrderCommodities> OrderCommoditieses { get;  }
         IMailingRepository Mailings { get; }
 
 
