@@ -2,14 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Models.DB
+namespace Model.DB
 {
-    public class Basket
+    class Basket
     {
-        public int Id { get; set; }
-        public ICollection<BasketCommodity> BasketCommodities { get; set; }
-
-        public string Description { get; set; }
-
     }
 }

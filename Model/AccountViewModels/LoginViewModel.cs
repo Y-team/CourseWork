@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Models.AccountViewModels
+namespace WebCustomerApp.Models.AccountViewModels
 {
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+       // [EmailAddress]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
