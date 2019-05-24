@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using BAL.Managers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Model.DB;
 using WebCustomerApp.Models;
 using WebCustomerApp.Models.ManageViewModels;
 using WebCustomerApp.Services;
@@ -23,6 +23,7 @@ namespace WebCustomerApp.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IGroupManager _groupManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
@@ -33,17 +34,19 @@ namespace WebCustomerApp.Controllers
         public ManageController(
           UserManager<ApplicationUser> userManager,
           SignInManager<ApplicationUser> signInManager,
+          IGroupManager groupManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _groupManager = groupManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
         }
-        
+
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -51,20 +54,27 @@ namespace WebCustomerApp.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
+            string group = _groupManager.Get(user.ApplicationGroupId).Name;
+            bool isInvited = false;
+            if(user.InviteId != 0)
+            {
+                group = _groupManager.Get(user.InviteId).Name;
+                isInvited = true;
+            }
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
             var model = new IndexViewModel
             {
                 Username = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
+                GroupName = group,
+                IsIvited = isInvited,
                 StatusMessage = StatusMessage
             };
-
             return View(model);
         }
 
@@ -100,6 +110,21 @@ namespace WebCustomerApp.Controllers
                 if (!setPhoneResult.Succeeded)
                 {
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+                }
+            }
+
+            if(user.InviteId != 0)
+            {
+                if(model.IviteConfirm == "true")
+                {
+                    user.ApplicationGroupId = user.InviteId;
+                    user.InviteId = 0;
+                    await _userManager.UpdateAsync(user);
+                }
+                if (model.IviteConfirm == "false")
+                {
+                    user.InviteId = 0;
+                    await _userManager.UpdateAsync(user);
                 }
             }
 

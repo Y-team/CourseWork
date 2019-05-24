@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using WebCustomerApp.Data;
 
 namespace DAL.Repositories
@@ -11,7 +12,7 @@ namespace DAL.Repositories
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
         protected readonly ApplicationDbContext context;
-        private readonly DbSet<TEntity> dbSet;
+        private DbSet<TEntity> dbSet;
 
         public BaseRepository(ApplicationDbContext mainDbContext)
         {
@@ -58,30 +59,31 @@ namespace DAL.Repositories
             }
         }
 
-        public virtual void Insert(TEntity item)
+        public virtual void Insert(TEntity entity)
         {
-            dbSet.Add(item);
+            dbSet.Add(entity);
         }
 
-        public virtual void Update(TEntity item)
+        public virtual void Update(TEntity entityToUpdate)
         {
             try
             {
-                dbSet.Attach(item);
+                dbSet.Attach(entityToUpdate);
             }
+            catch { }
             finally
             {
-                dbSet.Update(item);
+                dbSet.Update(entityToUpdate);
             }
         }
 
-        public virtual void Delete(TEntity item)
+        public virtual void Delete(TEntity entityToDelete)
         {
-            if (context.Entry(item).State == EntityState.Detached)
+            if (context.Entry(entityToDelete).State == EntityState.Detached)
             {
-                dbSet.Attach(item);
+                dbSet.Attach(entityToDelete);
             }
-            dbSet.Remove(item);
+            dbSet.Remove(entityToDelete);
         }
 
         public void SetStateModified(TEntity entity)

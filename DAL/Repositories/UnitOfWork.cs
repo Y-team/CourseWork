@@ -1,80 +1,131 @@
-﻿using BAL.Interface;
-using Microsoft.AspNetCore.Identity;
-using Model.DB;
-using Model.Interface;
+﻿using WebCustomerApp.Models;
+using Model.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
-using DAL.Repositories;
-using Model.Interfaces;
 using WebCustomerApp.Data;
-using WebCustomerApp.Models;
+using Microsoft.AspNetCore.Identity;
 
-namespace BAL.Repository
+namespace DAL.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly ApplicationDbContext _DbContext;
-        private bool disposed = false;
-        public UserManager<ApplicationUser> UserRepository     { get; }
-        public SignInManager<ApplicationUser> SignInRepository { get; }
-        private IBaseRepository<PhoneRec> phoneRepository;
-        private IBaseRepository<Message> messageRepository;
+        private readonly ApplicationDbContext context;
+        private IBaseRepository<Recipient> recipientRepo;
+        private IBaseRepository<StopWord> stopWordRepo;
+        private IBaseRepository<Company> companyRepo;
+        private IBaseRepository<Operator> operatorRepo;
+        private IContactRepository contactRepo;
+        private IBaseRepository<Phone> phoneRepo;
+        private IBaseRepository<Tariff> tariffRepo;
+        private IBaseRepository<Code> codeRepo;
+        private IBaseRepository<ApplicationGroup> groupRepo;
+        private IMailingRepository mailingRepo;
 
-        public UnitOfWork(ApplicationDbContext connectionContext,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInRepository)
+        public UnitOfWork(ApplicationDbContext context)
         {
-            _DbContext = connectionContext;
-            UserRepository = userManager;
-            SignInRepository = signInRepository;
-        }
-        
-       
-       
-       
-        public IBaseRepository<Message> MessageRepository
-        {
-            get
-            {
-                if (messageRepository == null)
-                {
-                    messageRepository = new BaseRepository<Message>(_DbContext);
-                }
-                return messageRepository;
-            }
-
+            this.context = context;
         }
 
-        public IBaseRepository<PhoneRec> PhoneRepository
+        public IBaseRepository<Company> Companies
         {
             get
             {
-                if (phoneRepository == null)
-                {
-                    phoneRepository = new BaseRepository<PhoneRec>(_DbContext);
-                }
-                return phoneRepository;
+                if (companyRepo == null) { companyRepo = new BaseRepository<Company>(context); }
+                return companyRepo;
             }
-
         }
 
-        #region default Save & Dispose
-        public void Save()
-        {
-            _DbContext.SaveChanges();
+        public IBaseRepository<Recipient> Recipients {
+            get {
+                if (recipientRepo == null) { recipientRepo = new BaseRepository<Recipient>(context); }
+                return recipientRepo;
+            }
         }
-
-        protected virtual void Dispose(bool disposing)
+        public IBaseRepository<Tariff> Tariffs
         {
-            if (!disposed)
+            get
             {
-                if (disposing)
-                {
-                    _DbContext.Dispose();
-                }
+                if (tariffRepo == null) { tariffRepo = new BaseRepository<Tariff>(context); }
+                return tariffRepo;
             }
-            disposed = true;
         }
+      
+
+        public IBaseRepository<StopWord> StopWords
+        {
+            get
+            {
+                if (stopWordRepo == null) { stopWordRepo = new BaseRepository<StopWord>(context); }
+                return stopWordRepo;
+            }
+        }
+
+        public IBaseRepository<Operator> Operators
+        {
+            get
+            {
+                if (operatorRepo == null)
+                {
+                    operatorRepo = new BaseRepository<Operator>(context);
+                }
+                return operatorRepo;
+            }
+        }
+
+        public IContactRepository Contacts {
+            get {
+                if (contactRepo == null) { contactRepo = new ContactRepository(context); }
+                return contactRepo;
+            }
+        }
+
+        public IBaseRepository<Phone> Phones {
+            get {
+                if (phoneRepo == null) { phoneRepo = new BaseRepository<Phone>(context); }
+                return phoneRepo;
+            }
+        }
+
+        public IBaseRepository<ApplicationGroup> ApplicationGroups
+        {
+            get
+            {
+                if (groupRepo == null) { groupRepo = new BaseRepository<ApplicationGroup>(context); }
+                return groupRepo;
+            }
+        }
+
+        public IBaseRepository<Code> Codes
+        {
+            get
+            {
+                if (codeRepo == null)
+                {
+                    codeRepo = new BaseRepository<Code>(context);
+                }
+                return codeRepo;
+            }
+        }
+
+        public IMailingRepository Mailings
+        {
+            get
+            {
+                if (mailingRepo == null)
+                {
+                    mailingRepo = new MailingRepository(context);
+                }
+                return mailingRepo;
+            }
+        }
+
+        public int Save()
+        {
+            return context.SaveChanges();
+        }
+
+        private bool isDisposed = false;
 
         public void Dispose()
         {
@@ -82,8 +133,13 @@ namespace BAL.Repository
             GC.SuppressFinalize(this);
         }
 
-      
-
-        #endregion
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!isDisposed && disposing)
+            {
+                context.Dispose();
+            }
+            isDisposed = true;
+        }
     }
 }

@@ -12,16 +12,14 @@ using WebCustomerApp.Data;
 using WebCustomerApp.Models;
 using WebCustomerApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using BAL.Interface;
-using BAL.Repository;
-using DAL.Repositories;
-using Model.Interface;
 using Model.Interfaces;
-using Model.DB;
+using DAL.Repositories;
+using BAL.Managers;
 using AutoMapper;
 using BAL.Services;
+using BAL.Jobs;
 
-namespace CourseWork
+namespace WebCustomerApp
 {
     public class Startup
     {
@@ -42,18 +40,16 @@ namespace CourseWork
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddAuthentication().AddFacebook(facebookOptions =>
-            {
-                facebookOptions.AppId = "650976532012853";
-                facebookOptions.AppSecret = "bafe321bce69a757c812991f4468597e";
-            });
+            // Add application services.
+            services.AddTransient<IEmailSender, EmailSender>();
+			services.AddTransient<ITariffRepository, TariffRepository>();
+			services.AddTransient<IBaseRepository<Tariff>, BaseRepository<Tariff>>();
+			services.AddTransient<IBaseRepository<Company>, BaseRepository<Company>>();
+            services.AddTransient<IMailingRepository, MailingRepository>();
+            services.AddTransient<IBaseRepository<ApplicationGroup>, BaseRepository<ApplicationGroup>>();
 
-            services.AddAuthentication().AddGoogle(configureOptions =>
-            {
-                configureOptions.ClientId = "91528411350-j52vl6bbdp58ild09dqelr9n4ccl11vf.apps.googleusercontent.com";
-                configureOptions.ClientSecret = "11May0pGIYDGLc0ZO0GNi05y";
-            });
-
+			//services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");});
+            // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
@@ -62,6 +58,7 @@ namespace CourseWork
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");});
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings  
@@ -81,33 +78,135 @@ namespace CourseWork
                 options.User.RequireUniqueEmail = true;
             });
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+
+            //Seting the Account Login page  
+            services.ConfigureApplicationCookie(options =>
             {
-                //options.Password.RequiredLength = 8;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireDigit = true;
-                options.User.RequireUniqueEmail = true;
-               // options.SignIn.RequireConfirmedEmail = true; 
-            }
-            )
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
-
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IBaseRepository<object>, BaseRepository<object>>();
-
-      //    services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");});
-
+                // Cookie settings  
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.LoginPath = "/Account/NewLogin"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login  
+                options.LogoutPath = "/Account/Logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout  
+                options.AccessDeniedPath = "/Account/AccessDenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied  
+                options.SlidingExpiration = true;
+            });
             services.AddMvc();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICompanyManager, CompanyManager>();
+            services.AddScoped<IRecipientManager, RecipientManager>();
+            services.AddScoped<IContactManager, ContactManager>();
+            services.AddScoped<ITariffManager, TariffManager>();
+            services.AddScoped<IPhoneManager, PhoneManager>();
+            services.AddScoped<IStopWordManager, StopWordManager>();
+            services.AddScoped<IGroupManager, GroupManager>();
+            services.AddScoped<IOperatorManager, OperatorManager>();
+            services.AddScoped<ICodeManager, CodeManager>();
+            services.AddScoped<IMailingManager, MailingManager>();
+
+            // Start scheduler
+
+            services.AddScoped<Mailing>();
+            MailingScheduler.Start(services.BuildServiceProvider());
+
+            // Configure sessions
+
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+        }
+       
+        public static class MyIdentityDataInitializer
+        {
+            public static void SeedData(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+            {
+                SeedRoles(roleManager);
+                SeedUsers(userManager);
+            }
+           
+            
+            public static void SeedUsers(UserManager<ApplicationUser> userManager)
+            {
+                if (userManager.FindByNameAsync("User@gmail.com").Result == null)
+                {
+                    ApplicationUser user = new ApplicationUser();
+                    ApplicationGroup group = new ApplicationGroup();
+                    user.UserName = "User@gmail.com";
+                    user.Email = "User@gmail.com";
+                    user.ApplicationGroup = group;
+                   
+                   IdentityResult result = userManager.CreateAsync(user,"1234ABCD").Result;
+                    if (result.Succeeded)
+                    {
+                        userManager.AddToRoleAsync(user,"User").Wait();
+                    }
+                }
+
+
+                if (userManager.FindByNameAsync("Admin@gmail.com").Result == null)
+                {
+                    ApplicationUser user = new ApplicationUser();
+                    ApplicationGroup group = new ApplicationGroup();
+                    user.UserName = "Admin@gmail.com";
+                    user.Email = "Admin@gmail.com";
+                    user.ApplicationGroup = group;
+
+                    IdentityResult result;
+                        result = userManager.CreateAsync(user,"1234ABCD").Result;
+
+                    if (result.Succeeded)
+                    {
+                        userManager.AddToRoleAsync(user, "Admin").Wait();
+                    }
+                }
+
+                if (userManager.FindByNameAsync("CorporateUser@gmail.com").Result == null)
+                {
+                    ApplicationUser user = new ApplicationUser();
+                    ApplicationGroup group = new ApplicationGroup();
+                    user.UserName = "CorporateUser@gmail.com";
+                    user.Email = "CorporateUser@gmail.com";
+                    user.ApplicationGroup = group;
+
+                    IdentityResult result;
+                    result = userManager.CreateAsync(user, "1234ABCD").Result;
+
+                    if (result.Succeeded)
+                    {
+                        userManager.AddToRoleAsync(user, "CorporateUser").Wait();
+                    }
+                }
+            }
+
+            public static void SeedRoles(RoleManager<IdentityRole> roleManager)
+            {
+                if (!roleManager.RoleExistsAsync("User").Result)
+                {
+                    IdentityRole role = new IdentityRole();
+                    role.Name = "User";
+                    IdentityResult roleResult = roleManager.
+                    CreateAsync(role).Result;
+                }
+
+
+                if (!roleManager.RoleExistsAsync("Admin").Result)
+                {
+                    IdentityRole role = new IdentityRole();
+                    role.Name = "Admin";
+                    IdentityResult roleResult = roleManager.
+                    CreateAsync(role).Result;
+                }
+
+                if (!roleManager.RoleExistsAsync("CorporateUser").Result)
+                {
+                    IdentityRole role = new IdentityRole();
+                    role.Name = "CorporateUser";
+                    IdentityResult roleResult = roleManager.
+                    CreateAsync(role).Result;
+                }
+            }
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+                              IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -121,15 +220,19 @@ namespace CourseWork
             }
 
             app.UseStaticFiles();
-
             app.UseAuthentication();
+
+            // Configure sessions
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+            name: "default",
+            template: "{controller=Home}/{action=Index}/{id?}");    
             });
+
         }
     }
 }

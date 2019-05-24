@@ -3,93 +3,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BAL.Managers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Model.DB;
+using Model.ViewModels.GroupViewModels;
 using WebCustomerApp.Models;
 using WebCustomerApp.Models.AccountViewModels;
 using WebCustomerApp.Services;
 
 namespace WebCustomerApp.Controllers
 {
-        #region AccountController
     [Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IGroupManager _groupManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
+            IGroupManager groupManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _groupManager = groupManager;
             _emailSender = emailSender;
             _logger = logger;
         }
 
         [TempData]
         public string ErrorMessage { get; set; }
-        #endregion
-     
-        #region Login
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(string returnUrl = null)
-        {
-            // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
-            {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User logged in.");
-                    return RedirectToLocal(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToAction(nameof(Lockout));
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
-                }
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
 
         [HttpGet]
         [AllowAnonymous]
@@ -200,9 +155,6 @@ namespace WebCustomerApp.Controllers
                 return View();
             }
         }
-        #endregion
-
-        #region Register
 
         [HttpGet]
         [AllowAnonymous]
@@ -210,50 +162,131 @@ namespace WebCustomerApp.Controllers
         {
             return View();
         }
-      
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
-        }
 
+		[HttpGet]
+		[AllowAnonymous]
+		public async Task<IActionResult> NewLogin(string returnUrl = null)
+		{
+			// Clear the existing external cookie to ensure a clean login process
+			await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+			ViewData["ReturnUrl"] = returnUrl;
+			return View();
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> NewLogin(LoginViewModel model, string returnUrl = null)
+		{
+			ViewData["ReturnUrl"] = returnUrl;
+			if (ModelState.IsValid)
+			{
+				// This doesn't count login failures towards account lockout
+				// To enable password failures to trigger account lockout, set lockoutOnFailure: true
+				var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+				if (result.Succeeded)
+				{
+					_logger.LogInformation("User logged in.");
+					return RedirectToLocal(returnUrl);
+				}
+				if (result.RequiresTwoFactor)
+				{
+					return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
+				}
+				if (result.IsLockedOut)
+				{
+					_logger.LogWarning("User account locked out.");
+					return RedirectToAction(nameof(Lockout));
+				}
+				else
+				{
+					ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+					return View(model);
+				}
+			}
+
+			// If we got this far, something failed, redisplay form
+			return View(model);
+		}
+
+        /// <summary>
+        /// Get registration view
+        /// </summary>
+        /// <param name="groupId">If user is ivited he had a link with group Id to registration in that ApplicationGroup</param>
+        /// <param name="returnUrl"></param>
+        /// <returns>Registration view</returns>
+		[HttpGet]
+		[AllowAnonymous]
+		public IActionResult NewRegister(int groupId = 0, string returnUrl = null)
+		{
+			ViewData["ReturnUrl"] = returnUrl;
+            ViewData["GroupId"] = groupId;
+			return View();
+		}
+
+        /// <summary>
+        /// Post method to registration new user
+        /// </summary>
+        /// <param name="model">ViewModel of Application user from View</param>
+        /// <param name="groupId">If user is ivited he had a link with group Id to registration in that ApplicationGroup</param>
+        /// <param name="returnUrl"></param>
+        /// <returns>Home page if successfully</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> NewRegister(RegisterViewModel model, int groupId = 0, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    PhoneNumber = model.Phone,
+                };
 
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email ,PhoneNumber=model.PhoneNumber};
+                if (groupId == 0)
+                {
+                    ApplicationGroup group = new ApplicationGroup { Name = model.CompanyName };
+                    user.ApplicationGroup = group;
+                }
+                else
+                {
+                    user.ApplicationGroupId = groupId;
+                }
+
                 var result = await _userManager.CreateAsync(user, model.Password);
 
-				if (result.Succeeded)
+                if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-
+                    if (model.CorporateUser)
+                    {
+                        await _userManager.AddToRoleAsync(user, "CorporateUser");
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, "User");
+                    }
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
+
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        #endregion
 
-        #region ExternalLogin
-        [HttpPost]
+
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
@@ -261,7 +294,7 @@ namespace WebCustomerApp.Controllers
             _logger.LogInformation("User logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
-  
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -280,12 +313,12 @@ namespace WebCustomerApp.Controllers
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
-                return RedirectToAction(nameof(Login));
+                return RedirectToAction(nameof(NewLogin));
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                return RedirectToAction(nameof(Login));
+                return RedirectToAction(nameof(NewLogin));
             }
 
             // Sign in the user with this external login provider if the user already has a login.
@@ -322,7 +355,7 @@ namespace WebCustomerApp.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };//correct
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -340,7 +373,7 @@ namespace WebCustomerApp.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             return View(nameof(ExternalLogin), model);
         }
-      
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
@@ -357,9 +390,7 @@ namespace WebCustomerApp.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
-        #endregion
 
-        #region Password
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPassword()
@@ -443,12 +474,13 @@ namespace WebCustomerApp.Controllers
         {
             return View();
         }
+
+
         [HttpGet]
         public IActionResult AccessDenied()
         {
             return View();
         }
-        #endregion
 
         #region Helpers
 
