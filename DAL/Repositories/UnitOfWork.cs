@@ -22,7 +22,7 @@ namespace DAL.Repositories
         private IBaseRepository<ApplicationGroup> groupRepo;
         private IBaseRepository<Basket> basketRepo;
         private IBaseRepository<BasketCommodities> basketCommoditiesRepo;
-        private IBaseRepository<BlokedUser> blokedUserRepo;
+        private IBaseRepository<BlockedUser> blockedUserRepo;
         private IBaseRepository<Commodity> commodityRepo;
         private IBaseRepository<LongDescription> longdescriptionRepo;
         private IBaseRepository<Moderator> moderatorRepo;
@@ -141,12 +141,12 @@ namespace DAL.Repositories
             }
         }
 
-        public IBaseRepository<BlokedUser> BlokedUsers
+        public IBaseRepository<BlockedUser> BlockedUsers
         {
             get
             {
-                if (blokedUserRepo == null) { blokedUserRepo = new BaseRepository<BlokedUser>(context); }
-                return blokedUserRepo;
+                if (blockedUserRepo == null) { blockedUserRepo = new BaseRepository<BlockedUser>(context); }
+                return blockedUserRepo;
             }
         }
 

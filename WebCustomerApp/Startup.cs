@@ -48,7 +48,7 @@ namespace WebCustomerApp
             services.AddTransient<IMailingRepository, MailingRepository>();
             services.AddTransient<IBaseRepository<ApplicationGroup>, BaseRepository<ApplicationGroup>>();
             services.AddTransient<IBaseRepository<Basket>, BaseRepository<Basket>>();
-            services.AddTransient<IBaseRepository<BlokedUser>, BaseRepository<BlokedUser>>();
+            services.AddTransient<IBaseRepository<BlockedUser>, BaseRepository<BlockedUser>>();
             services.AddTransient<IBaseRepository<Commodity>, BaseRepository<Commodity>>();
             services.AddTransient<IBaseRepository<LongDescription>, BaseRepository<LongDescription>>();
             services.AddTransient<IBaseRepository<Moderator>, BaseRepository<Moderator>>();

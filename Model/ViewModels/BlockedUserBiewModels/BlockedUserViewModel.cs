@@ -4,7 +4,9 @@ using System.Text;
 
 namespace Model.ViewModels.BlokedUserBiewModels
 {
-    public class BlokedUserViewModel
+    public class BlockedUserViewModel
     {
+        public int Id { get; set; }
+        public string Email { get; set; }
     }
 }

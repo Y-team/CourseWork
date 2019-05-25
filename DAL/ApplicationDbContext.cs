@@ -33,7 +33,7 @@ namespace WebCustomerApp.Data
         public DbSet<Commodity> Commodities{ get; set; }
         public DbSet<Moderator> Moderators { get; set; }
         public DbSet<Photo> Photoes{ get; set; }
-        public DbSet<BlokedUser> BlokedUsers{ get; set; }
+        public DbSet<BlockedUser> BlokedUsers{ get; set; }
         public DbSet<Order> Orders { get; set; }
         public  DbSet<OrderCommodities> OrderCommoditieses { get; set; }
 
@@ -61,7 +61,7 @@ namespace WebCustomerApp.Data
             builder.Entity<Commodity>().HasKey(i => i.Id);
             builder.Entity<Moderator>().HasKey(i => i.Id);
             builder.Entity<Photo>().HasKey(i => i.Id);
-            builder.Entity<BlokedUser>().HasKey(i => i.Id);
+            builder.Entity<BlockedUser>().HasKey(i => i.Id);
             builder.Entity<Order>().HasKey(i => i.Id);
 
             // Compound key for Many-To-Many joining table

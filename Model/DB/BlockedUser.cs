@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WebCustomerApp.Models
 {
-   public class BlokedUser
+   public class BlockedUser
     {
        public  int Id { get; set; }
        public  string Email { get; set; }
