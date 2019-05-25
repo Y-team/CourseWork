@@ -12,9 +12,9 @@ using WebCustomerApp.Models;
 
 namespace BAL.Managers
 {
-    public class OrderManager: BaseManager, IOrderManager
+    public class OrderUserManager: BaseManager, IOrderUserManager
     {
-        public OrderManager(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+        public OrderUserManager(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
 
         }

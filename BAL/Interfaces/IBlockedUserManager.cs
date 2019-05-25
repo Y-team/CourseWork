@@ -7,8 +7,12 @@ namespace BAL.Interfaces
 {
     public interface IBlockedUserManager
     {
-        BlockedUserViewModel Get(int id);
+        // BlockedUserViewModel Get(int id);
 
-
+        IEnumerable<BlockedUserViewModel> GetBlockedUsers();
+        BlockedUserViewModel GetById(int id);
+        void Insert(BlockedUserViewModel item);
+        void Update(BlockedUserViewModel item);
+        void Delete(int id);
     }
 }

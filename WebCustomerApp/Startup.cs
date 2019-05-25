@@ -16,6 +16,7 @@ using Model.Interfaces;
 using DAL.Repositories;
 using BAL.Managers;
 using AutoMapper;
+using BAL.Interfaces;
 using BAL.Services;
 using BAL.Jobs;
 
@@ -47,6 +48,7 @@ namespace WebCustomerApp
 			services.AddTransient<IBaseRepository<Company>, BaseRepository<Company>>();
             services.AddTransient<IMailingRepository, MailingRepository>();
             services.AddTransient<IBaseRepository<ApplicationGroup>, BaseRepository<ApplicationGroup>>();
+
             services.AddTransient<IBaseRepository<Basket>, BaseRepository<Basket>>();
             services.AddTransient<IBaseRepository<BlockedUser>, BaseRepository<BlockedUser>>();
             services.AddTransient<IBaseRepository<Commodity>, BaseRepository<Commodity>>();
@@ -113,6 +115,13 @@ namespace WebCustomerApp
             services.AddScoped<ICodeManager, CodeManager>();
             services.AddScoped<IMailingManager, MailingManager>();
 
+            services.AddScoped<IBlockedUserManager, BlockedUserManager>();
+            services.AddScoped<ICommodityManager, CommodityManager>();
+            services.AddScoped<ILongDescriptionManager, LongDescriptionManager>();
+            services.AddScoped<IModeratorManager, ModeratorManager>();
+            services.AddScoped<IOrderUserManager, OrderUserManager>();
+            services.AddScoped<IPhotoManager, PhotoManager>();
+            services.AddScoped<IBasketManager, BasketManager>();
             // Start scheduler
 
             services.AddScoped<Mailing>();

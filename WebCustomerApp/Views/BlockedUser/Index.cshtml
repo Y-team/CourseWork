@@ -1,0 +1,43 @@
+﻿@using Model.ViewModels.BlokedUserBiewModels;
+@model IEnumerable< BlockedUserViewModel>
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="container">
+    <h2>Blocked User</h2>
+
+
+
+    <p>
+        <a class="btn btn-success" asp-action="Create"><em class="glyphicon glyphicon-plus"></em>Create New</a>
+    </p>
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+
+            <th scope="col" class="col-md-4">
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th scope="col" class="col-md-4"></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id"><em class="glyphicon glyphicon-edit"></em></a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><em class="glyphicon glyphicon-trash"></em></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>  

@@ -5,7 +5,7 @@ using Model.ViewModels.OrderViewModels;
 
 namespace BAL.Interfaces
 {
-    public interface IOrderManager
+    public interface IOrderUserManager
     {
         //OrderViewModel Get();
         IEnumerable<OrderUserViewModel> GetOrders(string userId);
