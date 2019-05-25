@@ -9,6 +9,6 @@ namespace WebCustomerApp.Models
         public int CommodityId { get; set; }
         public Commodity Commodity { get; set;}
         public  int OrderId { get; set; }
-        public Order Order { get; set; }
+        public OrderUser OrderUser { get; set; }
     }
 }

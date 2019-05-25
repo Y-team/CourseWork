@@ -26,7 +26,7 @@ namespace DAL.Repositories
         private IBaseRepository<Commodity> commodityRepo;
         private IBaseRepository<LongDescription> longdescriptionRepo;
         private IBaseRepository<Moderator> moderatorRepo;
-        private IBaseRepository<Order> orderRepo;
+        private IBaseRepository<OrderUser> orderUserRepo;
         private IBaseRepository<OrderCommodities> ordercomoditiesRepo;
         private IBaseRepository<Photo> photoRepo;
 
@@ -178,12 +178,12 @@ namespace DAL.Repositories
             }
         }
 
-        public IBaseRepository<Order> Orders
+        public IBaseRepository<OrderUser> OrderUsers
         {
             get
             {
-                if (orderRepo == null) { orderRepo = new BaseRepository<Order>(context); }
-                return orderRepo;
+                if (orderUserRepo == null) { orderUserRepo = new BaseRepository<OrderUser>(context); }
+                return orderUserRepo;
             }
         }
 

@@ -52,7 +52,7 @@ namespace WebCustomerApp
             services.AddTransient<IBaseRepository<Commodity>, BaseRepository<Commodity>>();
             services.AddTransient<IBaseRepository<LongDescription>, BaseRepository<LongDescription>>();
             services.AddTransient<IBaseRepository<Moderator>, BaseRepository<Moderator>>();
-            services.AddTransient<IBaseRepository<Order>, BaseRepository<Order>>();
+            services.AddTransient<IBaseRepository<OrderUser>, BaseRepository<OrderUser>>();
             services.AddTransient<IBaseRepository<Photo>, BaseRepository<Photo>>();
 
 

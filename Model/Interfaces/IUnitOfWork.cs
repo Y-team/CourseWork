@@ -24,7 +24,7 @@ namespace Model.Interfaces
         IBaseRepository<Moderator> Moderators { get;  }
         IBaseRepository<Photo> Photoes { get; }
         IBaseRepository<BlockedUser> BlockedUsers { get; }
-        IBaseRepository<Order> Orders { get; }
+        IBaseRepository<OrderUser> OrderUsers { get; }
         IBaseRepository<OrderCommodities> OrderCommoditieses { get;  }
         IMailingRepository Mailings { get; }
 

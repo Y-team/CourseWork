@@ -34,7 +34,7 @@ namespace WebCustomerApp.Data
         public DbSet<Moderator> Moderators { get; set; }
         public DbSet<Photo> Photoes{ get; set; }
         public DbSet<BlockedUser> BlokedUsers{ get; set; }
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderUser> OrderUsers { get; set; }
         public  DbSet<OrderCommodities> OrderCommoditieses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -62,7 +62,7 @@ namespace WebCustomerApp.Data
             builder.Entity<Moderator>().HasKey(i => i.Id);
             builder.Entity<Photo>().HasKey(i => i.Id);
             builder.Entity<BlockedUser>().HasKey(i => i.Id);
-            builder.Entity<Order>().HasKey(i => i.Id);
+            builder.Entity<OrderUser>().HasKey(i => i.Id);
 
             // Compound key for Many-To-Many joining table
 
@@ -168,9 +168,9 @@ namespace WebCustomerApp.Data
                 .HasForeignKey(oc => oc.CommodityId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Order>()
+            builder.Entity<OrderUser>()
                 .HasMany(oc => oc.OrderCommoditieses)
-                .WithOne(o => o.Order)
+                .WithOne(o => o.OrderUser)
                 .HasForeignKey(oc => oc.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
