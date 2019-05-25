@@ -24,13 +24,6 @@ namespace BAL.Managers
             unitOfWork.Save();
         }
 
-        public void Delete(int basketId, int commodityId)
-        {
-            var baskcom = unitOfWork.BasketCommoditieses.Get(bc => bc.BasketId == basketId && bc.CommodityId == commodityId).First();
-            unitOfWork.BasketCommoditieses.Delete(baskcom);
-            unitOfWork.Save();
-        }
-
         public BasketViewModel Get(int id)
         {
             Basket bask = unitOfWork.Baskets.GetById(id);
