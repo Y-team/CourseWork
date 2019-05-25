@@ -30,7 +30,7 @@ namespace BAL.Managers
             return mapper.Map<OrderUser, ModeratorViewModel>(moder);
         }
 
-        public IEnumerable<ModeratorViewModel> GetOrders()
+        public IEnumerable<ModeratorViewModel> GetModerators()
         {
             IEnumerable<Moderator> moders = unitOfWork.Moderators.GetAll();
 
