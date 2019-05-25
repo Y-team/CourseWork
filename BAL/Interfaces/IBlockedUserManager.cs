@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BAL.Interfaces
 {
-    public interface IBlokedUserManager
+    public interface IBlockedUserManager
     {
     }
 }
