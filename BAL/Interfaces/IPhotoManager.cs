@@ -7,10 +7,10 @@ namespace BAL.Interfaces
 {
     public interface IPhotoManager
     {
-        //PhotoViewModel Get(int id);
-        //IEnumerable<PhotoViewModel> GetGroups();
-        //void Insert(PhotoViewModel item);
-        //void Update(PhotoViewModel item);
-        //void Delete(int id);
+        PhotoViewModel GetById(int id);
+        IEnumerable<PhotoViewModel> GetAllPhotos();
+        void Insert(PhotoViewModel item);
+        void Update(PhotoViewModel item);
+        void Delete(int id);
     }
 }
