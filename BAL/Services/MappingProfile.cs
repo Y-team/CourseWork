@@ -14,6 +14,13 @@ using Model.ViewModels.GroupViewModels;
 using Model.ViewModels.UserViewModels;
 using BAL.Managers;
 using Model.DTOs;
+using Model.ViewModels.BasketViewModels;
+using Model.ViewModels.BlokedUserBiewModels;
+using Model.ViewModels.CommodityViewModels;
+using Model.ViewModels.LongDescriptionViewModels;
+using Model.ViewModels.ModeratorViewModels;
+using Model.ViewModels.OrderViewModels;
+using Model.ViewModels.PhoneViewModels;
 
 namespace BAL.Services
 {
@@ -55,11 +62,29 @@ namespace BAL.Services
 
             CreateMap<ApplicationUser, UserViewModel>();
             CreateMap<UserViewModel, ApplicationUser>();        
+            //==================================
+            CreateMap<Basket, BasketViewModel>()
+                .ForMember(bview => bview.Id, bmod => bmod.MapFrom(src => src.Id))
+                .ForMember(bview => bview.UserId, bmod => bmod.MapFrom(src => src.UserId))
+                .ForMember(bview => bview.Description, bmod => bmod.MapFrom(src => src.Description))
+                .ForMember(bview=>bview.UserName,bmod=>bmod.MapFrom(src=>src.ApplicationUser.UserName))
+                .ReverseMap();
 
-            /*CreateMap<Recipient, MessageDTO>()
-                .ForMember(m => m.RecepientPhone, opt => opt.MapFrom(r => r.Phone.PhoneNumber))
-                .ForMember(m => m.SenderPhone, opt => opt.MapFrom(r => r.Company.ApplicationUser.PhoneNumber))
-                .ForMember(m => m.MessageText, opt => opt.MapFrom(r => r.Company.Message));*/
+            CreateMap<BlockedUser, BlockedUserViewModel>().ReverseMap();
+
+            CreateMap<Commodity, CommodityViewModel>().ReverseMap();
+
+            CreateMap<LongDescription, LongDescriptionViewModel>().ReverseMap();
+
+            CreateMap<Moderator, ModeratorViewModel>()
+                .ForMember(mview => mview.Id, mmod => mmod.MapFrom(src => src.Id))
+                .ForMember(mview => mview.NameCompany, mmod => mmod.MapFrom(src => src.NameCompany))
+                .ForMember(mview => mview.UserId, mmod => mmod.MapFrom(src => src.UserId))
+                .ForMember(mview => mview.UserName, mmod => mmod.MapFrom(src => src.ApplicationUser.UserName))
+                .ReverseMap();
+            CreateMap<Order, OrderViewModel>().ReverseMap();
+            CreateMap<Photo, PhotoViewModel>().ReverseMap();
+
         }
     }
 }
