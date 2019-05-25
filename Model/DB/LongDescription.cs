@@ -8,5 +8,7 @@ namespace WebCustomerApp.Models
     {
         public  int Id { get; set; }
         public  string Description { get; set; }
+        public  int CommodityId { get; set; }
+        public Commodity Commodity { get; set; }
     }
 }

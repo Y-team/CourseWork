@@ -11,5 +11,6 @@ namespace WebCustomerApp.Models
        public string UserId { get; set; }
        public ApplicationUser ApplicationUser { get; set; }
        public string NameCompany { get; set; }
+       public ICollection<Commodity> Commodities { get; set; }
     }
 }

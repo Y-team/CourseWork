@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
 using Microsoft.EntityFrameworkCore;
-using Model.DB;
 using WebCustomerApp.Models;
 
 namespace WebCustomerApp.Data
@@ -55,6 +55,7 @@ namespace WebCustomerApp.Data
             builder.Entity<Tariff>().HasKey(i => i.Id);
             builder.Entity<StopWord>().HasKey(i => i.Id);
             builder.Entity<ApplicationGroup>().HasKey(i => i.Id);
+
             builder.Entity<Basket>().HasKey(i => i.Id);
             builder.Entity<LongDescription>().HasKey(i => i.Id);
             builder.Entity<Commodity>().HasKey(i => i.Id);
@@ -62,111 +63,174 @@ namespace WebCustomerApp.Data
             builder.Entity<Photo>().HasKey(i => i.Id);
             builder.Entity<BlokedUser>().HasKey(i => i.Id);
             builder.Entity<Order>().HasKey(i => i.Id);
+
             // Compound key for Many-To-Many joining table
 
             // Setting FK
             #region FK
+            builder.Entity<ApplicationUser>()
+                .HasOne(ag => ag.Basket)
+                .WithOne(au => au.ApplicationUser)
+                .HasForeignKey<Basket>(au => au.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Commodity>()
+                .HasMany(p => p.Photo)
+                .WithOne(c=> c.Commodity)
+                .HasForeignKey(p => p.CommodityId);
+
+          
+
+            builder.Entity<Commodity>()
+                .HasOne(s => s.LongDescription)
+                .WithOne(c => c.Commodity)
+                .HasForeignKey<LongDescription>(c => c.CommodityId);
+
+            builder.Entity<Moderator>()
+                .HasMany(c => c.Commodities)
+                .WithOne(m => m.Moderator)
+                .HasForeignKey(oc => oc.ModeratorId);
+
+            builder.Entity<ApplicationUser>()
+                .HasOne(m=>m.Moderator)
+                .WithOne(m => m.ApplicationUser)
+                .HasForeignKey<Moderator>(m => m.UserId);
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(o=>o.Orders)
+                .WithOne(m => m.User)
+                .HasForeignKey(m => m.UserId);
+
+
+            //======================
             builder.Entity<ApplicationGroup>()
               .HasMany(ag => ag.ApplicationUsers)
               .WithOne(au => au.ApplicationGroup)
               .HasForeignKey(au => au.ApplicationGroupId)
-              .OnDelete(DeleteBehavior.Cascade);
+              .OnDelete(DeleteBehavior.Cascade);//Delete
 
             builder.Entity<ApplicationGroup>()
               .HasMany(ag => ag.Companies)
               .WithOne(c => c.ApplicationGroup)
               .HasForeignKey(c => c.ApplicationGroupId)
-              .OnDelete(DeleteBehavior.Cascade);
+              .OnDelete(DeleteBehavior.Cascade);//Delete
 
             builder.Entity<ApplicationGroup>()
               .HasMany(ag => ag.Contacts)
               .WithOne(c => c.ApplicationGroup)
               .HasForeignKey(c => c.ApplicationGroupId)
-              .OnDelete(DeleteBehavior.Cascade);
+              .OnDelete(DeleteBehavior.Cascade);//Delete
 
             builder.Entity<Operator>()
                 .HasMany(o => o.Codes)
                 .WithOne(c => c.Operator)
                 .HasForeignKey(c => c.OperatorId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade);//Delete
 
             builder.Entity<Operator>()
                 .HasMany(o => o.Tariffs)
                 .WithOne(t => t.Operator)
                 .HasForeignKey(t => t.OperatorId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade);//Delete
 
             builder.Entity<Phone>()
                 .HasMany(p => p.Contacts)
                 .WithOne(c => c.Phone)
                 .HasForeignKey(c => c.PhoneId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.ClientSetNull);//Delete
 
             builder.Entity<Tariff>()
                 .HasMany(t => t.Companies)
                 .WithOne(com => com.Tariff)
                 .HasForeignKey(com => com.TariffId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.ClientSetNull);//Delete
 
             #endregion
 
             // Optional FK
 
-            // Configuring Many-To-Many relationship through Recipient and compound index
+            // Configuring Many-To-Many relationship  and compound index
+            builder.Entity<Commodity>()
+                .HasMany(bc => bc.BasketCommoditieses)
+                .WithOne(c => c.Commodity)
+                .HasForeignKey(bc => bc.CommodityId)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Basket>()
+                .HasMany(bc => bc.BasketCommoditieses)
+                .WithOne(b => b.Basket)
+                .HasForeignKey(bc => bc.BasketId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            builder.Entity<Commodity>()
+                .HasMany(oc => oc.OrderCommoditieses)
+                .WithOne(c => c.Commodity)
+                .HasForeignKey(oc => oc.CommodityId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Order>()
+                .HasMany(oc => oc.OrderCommoditieses)
+                .WithOne(o => o.Order)
+                .HasForeignKey(oc => oc.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            builder.Entity<BasketCommodities>().HasKey(r => new { r.BasketId, r.CommodityId });
+            builder.Entity<OrderCommodities>().HasKey(r => new { r.OrderId, r.CommodityId });
 
             builder.Entity<Company>()
                 .HasMany(c => c.Recipients)
                 .WithOne(r => r.Company)
                 .HasForeignKey(r => r.CompanyId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade);//Delete
 
             builder.Entity<Phone>()
                 .HasMany(p => p.Recipients)
                 .WithOne(r => r.Phone)
                 .HasForeignKey(r => r.PhoneId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade);//Delete
 
             builder.Entity<Recipient>()
                 .HasIndex(r => new { r.PhoneId, r.CompanyId })
-                .IsUnique();
+                .IsUnique();//Delete
 
             // Required fields
             #region Required fields
             builder.Entity<Code>()
                 .Property(c => c.OperatorCode)
-                .IsRequired();
+                .IsRequired();//Delete
 
             builder.Entity<Company>()
                 .Property(com => com.Name)
-                .IsRequired();
+                .IsRequired();//Delete
 
             builder.Entity<Company>()
                 .Property(com => com.Message)
-                .IsRequired();
+                .IsRequired();//Delete
 
             builder.Entity<Phone>()
                 .Property(p => p.PhoneNumber)
-                .IsRequired();
+                .IsRequired();//Delete
 
             builder.Entity<Tariff>()
                 .Property(t => t.Name)
-                .IsRequired();
+                .IsRequired();//Delete
 
             builder.Entity<Tariff>()
                 .Property(t => t.Price)
-                .IsRequired();
+                .IsRequired();//Delete
 
             builder.Entity<Tariff>()
                 .Property(t => t.Limit)
-                .IsRequired();
+                .IsRequired();//Delete
 
             builder.Entity<Operator>()
                 .Property(o => o.Name)
-                .IsRequired();
+                .IsRequired();//Delete
 
             builder.Entity<StopWord>()
                 .Property(sw => sw.Word)
-                .IsRequired();
+                .IsRequired();//Delete
 
             #endregion
 
@@ -174,17 +238,17 @@ namespace WebCustomerApp.Data
 
             builder.Entity<Operator>()
                 .HasIndex(o => o.Name)
-                .IsUnique();
+                .IsUnique();//Delete
 
             builder.Entity<Code>()
                 .HasIndex(i => i.OperatorCode)
-                .IsUnique();
+                .IsUnique();//Delete
 
             // Default values
 
             builder.Entity<Recipient>()
                 .Property(r => r.BeenSent)
-                .HasDefaultValue(false);
+                .HasDefaultValue(false);//Delete
 
 
 
