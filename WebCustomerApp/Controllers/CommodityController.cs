@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Moderator")]
     [Route("[controller]/[action]")]
     public class CommodityController:Controller
     {

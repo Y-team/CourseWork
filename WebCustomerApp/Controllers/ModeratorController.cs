@@ -107,8 +107,10 @@ namespace WebApp.Controllers
               {
                   return RedirectToAction("Create", "Moderator");
               }
-              await  userManager.RemoveFromRoleAsync(user, "Moderator");
-              item.UserId = user.Id;
+                await userManager.RemoveFromRoleAsync(user, "Moderator");
+                await userManager.AddToRoleAsync(user, "Moderator");
+
+                item.UserId = user.Id;
               item.UserName = user.UserName;
               moderatorManager.Insert(item);
             }
