@@ -28,9 +28,12 @@ namespace BAL.Managers
 
         public ModeratorViewModel GetById(int id)
         {
-            Moderator moder = unitOfWork.Moderators.GetById(id);
-
-            return mapper.Map<Moderator, ModeratorViewModel>(moder);
+            Moderator moderator = unitOfWork.Moderators.GetById(id);
+            var moder= mapper.Map<Moderator, ModeratorViewModel>(moderator);
+            var timeU = unitOfWork.Users.Get(u => u.Id == moder.UserId).First();
+            moder.Email = timeU.Email;
+            moder.UserName = timeU.UserName;
+            return moder;
         }
          public ApplicationUser GetUserByEmail(string email)
          {
@@ -41,8 +44,14 @@ namespace BAL.Managers
         public IEnumerable<ModeratorViewModel> GetModerators()
         {
             IEnumerable<Moderator> moders = unitOfWork.Moderators.GetAll();
+            var modersView = mapper.Map<IEnumerable<Moderator>, List<ModeratorViewModel>>(moders);
+            foreach (var moder in modersView)
+            { var timeU = unitOfWork.Users.Get(u => u.Id == moder.UserId).First();
+                moder.Email=timeU.Email;
+                moder.UserName = timeU.UserName;
+            }
 
-            return mapper.Map<IEnumerable<Moderator>, List<ModeratorViewModel>>(moders);
+            return modersView;
         }
 
 

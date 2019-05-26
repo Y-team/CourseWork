@@ -37,7 +37,8 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View(moderatorManager.GetModerators());
+            var item = moderatorManager.GetModerators();
+            return View(item);
         }
 
         [HttpGet]
