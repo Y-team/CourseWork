@@ -1,4 +1,5 @@
 ﻿using BAL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +11,7 @@ using WebCustomerApp.Models;
 
 namespace WebApp.Controllers
 {
+   
     [Route("[controller]/[action]")]
     public class BasketController:Controller
     {
