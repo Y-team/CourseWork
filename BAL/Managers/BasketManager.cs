@@ -2,6 +2,7 @@
 using BAL.Interfaces;
 using Model.Interfaces;
 using Model.ViewModels.BasketViewModels;
+using Model.ViewModels.CommodityViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,15 @@ namespace BAL.Managers
             unitOfWork.Baskets.Delete(bask);
             unitOfWork.Save();
         }
+
+        public void DeleteBC(int id)
+        {
+            Basket bask = unitOfWork.Baskets.GetById(id);
+            unitOfWork.Baskets.Delete(bask);
+            unitOfWork.Save();
+        }
+
+       
 
         public BasketViewModel Get(int id)
         {
@@ -49,6 +59,24 @@ namespace BAL.Managers
             Basket bask = mapper.Map<BasketViewModel, Basket>(item);
             unitOfWork.Baskets.Update(bask);
             unitOfWork.Save();
+        }
+
+        public IEnumerable<CommodityViewModel> ShowCommodity(string userId)
+        {
+            var bask = unitOfWork.Baskets.Get(b => b.UserId == userId).FirstOrDefault();
+
+
+            var basketComs = unitOfWork.BasketCommoditieses.GetAll().Where(b => b.BasketId == bask.Id);
+            List<Commodity> commodities = new List<Commodity>();
+            foreach (var item in basketComs)
+            {
+                var com = unitOfWork.Commodities.GetById(item.CommodityId);
+                if (com != null)
+                {
+                    commodities.Add(com);
+                }
+            }
+            return mapper.Map<IEnumerable<Commodity>, IEnumerable <CommodityViewModel>>(commodities);
         }
     }
 }

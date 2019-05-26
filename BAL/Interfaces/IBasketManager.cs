@@ -1,4 +1,5 @@
 ﻿using Model.ViewModels.BasketViewModels;
+using Model.ViewModels.CommodityViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,6 @@ namespace BAL.Interfaces
         void Insert(BasketViewModel item);
         void Update(BasketViewModel item);
         void Delete(int id);
+        IEnumerable<CommodityViewModel> ShowCommodity(string userId);
     }
 }

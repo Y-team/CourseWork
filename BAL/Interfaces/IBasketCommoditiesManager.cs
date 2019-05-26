@@ -6,6 +6,11 @@ namespace BAL.Interfaces
 {
     public interface IBasketCommoditiesManager
     {
+        void Delete(int basketId, int commodityId);
+        void Clean(int basketId);
 
+
+        void Create(int basketId, int commodityId);
+        
     }
 }
