@@ -20,6 +20,7 @@ namespace DAL.Repositories
         private IBaseRepository<Tariff> tariffRepo;
         private IBaseRepository<Code> codeRepo;
         private IBaseRepository<ApplicationGroup> groupRepo;
+        private IBaseRepository<ApplicationUser> usersRepo;
         private IBaseRepository<Basket> basketRepo;
         private IBaseRepository<BasketCommodities> basketCommoditiesRepo;
         private IBaseRepository<BlockedUser> blockedUserRepo;
@@ -186,7 +187,14 @@ namespace DAL.Repositories
                 return orderUserRepo;
             }
         }
-
+        public IBaseRepository<ApplicationUser> Users
+        {
+            get
+            {
+                if (usersRepo == null) { usersRepo = new BaseRepository<ApplicationUser>(context); }
+                return usersRepo;
+            }
+        }
         public IBaseRepository<OrderCommodities> OrderCommoditieses
         {
             get

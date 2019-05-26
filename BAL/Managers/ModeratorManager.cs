@@ -4,7 +4,10 @@ using Model.Interfaces;
 using Model.ViewModels.ModeratorViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Model.ViewModels.UserViewModels;
 using WebCustomerApp.Models;
 
 namespace BAL.Managers
@@ -25,11 +28,16 @@ namespace BAL.Managers
 
         public ModeratorViewModel GetById(int id)
         {
-            OrderUser moder = unitOfWork.OrderUsers.GetById(id);
+            Moderator moder = unitOfWork.Moderators.GetById(id);
 
-            return mapper.Map<OrderUser, ModeratorViewModel>(moder);
+            return mapper.Map<Moderator, ModeratorViewModel>(moder);
         }
-
+         public ApplicationUser GetUserByEmail(string email)
+         {
+             var moderator = unitOfWork.Users.GetAll().Where(u => u.Email == email).FirstOrDefault();
+           
+             return moderator;
+        }
         public IEnumerable<ModeratorViewModel> GetModerators()
         {
             IEnumerable<Moderator> moders = unitOfWork.Moderators.GetAll();

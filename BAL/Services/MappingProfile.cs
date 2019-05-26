@@ -81,6 +81,7 @@ namespace BAL.Services
                 .ForMember(mview => mview.NameCompany, mmod => mmod.MapFrom(src => src.NameCompany))
                 .ForMember(mview => mview.UserId, mmod => mmod.MapFrom(src => src.UserId))
                 .ForMember(mview => mview.UserName, mmod => mmod.MapFrom(src => src.ApplicationUser.UserName))
+                .ForMember(mview => mview.Email, mmod => mmod.MapFrom(src => src.ApplicationUser.Email))
                 .ReverseMap();
             CreateMap<OrderUser, OrderUserViewModel>().ReverseMap();
             CreateMap<Photo, PhotoViewModel>().ReverseMap();

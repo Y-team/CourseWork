@@ -267,7 +267,7 @@ namespace WebCustomerApp.Controllers
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
                     if (model.CorporateUser)
                     {
-                        await _userManager.AddToRoleAsync(user, "CorporateUser");
+                        await _userManager.AddToRoleAsync(user, "Moderator");
                     }
                     else
                     {

@@ -178,12 +178,12 @@ namespace WebCustomerApp
                     }
                 }
 
-                if (userManager.FindByNameAsync("CorporateUser@gmail.com").Result == null)
+                if (userManager.FindByNameAsync("Moderator@gmail.com").Result == null)
                 {
                     ApplicationUser user = new ApplicationUser();
                     ApplicationGroup group = new ApplicationGroup();
-                    user.UserName = "CorporateUser@gmail.com";
-                    user.Email = "CorporateUser@gmail.com";
+                    user.UserName = "Moderator@gmail.com";
+                    user.Email = "Moderator@gmail.com";
                     user.ApplicationGroup = group;
 
                     IdentityResult result;
@@ -191,7 +191,7 @@ namespace WebCustomerApp
 
                     if (result.Succeeded)
                     {
-                        userManager.AddToRoleAsync(user, "CorporateUser").Wait();
+                        userManager.AddToRoleAsync(user, "Moderator").Wait();
                     }
                 }
             }
@@ -215,10 +215,10 @@ namespace WebCustomerApp
                     CreateAsync(role).Result;
                 }
 
-                if (!roleManager.RoleExistsAsync("CorporateUser").Result)
+                if (!roleManager.RoleExistsAsync("Moderator").Result)
                 {
                     IdentityRole role = new IdentityRole();
-                    role.Name = "CorporateUser";
+                    role.Name = "Moderator";
                     IdentityResult roleResult = roleManager.
                     CreateAsync(role).Result;
                 }

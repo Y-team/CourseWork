@@ -1,0 +1,47 @@
+﻿@using Model.ViewModels.ModeratorViewModels;
+@model ModeratorViewModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Stop Word</title>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h2>Create</h2>
+        <h4>Add function moderator to user</h4>
+    </header>
+
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" placeholder="Enter block Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NameCompany" class="control-label"></label>
+                    <input asp-for="NameCompany" class="form-control" placeholder="Enter block Email" />
+                    <span asp-validation-for="NameCompany" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    <a class="btn btn-primary" asp-action="Index"><em class="glyphicon glyphicon-arrow-left"></em> Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

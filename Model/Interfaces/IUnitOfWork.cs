@@ -8,6 +8,7 @@ namespace Model.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
+        IBaseRepository<ApplicationUser> Users { get; }
         IBaseRepository<Recipient> Recipients { get; }
         IContactRepository Contacts { get; }
         IBaseRepository<Phone> Phones { get; }
