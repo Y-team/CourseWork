@@ -10,5 +10,6 @@ namespace Model.ViewModels.PhoneViewModels
         public int Id { get; set; }
         public int CommodityId { get; set; }
         public byte[] Paint { get; set; }
+        public string Name { get; set; }
     }
 }

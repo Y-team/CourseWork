@@ -62,14 +62,24 @@ namespace WebApp.Controllers
         public IActionResult Edit(CommodityViewModel item)
         {
 
-            commodityManager.Update(item);
-            return RedirectToAction("Index", "Commodity");
+            if (ModelState.IsValid)
+            {
+                commodityManager.Update(item);
+                return RedirectToAction("Index");
+            }
+            return View(item);
         }
         [Authorize(Roles = "Moderator")]
         [HttpGet]
-        public IActionResult Edit()
+        public IActionResult Edit(int Id)
         {
-            return View();
+            var commodity = commodityManager.Get(Id);
+
+            if (commodity == null)
+            {
+                return NotFound();
+            }
+            return View(commodity);
         }
 
         [Authorize(Roles = "Moderator")]
