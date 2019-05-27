@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "Moderator")]
+    [Authorize(Roles = "Moderator,Admin")]
     [Route("[controller]/[action]")]
     public class CommodityController:Controller
     {
@@ -19,12 +19,14 @@ namespace WebApp.Controllers
         {
             this.commodityManager = commodityManager;
         }
+        [Authorize(Roles = "Moderator")]
         [HttpPost]
         public IActionResult AddCommodity(CommodityViewModel item)
         {
             commodityManager.Insert(item);
             return RedirectToAction("Index", "Commodity");
         }
+        [Authorize(Roles = "Moderator")]
         [HttpGet]
         public IActionResult AddCommodity()
         {
@@ -41,19 +43,30 @@ namespace WebApp.Controllers
         {
             return View();
         }
+        [Authorize(Roles = "Moderator")]
         [HttpPost]
         public IActionResult Edit(CommodityViewModel item)
         {
             commodityManager.Update(item);
             return RedirectToAction("Index", "Commodity");
         }
+        [Authorize(Roles = "Moderator")]
         [HttpGet]
         public IActionResult Edit()
         {
             return View();
         }
 
+        [Authorize(Roles = "Moderator")]
+        [HttpGet]
         public IActionResult Index()
+        {
+            string moderatorId = "";
+            var coms = commodityManager.GetModeratorCommodities(moderatorId);
+            return View(coms);
+        }
+
+        public IActionResult IndexAdmin()
         {
             return View();
         }
