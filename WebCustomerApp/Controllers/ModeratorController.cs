@@ -61,7 +61,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(ModeratorViewModel moder)
         {
-
+            
             if (ModelState.IsValid)
             {
                 moderatorManager.Update(moder);

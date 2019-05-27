@@ -37,21 +37,28 @@ namespace WebApp.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult DeleteConfirmed(int Id)
+        {
+
+            commodityManager.Delete(Id);
+            return RedirectToAction("Index", "Commodity");
+        }
         [HttpPost]
         public IActionResult Delete(int commodityId)
         {
+            var commodity = commodityManager.Get(commodityId);
 
-            commodityManager.Delete(commodityId);
-            return RedirectToAction("Index", "Commodity");
-        }
-        [HttpGet]
-        public IActionResult Delete()
-        {
-            return View();
+            if (commodity == null)
+            {
+                return NotFound();
+            }
+            return View(commodity);
         }
         [HttpPost]
         public IActionResult Edit(CommodityViewModel item)
         {
+
             commodityManager.Update(item);
             return RedirectToAction("Index", "Commodity");
         }
@@ -61,9 +68,15 @@ namespace WebApp.Controllers
             return View();
         }
 
+        //public IActionResult Edit()
+        //{
+
+        //}
+
         public IActionResult Index()
         {
-            return View();
+            var item = commodityManager.GetCommodities();
+            return View(item);
         }
     }
 }
