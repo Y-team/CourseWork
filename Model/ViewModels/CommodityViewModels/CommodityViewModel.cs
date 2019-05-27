@@ -17,5 +17,8 @@ namespace Model.ViewModels.CommodityViewModels
         public decimal Price { get; set; }
 
         public int ModeratorId { get; set; }
+
+        [Display(Name = "Photo")]
+        public string Photo { get; set; }
     }
 }

@@ -47,8 +47,8 @@
     <div class="wrapper">
         <header class="main-header">
             <a asp-controller="Home" asp-action="Index" class="logo">
-                <span class="logo-mini"><strong>SMS</strong></span>
-                <span class="logo-lg"><strong>SMS</strong>Service</span>
+                <span class="logo-mini"><strong>Y-Team</strong></span>
+                <span class="logo-lg"><strong>Y</strong>-Team</span>
             </a>
             <nav class="navbar navbar-static-top">
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -133,33 +133,15 @@
                     {
                         <li class="treeview">
                             <a href="#">
-                                <em class="fa fa-comments-o"></em> <span>SMS Campaign</span>
+                                <em class="fa fa-comments-o"></em> <span>Basket</span>
                                 <span class="pull-right-container">
                                     <em class="fa fa-angle-left pull-right"></em>
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a asp-controller="Company" asp-action="Create"><em class="fa fa-plus-circle"></em>Create</a></li>
-                                <li><a asp-controller="Company" asp-action="Index"><em class="fa fa-list-ul"></em>List of campaigns</a></li>
+                                <li><a asp-controller="Basket" asp-action="Create"><em class="fa fa-plus-circle"></em>Create</a></li>
+                                <li><a asp-controller="Basket" asp-action="Index"><em class="fa fa-list-ul"></em>Basket</a></li>
                             </ul>
-                        </li>
-                        <li class="treeview">
-                            <a href="#">
-                                <em class="fa fa-envelope"></em> <span>Email Campaign</span>
-                                <span class="pull-right-container">
-                                    <em class="fa fa-angle-left pull-right"></em>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a asp-controller="EmailCampaign" asp-action="Create"><em class="fa fa-plus-circle"></em>Create</a></li>
-                                <li><a asp-controller="EmailCampaign" asp-action="Index"><em class="fa fa-list-ul"></em>List of campaigns</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a asp-controller="Contact" asp-action="Contacts">
-                                <em class="fa fa-address-book-o"></em> <span>Contacts</span>
-                                <span class="pull-right-container"> </span>
-                            </a>
                         </li>
                     }
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
@@ -170,21 +152,45 @@
                                 <span class="pull-right-container"> </span>
                             </a>
                         </li>
+
                         <li class="treeview">
                             <a href="#">
-                                <em class="fa fa-stop"></em> <span>Stop words</span>
+                                <em class="fa fa-stop"></em> <span>Moderator</span>
                                 <span class="pull-right-container">
                                     <em class="fa fa-angle-left pull-right"></em>
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a asp-controller="StopWord" asp-action="Create"><em class="fa fa-plus-circle"></em>Create</a></li>
-                                <li><a asp-controller="StopWord" asp-action="Index"><em class="fa fa-list-ul"></em>List of words</a></li>
+                                <li><a asp-controller="Moderator" asp-action="Create"><em class="fa fa-plus-circle"></em>Create</a></li>
+                                <li><a asp-controller="Moderator" asp-action="Index"><em class="fa fa-list-ul"></em>List moderators</a></li>
                             </ul>
                         </li>
-                       
+
+
                     }
-                  
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Moderator") || User.IsInRole("Admin")))
+                    {
+                        <li class="treeview">
+                            <a href="#">
+                                <em class="fa fa-users"></em> <span>Commodity</span>
+                                <span class="pull-right-container">
+                                    <em class="fa fa-angle-left pull-right"></em>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Moderator"))
+                                {
+                                    <li><a asp-area="" asp-controller="Commodity" asp-action="AddCommodity"><em class="fa fa-envelope-open-o"></em>Add new </a></li>
+
+                                    <li><a asp-area="" asp-controller="Commodity" asp-action="Index"><em class="fa fa-list-ul"></em>List Commodity</a></li>
+                                }
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                {
+                                    <li><a asp-area="" asp-controller="Commodity" asp-action="IndexAdmin"><em class="fa fa-list-ul"></em>ALL Commodity</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
                 </ul>
             </section>
         </aside>
@@ -213,110 +219,8 @@
                     <h1 class="main_title">SMS on 150 mobile networks no matter where you are<span class="main_title-big">sms service</span></h1>
                     <a href="#log" class="main_button anchor">get started</a>
                 </section>
-                <section class="second">
-
-                    <section class="features">
-                        <ul class="features_list">
-
-                            <li class="features_item features_item--sms_tools_1">
-                                <h3 class="section_title">STATISTICS</h3>
-                                <p class="features_description">
-                                   Evaluate the results of SMS campaigns by analyzing the statistics on opening and delivering each message you send out.
-                                </p>
-                            </li>
-                            <li class="features_item features_item--sms_tools_2">
-                                <h3 class="section_title">API INTEGRATION</h3>
-                                <p class="features_description">
-                                    Use our API to integrate SMS messaging with your website, app, software or CRM system. Many developers have already implemented it to make notifications easy for business workflow.
-                                </p>
-                            </li>
-                            <li class="features_item features_item--sms_tools_3">
-                                <h3 class="section_title">SMS AUTORESPONDERS</h3>
-                                <p class="features_description">
-                                    Add the recipient's name and other personal information to each SMS: your name or company's name, date of birth, discount code, and other.
-                                </p>
-                            </li>
-                        </ul>
-                    </section>
-                    <section class="features">
-                        <ul class="features_list">
-                            <li class="features_item features_item--sms_tools_4">
-                                <h3 class="section_title">SUBSCRIPTION FORMS</h3>
-                                <p class="features_description">
-                                  Create SMS subscription forms and integrate them into your website. You can customize the size, the background, font color and even upload your image or logo.
-                                </p>
-                            </li>
-                            <li class="features_item features_item--sms_tools_5">
-                                <h3 class="section_title">UNSUBSCRIBE LINKS</h3>
-                                <p class="features_description">
-                                    Include unsubscribe link into your SMS. Let your audience know that they can unsubscribe whenever they like.
-                                </p>
-                            </li>
-                            <li class="features_item features_item--sms_tools_6">
-                                <h3 class="section_title">EXCEPTION LIST</h3>
-                                <p class="features_description">
-                                  You can exclude phone numbers from recipients list. Use this feature when you don’t want to send message to the whole list.
-                                </p>
-                            </li>
-                        </ul>
-                    </section>
-                </section>
-                <section class="log_section" id="log">
-                    <p class="app_description">
-                        <h2 class="app_description_title">SMS SERVICE AT AFFORDABLE PRICE</h2>
-                        <h4 class="app_description_welcome">Sms Service is one of email services leaders that's why we offer low prices. Are you're going to send to a large subscriber base? OK, we can offer a plan at wholesale prices.</h4>
-                        <div class="app_description_link app_button  ">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <a href="Manage/Index" class="app_link  ">Profile</a>
-
-                            }
-                            else
-                            {
-                                <a href="Account/NewLogin" class="app_link  ">Log in</a>
-                            }
-                        </div>
-
-                    </p>
-                </section>
-                <section class="app second" id="app">
-                    <div class="app_image_phone"></div>
-
-
-
-                    <div class="app_content">
-
-                        <h1 class="section_title ">Personalized SMS</h1>
-                        <p class="app_description">
-                          Add the recipient's name and other personal information to each SMS: your name or company's name, date of birth, discount code, and other.
-                        </p>
-                        <div class="app_content">
-
-                            <h1 class="section_title ">Sender name</h1>
-                            <p class="app_description">
-                                Use any sender ID depending on your campaign. Sender IDs must be pre-approved for some countries.
-                            </p>
-
-
-
-                        </div>
-                    </div>
-                </section>
-                <section class="section_tariff">
-                    <ul class="tariff_content">
-                        <li>
-                            <h2 class="section_title tariff_main">Tariff</h2>
-                            <h3 class="tariff_main_content">There are many tariffs at affordable prices,</h3>
-                            <h3 class="tariff_main_content">and tariffs are easy to use.</h3>
-                        </li>
-                        <li class="tariff_photo"></li>
-
-                    </ul>
-
-                </section>
-
-             
-
+               
+               
                 <footer>
                     <div class="footer_content">
                         All rights reserved &copy; 2019

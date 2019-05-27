@@ -69,8 +69,8 @@
     <div class="wrapper">
         <header class="main-header">
             <a asp-controller="Home" asp-action="Index" class="logo">
-                <span class="logo-mini"><strong>SMS</strong></span>
-                <span class="logo-lg"><strong>SMS</strong>Service</span>
+                <span class="logo-mini"><strong>Y</strong>-Team</span>
+                <span class="logo-lg"><strong>Y</strong>-Team</span>
             </a>
             <nav class="navbar navbar-static-top">
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -165,25 +165,7 @@
                                 <li><a asp-controller="Basket" asp-action="Index"><em class="fa fa-list-ul"></em>Basket</a></li>
                             </ul>
                         </li>
-                        <li class="treeview">
-                            <a href="#">
-                                <em class="fa fa-envelope"></em> <span>Email Campaign</span>
-                                <span class="pull-right-container">
-                                    <em class="fa fa-angle-left pull-right"></em>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a asp-controller="EmailCampaign" asp-action="Create"><em class="fa fa-plus-circle"></em>Create</a></li>
-                                <li><a asp-controller="EmailCampaign" asp-action="Index"><em class="fa fa-list-ul"></em>List of campaigns</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a asp-controller="Contact" asp-action="Contacts">
-                                <em class="fa fa-address-book-o"></em> <span>Contacts</span>
-                                <span class="pull-right-container"> </span>
-                            </a>
-                        </li>
-                    }
+                      }
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
                         <li>
@@ -205,12 +187,7 @@
                                 <li><a asp-controller="Moderator" asp-action="Index"><em class="fa fa-list-ul"></em>List moderators</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a asp-area="" asp-controller="AdminStatistic" asp-action="AdminStatistics">
-                                <em class="fa fa-bar-chart"></em> <span>Statistic</span>
-                                <span class="pull-right-container"> </span>
-                            </a>
-                        </li>
+                        
 
                     }
                     @if (User.Identity.IsAuthenticated && (User.IsInRole("Moderator")|| User.IsInRole("Admin")))

@@ -21,6 +21,7 @@ using Model.ViewModels.LongDescriptionViewModels;
 using Model.ViewModels.ModeratorViewModels;
 using Model.ViewModels.OrderViewModels;
 using Model.ViewModels.PhoneViewModels;
+using System.IO;
 
 namespace BAL.Services
 {
@@ -72,7 +73,9 @@ namespace BAL.Services
 
             CreateMap<BlockedUser, BlockedUserViewModel>().ReverseMap();
 
-            CreateMap<Commodity, CommodityViewModel>().ReverseMap();
+            CreateMap<Commodity, CommodityViewModel>()
+                .ForMember(ovm => ovm.Photo, opt => opt.MapFrom(com => GetPhoto(com)));
+            CreateMap<CommodityViewModel, Commodity>();
 
             CreateMap<LongDescription, LongDescriptionViewModel>().ReverseMap();
 
@@ -94,6 +97,17 @@ namespace BAL.Services
             CreateMap<OrderUser, OrderUserViewModel>().ReverseMap();
             CreateMap<Photo, PhotoViewModel>().ReverseMap();
 
+        }
+
+        private string GetPhoto(Commodity commodity)
+        {
+            string filePath = "wwwroot/images/OperatorLogo/Logo_Id=" + Convert.ToString(commodity.Id) + ".png";
+            if (File.Exists(filePath))
+            {
+                return "/images/OperatorLogo/Logo_Id=" + Convert.ToString(commodity.Id) + ".png";
+            }
+            else
+                return null;
         }
     }
 }

@@ -19,6 +19,7 @@ using AutoMapper;
 using BAL.Interfaces;
 using BAL.Services;
 using BAL.Jobs;
+using BAL.Wrappers;
 
 namespace WebCustomerApp
 {
@@ -123,6 +124,7 @@ namespace WebCustomerApp
             services.AddScoped<IPhotoManager, PhotoManager>();
             services.AddScoped<IBasketManager, BasketManager>();
             services.AddScoped<IBasketCommoditiesManager, BasketCommoditiesManager>();
+            services.AddTransient<IFileIoWrapper, FileIoWrapper>();
             // Start scheduler
 
             services.AddScoped<Mailing>();

@@ -87,5 +87,13 @@ namespace WebApp.Controllers
         {
             return View(commodityManager.GetCommodities());
         }
+
+       
+        [HttpGet]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult Details(int commodityId)
+        {
+            return View(commodityManager.Get(commodityId));
+        }
     }
 }

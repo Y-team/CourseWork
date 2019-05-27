@@ -31,6 +31,7 @@
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>                  
                     <td>
+                        <a class="btn btn-warning" asp-action="Details" asp-controller="Commodity" asp-route-commodityId="@item.Id"><em>Details</em></a> |
                         <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id"><em class="glyphicon glyphicon-edit"></em></a> |
                         <a class="btn btn-danger" asp-action="DeleteConfirmed" asp-route-Id="@item.Id"><em class="glyphicon glyphicon-trash"></em></a>
                     </td>
