@@ -5,6 +5,7 @@ using Model.ViewModels.CommodityViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace WebApp.Controllers
@@ -15,14 +16,20 @@ namespace WebApp.Controllers
     {
         private readonly ICommodityManager commodityManager;
 
-        public CommodityController(ICommodityManager commodityManager)
+        private readonly IModeratorManager moderatorManager;
+
+        public CommodityController(ICommodityManager commodityManager, IModeratorManager moderatorManager)
         {
             this.commodityManager = commodityManager;
+            this.moderatorManager = moderatorManager;
         }
         [Authorize(Roles = "Moderator")]
         [HttpPost]
         public IActionResult AddCommodity(CommodityViewModel item)
         {
+
+            item.ModeratorId =moderatorManager.GetThisModerator(this.User.FindFirstValue(ClaimTypes.NameIdentifier)).Id;
+          
             commodityManager.Insert(item);
             return RedirectToAction("Index", "Commodity");
         }
@@ -35,6 +42,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult Delete(int commodityId)
         {
+
             commodityManager.Delete(commodityId);
             return RedirectToAction("Index", "Commodity");
         }

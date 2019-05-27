@@ -70,5 +70,11 @@ namespace BAL.Managers
             unitOfWork.Moderators.Update(moder);
             unitOfWork.Save();
         }
+
+        public ModeratorViewModel GetThisModerator(string userId)
+        {
+            Moderator moder = unitOfWork.Moderators.Get(m => m.UserId == userId).FirstOrDefault();
+            return mapper.Map<Moderator, ModeratorViewModel>(moder);
+        }
     }
 }

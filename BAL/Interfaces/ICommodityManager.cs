@@ -13,5 +13,6 @@ namespace BAL.Interfaces
         void Insert(CommodityViewModel item);
         void Update(CommodityViewModel item);
         void Delete(int id);
+
     }
 }

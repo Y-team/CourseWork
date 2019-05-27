@@ -2,6 +2,7 @@
 using BAL.Interfaces;
 using Model.Interfaces;
 using Model.ViewModels.CommodityViewModels;
+using Model.ViewModels.ModeratorViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
