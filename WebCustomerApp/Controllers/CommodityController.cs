@@ -69,14 +69,16 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            string moderatorId = "";
-            var coms = commodityManager.GetModeratorCommodities(moderatorId);
+
+            var coms = commodityManager.GetModeratorCommodities(moderatorManager.GetThisModerator(
+                       this.User.FindFirstValue(ClaimTypes.NameIdentifier)).Id);
             return View(coms);
         }
-
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
         public IActionResult IndexAdmin()
         {
-            return View();
+            return View(commodityManager.GetCommodities());
         }
     }
 }

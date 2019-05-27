@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebApp.Views.Commodity
 {
-    public class IndexModel : PageModel
+    public class IndexAdminModel : PageModel
     {
         public void OnGet()
         {
