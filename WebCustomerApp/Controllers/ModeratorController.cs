@@ -49,13 +49,13 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var blockedUser = moderatorManager.GetById(id);
+            var moderator = moderatorManager.GetById(id);
 
-            if (blockedUser == null)
+            if (moderator == null)
             {
                 return NotFound();
             }
-            return View(blockedUser);
+            return View(moderator);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

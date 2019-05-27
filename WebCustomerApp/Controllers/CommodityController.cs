@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "Moderator")]
+    [Authorize(Roles = "Moderator,Admin")]
     [Route("[controller]/[action]")]
     public class CommodityController:Controller
     {
@@ -23,6 +23,7 @@ namespace WebApp.Controllers
             this.commodityManager = commodityManager;
             this.moderatorManager = moderatorManager;
         }
+        [Authorize(Roles = "Moderator")]
         [HttpPost]
         public IActionResult AddCommodity(CommodityViewModel item)
         {
@@ -32,6 +33,7 @@ namespace WebApp.Controllers
             commodityManager.Insert(item);
             return RedirectToAction("Index", "Commodity");
         }
+        [Authorize(Roles = "Moderator")]
         [HttpGet]
         public IActionResult AddCommodity()
         {
@@ -55,6 +57,7 @@ namespace WebApp.Controllers
             }
             return View(commodity);
         }
+        [Authorize(Roles = "Moderator")]
         [HttpPost]
         public IActionResult Edit(CommodityViewModel item)
         {
@@ -62,21 +65,27 @@ namespace WebApp.Controllers
             commodityManager.Update(item);
             return RedirectToAction("Index", "Commodity");
         }
+        [Authorize(Roles = "Moderator")]
         [HttpGet]
         public IActionResult Edit()
         {
             return View();
         }
 
-        //public IActionResult Edit()
-        //{
-
-        //}
-
+        [Authorize(Roles = "Moderator")]
+        [HttpGet]
         public IActionResult Index()
         {
-            var item = commodityManager.GetCommodities();
-            return View(item);
+
+            var coms = commodityManager.GetModeratorCommodities(moderatorManager.GetThisModerator(
+                       this.User.FindFirstValue(ClaimTypes.NameIdentifier)).Id);
+            return View(coms);
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult IndexAdmin()
+        {
+            return View(commodityManager.GetCommodities());
         }
     }
 }

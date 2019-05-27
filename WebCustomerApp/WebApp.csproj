@@ -30,6 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Commodity\IndexAdmin.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Moderator\Create.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
