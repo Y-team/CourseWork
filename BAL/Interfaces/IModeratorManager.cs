@@ -17,6 +17,8 @@ namespace BAL.Interfaces
         ApplicationUser GetUserByEmail(string email);
         void Update(ModeratorViewModel item);
         void Delete(int id);
-        
+        ModeratorViewModel GetThisModerator(string userId);
+
+
     }
 }
