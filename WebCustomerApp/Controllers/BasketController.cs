@@ -47,7 +47,6 @@ namespace WebApp.Controllers
 
         public IActionResult Clean(int basketId)
         {
-
             basketCommoditiesManager.Clean(basketId);
             return RedirectToAction("Index", "Basket");
         }
