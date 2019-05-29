@@ -13,5 +13,7 @@ namespace BAL.Interfaces
         void Insert(OrderUserViewModel item);
         void Update(OrderUserViewModel item);
         void Delete(int id);
+
+
     }
 }

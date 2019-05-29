@@ -58,6 +58,7 @@ namespace WebCustomerApp
             services.AddTransient<IBaseRepository<OrderUser>, BaseRepository<OrderUser>>();
             services.AddTransient<IBaseRepository<Photo>, BaseRepository<Photo>>();
             services.AddTransient<IBaseRepository<BasketCommodities>, BaseRepository<BasketCommodities>>();
+            services.AddTransient<IBaseRepository<OrderCommodities>, BaseRepository<OrderCommodities>>();
 
 
 
@@ -125,6 +126,7 @@ namespace WebCustomerApp
             services.AddScoped<IBasketManager, BasketManager>();
             services.AddScoped<IBasketCommoditiesManager, BasketCommoditiesManager>();
             services.AddTransient<IFileIoWrapper, FileIoWrapper>();
+            services.AddTransient<IOrderCommoditiesManager, OrderCommoditiesManager>();
             // Start scheduler
 
             services.AddScoped<Mailing>();
