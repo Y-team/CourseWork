@@ -1,0 +1,50 @@
+﻿@using Model.ViewModels.CommodityViewModels;
+@model IEnumerable<CommodityUserViewModel>
+@{
+    <div class="container">
+
+        <h1>All commodity </h1>
+   
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="col-md-3">
+                   
+                        @Html.DisplayNameFor(model => model.Name)
+                   
+                    </th>
+                    <th scope="col" class="col-md-3">
+                   
+                        @Html.DisplayNameFor(model => model.Price)
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                   
+                    </td>              
+                    <td>
+                       @Html.DisplayFor(modelItem => item.Price)
+                    </td>  
+                    <td>
+                        @if (item.PhotoName != null)
+                        {
+                            <img class="logo" src=@item.PhotoName alt="logo"/>
+                        }
+                        else
+                        {
+                            <img class="logo" src="~/images/40.png" alt="Placeholder"/>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+    </div>
+}

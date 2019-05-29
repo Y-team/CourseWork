@@ -74,8 +74,13 @@ namespace BAL.Services
             CreateMap<BlockedUser, BlockedUserViewModel>().ReverseMap();
 
             CreateMap<Commodity, CommodityViewModel>()
-                .ForMember(ovm => ovm.Photo, opt => opt.MapFrom(com => GetPhoto(com)));
+                .ForMember(ovm => ovm.PhotoName, opt => opt.MapFrom(com => GetPhoto(com)));
             CreateMap<CommodityViewModel, Commodity>();
+
+            CreateMap<Commodity, CommodityUserViewModel>()
+                .ForMember(ovm => ovm.PhotoName, opt => opt.MapFrom(com => GetPhoto(com)));
+            CreateMap<CommodityUserViewModel, Commodity>();
+
 
             CreateMap<LongDescription, LongDescriptionViewModel>().ReverseMap();
 
@@ -101,13 +106,14 @@ namespace BAL.Services
 
         private string GetPhoto(Commodity commodity)
         {
-            string filePath = "wwwroot/images/OperatorLogo/Logo_Id=" + Convert.ToString(commodity.Id) + ".png";
+            string filePath = "wwwroot/images/CommodityPhotos/Photo_Id=" + Convert.ToString(commodity.Id) + ".png";
             if (File.Exists(filePath))
             {
-                return "/images/OperatorLogo/Logo_Id=" + Convert.ToString(commodity.Id) + ".png";
+                return "/images/CommodityPhotos/Photo_Id=" + Convert.ToString(commodity.Id) + ".png";
             }
             else
-                return null;
+              //  return "/images/CommodityPhotos/Photo_Id=" + Convert.ToString(commodity.Id) + ".png";
+            return null;
         }
     }
 }

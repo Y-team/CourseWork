@@ -58,5 +58,11 @@ namespace BAL.Managers
             IEnumerable<Commodity> commodities = unitOfWork.Commodities.Get(c=>c.ModeratorId==moderatorId);
             return mapper.Map<IEnumerable<Commodity>, IEnumerable<CommodityViewModel>>(commodities);
         }
+
+        public IEnumerable<CommodityUserViewModel> GetUserCommodities()
+        {
+            var commodities = unitOfWork.Commodities.GetAll();
+            return mapper.Map<IEnumerable<Commodity>, IEnumerable<CommodityUserViewModel>>(commodities);
+        }
     }
 }

@@ -11,6 +11,7 @@ using Model.ViewModels.PhotoViewModels;
 using WebCustomerApp.Models;
 using BAL.Wrappers;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace BAL.Managers
 {
@@ -35,7 +36,16 @@ namespace BAL.Managers
 
             return mapper.Map<Photo, PhotoViewModel>(photo);
         }
-
+        private string GetPhoto(int commodityId)
+        {
+            string filePath = "wwwroot/images/CommodityPhotos/Photo_Id=" + Convert.ToString(commodityId) + ".png";
+            if (File.Exists(filePath))
+            {
+                return "/images/CommodityPhotos/Photo_Id=" + Convert.ToString(commodityId) + ".png";
+            }
+            else
+                return null;
+        }
         public IEnumerable<PhotoViewModel> GetAllPhotos()
         {
             IEnumerable<Photo> photos = unitOfWork.Photoes.GetAll();
@@ -70,11 +80,11 @@ namespace BAL.Managers
                 return new TransactionResultDTO() { Success = false, Details = "Image can't be resized" };
             }
 
-            if (!fileIo.Exists("wwwroot/images/OperatorLogo/"))
+            if (!fileIo.Exists("wwwroot/images/CommodityPhotos/"))
             {
                 try
                 {
-                    fileIo.CreateDirectory("wwwroot/images/OperatorLogo/");
+                    fileIo.CreateDirectory("wwwroot/images/CommodityPhotos/");
                 }
                 catch (Exception)
                 {
@@ -84,7 +94,7 @@ namespace BAL.Managers
 
             try
             {
-                fileIo.SaveBitmap(image, "wwwroot/images/OperatorLogo/Logo_Id=" + Convert.ToString(item.CommodityId) + ".png"
+                fileIo.SaveBitmap(image, "wwwroot/images/CommodityPhotos/Photo_Id=" + Convert.ToString(item.CommodityId) + ".png"
                     , ImageFormat.Png);
             }
             catch (ArgumentNullException)

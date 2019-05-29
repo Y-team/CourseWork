@@ -120,14 +120,7 @@
                 <ul class="sidebar-menu" data-widget="tree">
                     @if (!User.Identity.IsAuthenticated)
                     {
-                        <li>
-                            <a asp-controller="TestMessage" asp-action="Index">
-                                <em class="fa fa fa-envelope-o"></em><span>Message</span>
-                                <span class="pull-right-container">
-                                    <small class="label pull-right bg-green">demo</small>
-                                </span>
-                            </a>
-                        </li>
+
                     }
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -139,19 +132,25 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a asp-controller="Basket" asp-action="Create"><em class="fa fa-plus-circle"></em>Create</a></li>
                                 <li><a asp-controller="Basket" asp-action="Index"><em class="fa fa-list-ul"></em>Basket</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="treeview">
+                            <a href="#">
+                                <em class="fa fa-stop"></em> <span>Commodity</span>
+                                <span class="pull-right-container">
+                                    <em class="fa fa-angle-left pull-right"></em>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a asp-controller="Commodity" asp-action="ShowCommodities"><em class="fa fa-list-ul"></em>Commodity</a></li>
                             </ul>
                         </li>
                     }
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                        <li>
-                            <a asp-area="" asp-controller="Operator" asp-action="Operators">
-                                <em class="fa fa-money"></em> <span>Operators</span>
-                                <span class="pull-right-container"> </span>
-                            </a>
-                        </li>
+
 
                         <li class="treeview">
                             <a href="#">
@@ -172,7 +171,7 @@
                     {
                         <li class="treeview">
                             <a href="#">
-                                <em class="fa fa-users"></em> <span>Commodity</span>
+                                <em class="fa fa-users"></em> <span>Commodity Engine</span>
                                 <span class="pull-right-container">
                                     <em class="fa fa-angle-left pull-right"></em>
                                 </span>
@@ -211,12 +210,12 @@
 
 
                 <header class="header">
-                    <a href="#" class="logo_home">
+                    @*<a href="#" class="logo_home">
                         <img src="../images/landing/logo.svg" alt="logo unload" class="logo_img">
-                    </a>
+                    </a>*@
                 </header>
                 <section class="main">
-                    <h1 class="main_title">SMS on 150 mobile networks no matter where you are<span class="main_title-big">sms service</span></h1>
+                    <h1 class="main_title">Y-team<span class="main_title-big">Best</span></h1>
                     <a href="#log" class="main_button anchor">get started</a>
                 </section>
                

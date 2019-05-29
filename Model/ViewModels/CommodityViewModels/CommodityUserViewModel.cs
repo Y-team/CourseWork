@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Model.ViewModels.CommodityViewModels
 {
-    public class CommodityViewModel
+  public  class CommodityUserViewModel
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "The Name field is required.")]
@@ -18,9 +19,10 @@ namespace Model.ViewModels.CommodityViewModels
 
         public int ModeratorId { get; set; }
 
-      
+        [Display(Name = "Photo")]
         public string PhotoName { get; set; }
-
+        
+        public IFormFile PhotoFile { get; set; }
        
     }
 }

@@ -12,7 +12,7 @@ namespace WebCustomerApp.Models
 
         public decimal Price { get; set; }
 
-       // public ICollection <Photo> Photo { get; set; }
+        public ICollection <Photo> Photo { get; set; }
         public ICollection<OrderCommodities> OrderCommoditieses { get; set; }
         public ICollection<BasketCommodities> BasketCommoditieses { get; set; }
        

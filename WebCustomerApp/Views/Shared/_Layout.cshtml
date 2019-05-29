@@ -142,14 +142,7 @@
                 <ul class="sidebar-menu" data-widget="tree">
                     @if (!User.Identity.IsAuthenticated)
                     {
-                        <li>
-                            <a asp-controller="TestMessage" asp-action="Index">
-                                <em class="fa fa fa-envelope-o"></em><span>Message</span>
-                                <span class="pull-right-container">
-                                    <small class="label pull-right bg-green">demo</small>
-                                </span>
-                            </a>
-                        </li>
+
                     }
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -161,19 +154,25 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a asp-controller="Basket" asp-action="Create"><em class="fa fa-plus-circle"></em>Create</a></li>
                                 <li><a asp-controller="Basket" asp-action="Index"><em class="fa fa-list-ul"></em>Basket</a></li>
                             </ul>
                         </li>
-                      }
+
+                        <li class="treeview">
+                            <a href="#">
+                                <em class="fa fa-stop"></em> <span>Commodity</span>
+                                <span class="pull-right-container">
+                                    <em class="fa fa-angle-left pull-right"></em>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a asp-controller="Commodity" asp-action="ShowCommodities"><em class="fa fa-list-ul"></em>Commodity</a></li>
+                            </ul>
+                        </li>
+                    }
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                        <li>
-                            <a asp-area="" asp-controller="Operator" asp-action="Operators">
-                                <em class="fa fa-money"></em> <span>Operators</span>
-                                <span class="pull-right-container"> </span>
-                            </a>
-                        </li>
+
 
                         <li class="treeview">
                             <a href="#">
@@ -187,14 +186,14 @@
                                 <li><a asp-controller="Moderator" asp-action="Index"><em class="fa fa-list-ul"></em>List moderators</a></li>
                             </ul>
                         </li>
-                        
+
 
                     }
-                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Moderator")|| User.IsInRole("Admin")))
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Moderator") || User.IsInRole("Admin")))
                     {
                         <li class="treeview">
                             <a href="#">
-                                <em class="fa fa-users"></em> <span>Commodity</span>
+                                <em class="fa fa-users"></em> <span>Commodity Engine</span>
                                 <span class="pull-right-container">
                                     <em class="fa fa-angle-left pull-right"></em>
                                 </span>
@@ -208,7 +207,7 @@
                                 }
                                 @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                                 {
-                                <li><a asp-area="" asp-controller="Commodity" asp-action="IndexAdmin"><em class="fa fa-list-ul"></em>ALL Commodity</a></li>
+                                    <li><a asp-area="" asp-controller="Commodity" asp-action="IndexAdmin"><em class="fa fa-list-ul"></em>ALL Commodity</a></li>
                                 }
                             </ul>
                         </li>

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "Moderator,Admin")]
+    [Authorize]
     [Route("[controller]/[action]")]
     public class CommodityController:Controller
     {
@@ -39,6 +39,7 @@ namespace WebApp.Controllers
         {
             return View();
         }
+        [Authorize(Roles = "Moderator,Admin")]
         [HttpGet]
         public IActionResult DeleteConfirmed(int Id)
         {
@@ -46,6 +47,7 @@ namespace WebApp.Controllers
             commodityManager.Delete(Id);
             return RedirectToAction("Index", "Commodity");
         }
+        [Authorize(Roles = "Moderator,Admin")]
         [HttpPost]
         public IActionResult Delete(int commodityId)
         {
@@ -98,12 +100,21 @@ namespace WebApp.Controllers
             return View(commodityManager.GetCommodities());
         }
 
-       
+        [Authorize(Roles = "Moderator,Admin")]
         [HttpGet]
         [AutoValidateAntiforgeryToken]
         public IActionResult Details(int commodityId)
         {
             return View(commodityManager.Get(commodityId));
+        }
+
+        [Authorize(Roles = "Moderator,Admin,User")]
+        [HttpGet]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult ShowCommodities()
+        {
+           var comms= commodityManager.GetUserCommodities();
+            return View(comms);
         }
     }
 }

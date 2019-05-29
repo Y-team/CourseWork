@@ -5,7 +5,16 @@
         <div class="container">
 
             <h1>All commodity </h1>
-
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <a asp-action="IndexAdmin" class="btn btn-primary">Back to List</a>  
+        }
+        else
+        {
+            <a asp-action="Index" class="btn btn-primary">Back to List</a>  
+        }
+           
+            <br/>
             <table class="table table-hover">
                 <thead class="thead-dark">
                     <tr>
@@ -19,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
-
+               
                     <tr>
                         <td>
                             @Html.DisplayFor(model => model.Name)
@@ -27,17 +36,32 @@
                         <td>
                             @Html.DisplayFor(model => model.Price)
                         </td>
-                        <a asp-action="AddPhoto" asp-controller="Photo" asp-route-commodityId="@Model.Id">
-                            @if (Model.Photo != null)
+                        <td>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                             {
-                                <img class="logo" src=@Model.Photo alt="logo" />
+                                @if (Model.PhotoName != null)
+                                {
+                                    <img class="logo" src=@Model.PhotoName alt="logo" />
+                                }
+                                else
+                                {
+                                    <img class="logo" src="~/images/43.png" alt="Placeholder" />
+                                }
                             }
                             else
                             {
-                                <img class="logo" src="~/images/40.png" alt="Placeholder" />
+                                <a asp-action="AddPhoto" asp-controller="Photo" asp-route-commodityId="@Model.Id">
+                                    @if (Model.PhotoName != null)
+                                    {
+                                        <img class="logo" src=@Model.PhotoName alt="logo" />
+                                    }
+                                    else
+                                    {
+                                        <img class="logo" src="~/images/43.png" alt="Placeholder" />
+                                    }
+                                </a>
                             }
-                        </a>
-                        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                            </td>
                     </tr>
 
                 </tbody>

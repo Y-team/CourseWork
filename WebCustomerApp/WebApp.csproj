@@ -15,9 +15,7 @@
     <None Include="wwwroot\css\style2.min.css" />
     <None Include="wwwroot\images\landing\fond.png" />
     <None Include="wwwroot\images\landing\iconMessage.png" />
-    <None Include="wwwroot\images\landing\messages.png" />
     <None Include="wwwroot\images\landing\phone.png" />
-    <None Include="wwwroot\images\landing\phoneMessage.png" />
     <None Include="wwwroot\images\landing\logo.svg" />
     <None Include="wwwroot\js\ContactTableFunctional.js" />
     <None Include="wwwroot\js\preloader.js" />
@@ -61,6 +59,7 @@
 
   <ItemGroup>
     <Folder Include="Files\" />
+    <Folder Include="wwwroot\images\CommodityPhotos\" />
   </ItemGroup>
 
 </Project>
