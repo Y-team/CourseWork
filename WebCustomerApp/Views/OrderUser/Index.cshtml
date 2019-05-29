@@ -27,7 +27,12 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.IsConfirmeds)
-                    </td>        
+                    </td>   
+                    <td>
+                   |
+                        <a class="btn btn-success" asp-action="Conirm" ><em class="glyphicon glyphicon-check"></em></a> |
+                        <a class="btn btn-danger" asp-action="Delete" ><em class="glyphicon glyphicon-trash"></em></a>
+                    </td>
                 </tr>
             }
         </tbody>

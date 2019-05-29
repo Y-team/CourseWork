@@ -12,6 +12,7 @@ using WebCustomerApp.Models;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class OrderUserController:Controller
     {
 
