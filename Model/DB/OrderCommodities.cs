@@ -10,5 +10,6 @@ namespace WebCustomerApp.Models
         public Commodity Commodity { get; set;}
         public  int OrderId { get; set; }
         public OrderUser OrderUser { get; set; }
+        public bool IsConfirmeds { get; set; }
     }
 }
