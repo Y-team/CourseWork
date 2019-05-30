@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WebCustomerApp.Models;
 
 namespace WebApp.Controllers
 {
@@ -18,10 +19,21 @@ namespace WebApp.Controllers
 
         private readonly IModeratorManager moderatorManager;
 
-        public CommodityController(ICommodityManager commodityManager, IModeratorManager moderatorManager)
+        private readonly IBasketManager basketManager;
+
+        private readonly IBasketCommoditiesManager basketCommoditiesManager;
+
+        
+
+        public CommodityController(ICommodityManager commodityManager, 
+            IModeratorManager moderatorManager, 
+            IBasketManager basketManager,
+            IBasketCommoditiesManager basketCommoditiesManager)
         {
             this.commodityManager = commodityManager;
             this.moderatorManager = moderatorManager;
+            this.basketManager = basketManager;
+            this.basketCommoditiesManager = basketCommoditiesManager;
         }
         [Authorize(Roles = "Moderator")]
         [HttpPost]
@@ -115,6 +127,18 @@ namespace WebApp.Controllers
         {
             var comms= commodityManager.GetUserCommodities();
             return View(comms);
+        }
+
+        public IActionResult AddToBasket(int commodityId)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var bask = basketManager.GetBusket(userId, User.Identity.IsAuthenticated);
+
+            basketCommoditiesManager.Create(bask.Id, commodityId);
+
+            return RedirectToAction("ShowCommodities", "Commodity");
+   
         }
     }
 }

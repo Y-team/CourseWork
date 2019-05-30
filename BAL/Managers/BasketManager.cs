@@ -41,19 +41,47 @@ namespace BAL.Managers
             return mapper.Map<Basket, BasketViewModel>(bask);
         }
 
-        public IEnumerable<BasketViewModel> GetBuskets(string userId)
+        public BasketViewModel GetBusket(string userId,bool authorization)
         {
-            IEnumerable<Basket> bask = unitOfWork.Baskets.GetAll().Where(b=>b.ApplicationUser.Id==userId);
-            return mapper.Map<IEnumerable<Basket>, IEnumerable<BasketViewModel>>(bask);
+
+            Basket bask = unitOfWork.Baskets.Get(b => b.UserId == userId).FirstOrDefault();
+            var user = unitOfWork.Users.GetAll().Where(u => u.Id == userId).FirstOrDefault();
+
+            if (bask == null && authorization && user!=null)
+            { 
+            user.Basket = new Basket() { Description = "new Basket" };
+
+                bask = unitOfWork.Baskets.Get(b => b.UserId == userId).FirstOrDefault();
+                unitOfWork.Save();
+            }
+            return mapper.Map<Basket, BasketViewModel>(bask);
+            
+           
         }
 
-        public void Insert(BasketViewModel item)
+        public void Insert(string userId)
         {
-            Basket bask = mapper.Map<BasketViewModel, Basket>(item);
+            Basket bask = new Basket()
+            {
+                UserId = userId
+            };
             unitOfWork.Baskets.Insert(bask);
             unitOfWork.Save();
         }
 
+       
+
+        public void CreateBasket(string userId)
+        {
+            
+                Basket bask = new Basket()
+                {
+                    UserId = userId
+                };
+            unitOfWork.Baskets.Insert(bask);
+            unitOfWork.Save();
+            
+        }
         public void Update(BasketViewModel item)
         {
             Basket bask = mapper.Map<BasketViewModel, Basket>(item);
@@ -61,7 +89,7 @@ namespace BAL.Managers
             unitOfWork.Save();
         }
 
-        public IEnumerable<CommodityViewModel> ShowCommodity(string userId)
+        public IEnumerable<CommodityUserViewModel> ShowCommodity(string userId)
         {
             var bask = unitOfWork.Baskets.Get(b => b.UserId == userId).FirstOrDefault();
 
@@ -76,7 +104,7 @@ namespace BAL.Managers
                     commodities.Add(com);
                 }
             }
-            return mapper.Map<IEnumerable<Commodity>, IEnumerable <CommodityViewModel>>(commodities);
+            return mapper.Map<IEnumerable<Commodity>, IEnumerable <CommodityUserViewModel>>(commodities);
         }
     }
 }

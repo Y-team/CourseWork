@@ -27,7 +27,10 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                    
-                    </td>              
+                    </td>
+                    <td>
+                        <a class="btn btn-warning" asp-action="AddToBasket" asp-controller="Commodity" asp-route-commodityId="@item.Id"><em>Buy</em></a>
+                    </td>
                     <td>
                        @Html.DisplayFor(modelItem => item.Price)
                     </td>  

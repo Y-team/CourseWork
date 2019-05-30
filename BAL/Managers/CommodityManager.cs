@@ -3,6 +3,7 @@ using BAL.Interfaces;
 using Model.Interfaces;
 using Model.ViewModels.CommodityViewModels;
 using Model.ViewModels.ModeratorViewModels;
+using Model.ViewModels.UserViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,5 +65,7 @@ namespace BAL.Managers
             var commodities = unitOfWork.Commodities.GetAll();
             return mapper.Map<IEnumerable<Commodity>, IEnumerable<CommodityUserViewModel>>(commodities);
         }
+
+        
     }
 }

@@ -64,7 +64,7 @@ namespace WebApp.Controllers
 
         [Authorize(Roles = "Moderator")]
         
-        public void ConfirmFromModer(OrderCommodityViewModel item)
+        public void Confirm(OrderCommodityViewModel item)
         {
             item.IsConfirmeds = true;
 
