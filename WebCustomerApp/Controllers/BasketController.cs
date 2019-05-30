@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Model.ViewModels.BasketViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,16 +34,32 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            BasketCommoditiesUserViewModel basketU = new BasketCommoditiesUserViewModel();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var basket = basketManager.GetBusket(userId, User.Identity.IsAuthenticated);
+            if (basket != null)
+            {
+                basketU = new BasketCommoditiesUserViewModel()
+                {
+                    Id = basket.Id,
+                    UserId = userId,
+                    UserName = basket.UserName,
+                    Description = basket.Description,
+                };
+                basketU.CommodityUser = basketManager.ShowCommodity(userId);
+            }
             if (this.User == null)
             {
-                ApplicationUser appUser = new ApplicationUser() {UserName="NonathorizedUser",Basket=new Basket() };
+                ApplicationUser appUser = new ApplicationUser() { UserName = "NonathorizedUser", Basket = new Basket() };
                 userManager.CreateAsync(appUser);
                 return View(basketManager.ShowCommodity(appUser.Id));
             }
             else
-            return View(basketManager.ShowCommodity(userId));
-            
+            {
+                var item = basketManager.ShowCommodity(userId);
+            }
+
+            return View(basketU);
         }
 
         public IActionResult Clean(int basketId)

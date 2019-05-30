@@ -1,4 +1,5 @@
 ﻿using Model.ViewModels.CommodityViewModels;
+using Model.ViewModels.UserViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,6 +20,7 @@ namespace BAL.Interfaces
         void Insert(CommodityViewModel item);
         void Update(CommodityViewModel item);
         void Delete(int id);
+         
 
     }
 }

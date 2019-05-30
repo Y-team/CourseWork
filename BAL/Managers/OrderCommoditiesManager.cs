@@ -76,10 +76,10 @@ namespace BAL.Managers
             //{
             //    DataOrder = DateTime.Now,
             //    IsConfirmed = false,
-            //    UserId = "a87fe992-489d-4f49-8a7e-068feb57438b"
+            //    UserId = "5a8af8de-db7e-48ac-9617-6a94fa446d1d"
             //});
             //unitOfWork.Save();
-            //var newOrder = unitOfWork.OrderUsers.Get(b => b.UserId == "a87fe992-489d-4f49-8a7e-068feb57438b").First();
+            //var newOrder = unitOfWork.OrderUsers.Get(b => b.UserId == "5a8af8de-db7e-48ac-9617-6a94fa446d1d").First();
             //OrderCommodities orderCommodities = new OrderCommodities()
             //{
             //    CommodityId = 1,

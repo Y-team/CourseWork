@@ -208,10 +208,17 @@ li > a:only-child:after { content: ''; }
 		text-align: center;
 		float: none;
 	}
-
-	nav {
-		margin: 0;
-	}
+    .basket-paint {
+        display: block;
+        padding: 0;
+      
+        width:5%;
+        text-align: center;
+        float: none;
+    }
+    nav {
+        margin: 0;
+    }
 	.header-agile{
 		float: left;
 	}

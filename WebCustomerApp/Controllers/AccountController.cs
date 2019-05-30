@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BAL.Interfaces;
 using BAL.Managers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +23,7 @@ namespace WebCustomerApp.Controllers
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
+        private readonly IBasketManager _basketManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
@@ -31,12 +33,14 @@ namespace WebCustomerApp.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IBasketManager basketManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _basketManager = basketManager;
         }
 
         [TempData]
@@ -214,10 +218,10 @@ namespace WebCustomerApp.Controllers
         /// <returns>Registration view</returns>
 		[HttpGet]
 		[AllowAnonymous]
-		public IActionResult NewRegister(int groupId = 0, string returnUrl = null)
+		public IActionResult NewRegister( string returnUrl = null)
 		{
 			ViewData["ReturnUrl"] = returnUrl;
-            ViewData["GroupId"] = groupId;
+          
 			return View();
 		}
 
@@ -231,7 +235,7 @@ namespace WebCustomerApp.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> NewRegister(RegisterViewModel model, int groupId = 0, string returnUrl = null)
+        public async Task<IActionResult> NewRegister(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -241,9 +245,10 @@ namespace WebCustomerApp.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     PhoneNumber = model.Phone,
+                    
                 };
 
-               
+                
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -263,10 +268,12 @@ namespace WebCustomerApp.Controllers
                     }
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
+                    
                     return RedirectToLocal(returnUrl);
+
                 }
                 AddErrors(result);
-
+                
             }
 
             // If we got this far, something failed, redisplay form
