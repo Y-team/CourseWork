@@ -281,25 +281,25 @@ h1 {
 }
 
 .w3ls-login form {
-	position: relative;
-	max-width: 500px;
-	margin: 0 5vw;
-	padding: 2.5vw;
-	padding-top: 1.5vw;
-	padding-bottom: 1.5vw;
-	border: none;
-	box-sizing: border-box;
-	display: flex;
-	border-left: 4px solid #00ba9d;
-	flex-wrap: wrap;
-	-webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3);
-	-moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3);
-	box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3);
+    position: relative;
+    max-width: 500px;
+    margin: 0 5vw;
+    padding: 2.5vw;
+    padding-top: 1.5vw;
+    padding-bottom: 1.5vw;
+    border: none;
+    box-sizing: border-box;
+    display: flex;
+    border-left: 4px solid #fff;
+    flex-wrap: wrap;
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3);
 }
 
 .w3ls-login label {
     font-size: 16px;
-    color: #00ba9d;
+    color: #fff;
     float: left;
     font-weight: 600;
     margin-bottom: 15px;
@@ -316,10 +316,10 @@ h1 {
 .w3ls-login label i {
     font-size: 1.1em;
     margin-right: 3px;
-    color: #363af4;
+    color: #fff;
 }
 p.agile-field-txt {
-	color: #00ba9d;
+    color: #fff;
 }
 
 .w3ls-login input[type="text"],
@@ -394,7 +394,7 @@ label.check {
     color: #fff;
     font-weight: 600;
     width: 50%;
-	margin: auto;
+    margin: auto;
     padding: 0.7em 0;
     margin-top: 1em;
     font-size: .9em;
@@ -402,7 +402,7 @@ label.check {
     cursor: pointer;
     border: none;
     outline: none;
-    background: #00ba9d;
+    background: #499bea;
     font-family: 'Poiret One', cursive;
     transition: 0.5s all ease;
     -webkit-transition: 0.5s all ease;
@@ -410,11 +410,11 @@ label.check {
     -o-transition: 0.5s all ease;
 }
 
-.w3ls-login input[type=submit]:hover {
-    border: 1px solid #00ba9d;
-    color: #00ba9d;
-	background: transparent;
-}
+    .w3ls-login input[type=submit]:hover {
+        border: 1px solid #fff;
+        color: #499bea;
+        background: transparent;
+    }
 
 .w3ls-bot {
     margin-top: 0em;
