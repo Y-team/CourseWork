@@ -113,7 +113,7 @@ namespace WebApp.Controllers
         [AutoValidateAntiforgeryToken]
         public IActionResult ShowCommodities()
         {
-           var comms= commodityManager.GetUserCommodities();
+            var comms= commodityManager.GetUserCommodities();
             return View(comms);
         }
     }

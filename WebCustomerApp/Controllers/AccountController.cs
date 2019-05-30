@@ -25,20 +25,17 @@ namespace WebCustomerApp.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IGroupManager _groupManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
-            IGroupManager groupManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _groupManager = groupManager;
             _emailSender = emailSender;
             _logger = logger;
         }
@@ -247,15 +244,7 @@ namespace WebCustomerApp.Controllers
                     PhoneNumber = model.Phone,
                 };
 
-                if (groupId == 0)
-                {
-                    ApplicationGroup group = new ApplicationGroup { Name = model.CompanyName };
-                    user.ApplicationGroup = group;
-                }
-                else
-                {
-                    user.ApplicationGroupId = groupId;
-                }
+               
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 

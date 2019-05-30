@@ -16,8 +16,6 @@ namespace WebCustomerApp.Models
         public  Moderator Moderator { get; set; }
 
         public ICollection<OrderUser> Orders { get; set; }
-        public int ApplicationGroupId { get; set; }//Delete
-        public ApplicationGroup ApplicationGroup { get; set; }//Delete
         public int InviteId { get; set; } = 0; // this field filled up when user has inviting to group//Delete
     }
 }

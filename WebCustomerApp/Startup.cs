@@ -44,21 +44,16 @@ namespace WebCustomerApp
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-			services.AddTransient<ITariffRepository, TariffRepository>();
-			services.AddTransient<IBaseRepository<Tariff>, BaseRepository<Tariff>>();
-			services.AddTransient<IBaseRepository<Company>, BaseRepository<Company>>();
-            services.AddTransient<IMailingRepository, MailingRepository>();
-            services.AddTransient<IBaseRepository<ApplicationGroup>, BaseRepository<ApplicationGroup>>();
-
-            services.AddTransient<IBaseRepository<Basket>, BaseRepository<Basket>>();
-            services.AddTransient<IBaseRepository<BlockedUser>, BaseRepository<BlockedUser>>();
-            services.AddTransient<IBaseRepository<Commodity>, BaseRepository<Commodity>>();
-            services.AddTransient<IBaseRepository<LongDescription>, BaseRepository<LongDescription>>();
-            services.AddTransient<IBaseRepository<Moderator>, BaseRepository<Moderator>>();
-            services.AddTransient<IBaseRepository<OrderUser>, BaseRepository<OrderUser>>();
-            services.AddTransient<IBaseRepository<Photo>, BaseRepository<Photo>>();
-            services.AddTransient<IBaseRepository<BasketCommodities>, BaseRepository<BasketCommodities>>();
-            services.AddTransient<IBaseRepository<OrderCommodities>, BaseRepository<OrderCommodities>>();
+		
+            //services.AddTransient<IBaseRepository<Basket>, BaseRepository<Basket>>();
+            //services.AddTransient<IBaseRepository<BlockedUser>, BaseRepository<BlockedUser>>();
+            //services.AddTransient<IBaseRepository<Commodity>, BaseRepository<Commodity>>();
+            //services.AddTransient<IBaseRepository<LongDescription>, BaseRepository<LongDescription>>();
+            //services.AddTransient<IBaseRepository<Moderator>, BaseRepository<Moderator>>();
+            //services.AddTransient<IBaseRepository<OrderUser>, BaseRepository<OrderUser>>();
+            //services.AddTransient<IBaseRepository<Photo>, BaseRepository<Photo>>();
+            //services.AddTransient<IBaseRepository<BasketCommodities>, BaseRepository<BasketCommodities>>();
+            //services.AddTransient<IBaseRepository<OrderCommodities>, BaseRepository<OrderCommodities>>();
 
 
 
@@ -106,16 +101,7 @@ namespace WebCustomerApp
             });
             services.AddMvc();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<ICompanyManager, CompanyManager>();
-            services.AddScoped<IRecipientManager, RecipientManager>();
-            services.AddScoped<IContactManager, ContactManager>();
-            services.AddScoped<ITariffManager, TariffManager>();
-            services.AddScoped<IPhoneManager, PhoneManager>();
-            services.AddScoped<IStopWordManager, StopWordManager>();
-            services.AddScoped<IGroupManager, GroupManager>();
-            services.AddScoped<IOperatorManager, OperatorManager>();
-            services.AddScoped<ICodeManager, CodeManager>();
-            services.AddScoped<IMailingManager, MailingManager>();
+          
 
             services.AddScoped<IBlockedUserManager, BlockedUserManager>();
             services.AddScoped<ICommodityManager, CommodityManager>();
@@ -129,9 +115,7 @@ namespace WebCustomerApp
             services.AddTransient<IOrderCommoditiesManager, OrderCommoditiesManager>();
             // Start scheduler
 
-            services.AddScoped<Mailing>();
-            MailingScheduler.Start(services.BuildServiceProvider());
-
+          
             // Configure sessions
 
             services.AddDistributedMemoryCache();
@@ -152,10 +136,8 @@ namespace WebCustomerApp
                 if (userManager.FindByNameAsync("User@gmail.com").Result == null)
                 {
                     ApplicationUser user = new ApplicationUser();
-                    ApplicationGroup group = new ApplicationGroup();
                     user.UserName = "User@gmail.com";
                     user.Email = "User@gmail.com";
-                    user.ApplicationGroup = group;
                    
                    IdentityResult result = userManager.CreateAsync(user,"1234ABCD").Result;
                     if (result.Succeeded)
@@ -168,10 +150,8 @@ namespace WebCustomerApp
                 if (userManager.FindByNameAsync("Admin@gmail.com").Result == null)
                 {
                     ApplicationUser user = new ApplicationUser();
-                    ApplicationGroup group = new ApplicationGroup();
                     user.UserName = "Admin@gmail.com";
                     user.Email = "Admin@gmail.com";
-                    user.ApplicationGroup = group;
 
                     IdentityResult result;
                         result = userManager.CreateAsync(user,"1234ABCD").Result;
@@ -185,11 +165,15 @@ namespace WebCustomerApp
                 if (userManager.FindByNameAsync("Moderator@gmail.com").Result == null)
                 {
                     ApplicationUser user = new ApplicationUser();
-                    ApplicationGroup group = new ApplicationGroup();
+                 
                     user.UserName = "Moderator@gmail.com";
                     user.Email = "Moderator@gmail.com";
-                    user.ApplicationGroup = group;
-
+                    
+                    user.Moderator = new Moderator()
+                    {
+                        ApplicationUser = user,
+                        NameCompany = "Y-Team"
+                };
                     IdentityResult result;
                     result = userManager.CreateAsync(user, "1234ABCD").Result;
 

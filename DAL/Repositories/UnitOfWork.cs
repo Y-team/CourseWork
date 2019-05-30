@@ -11,15 +11,7 @@ namespace DAL.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext context;
-        private IBaseRepository<Recipient> recipientRepo;
-        private IBaseRepository<StopWord> stopWordRepo;
-        private IBaseRepository<Company> companyRepo;
-        private IBaseRepository<Operator> operatorRepo;
-        private IContactRepository contactRepo;
-        private IBaseRepository<Phone> phoneRepo;
-        private IBaseRepository<Tariff> tariffRepo;
-        private IBaseRepository<Code> codeRepo;
-        private IBaseRepository<ApplicationGroup> groupRepo;
+    
         private IBaseRepository<ApplicationUser> usersRepo;
         private IBaseRepository<Basket> basketRepo;
         private IBaseRepository<BasketCommodities> basketCommoditiesRepo;
@@ -31,7 +23,6 @@ namespace DAL.Repositories
         private IBaseRepository<OrderCommodities> ordercomoditiesRepo;
         private IBaseRepository<Photo> photoRepo;
 
-        private IMailingRepository mailingRepo;
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -41,89 +32,6 @@ namespace DAL.Repositories
         #region it was
 
         
-
-       
-        public IBaseRepository<Company> Companies
-        {
-            get
-            {
-                if (companyRepo == null) { companyRepo = new BaseRepository<Company>(context); }
-                return companyRepo;
-            }
-        }
-
-        public IBaseRepository<Recipient> Recipients {
-            get {
-                if (recipientRepo == null) { recipientRepo = new BaseRepository<Recipient>(context); }
-                return recipientRepo;
-            }
-        }
-        public IBaseRepository<Tariff> Tariffs
-        {
-            get
-            {
-                if (tariffRepo == null) { tariffRepo = new BaseRepository<Tariff>(context); }
-                return tariffRepo;
-            }
-        }
-      
-
-        public IBaseRepository<StopWord> StopWords
-        {
-            get
-            {
-                if (stopWordRepo == null) { stopWordRepo = new BaseRepository<StopWord>(context); }
-                return stopWordRepo;
-            }
-        }
-
-        public IBaseRepository<Operator> Operators
-        {
-            get
-            {
-                if (operatorRepo == null)
-                {
-                    operatorRepo = new BaseRepository<Operator>(context);
-                }
-                return operatorRepo;
-            }
-        }
-
-        public IContactRepository Contacts {
-            get {
-                if (contactRepo == null) { contactRepo = new ContactRepository(context); }
-                return contactRepo;
-            }
-        }
-
-        public IBaseRepository<Phone> Phones {
-            get {
-                if (phoneRepo == null) { phoneRepo = new BaseRepository<Phone>(context); }
-                return phoneRepo;
-            }
-        }
-
-        public IBaseRepository<ApplicationGroup> ApplicationGroups
-        {
-            get
-            {
-                if (groupRepo == null) { groupRepo = new BaseRepository<ApplicationGroup>(context); }
-                return groupRepo;
-            }
-        }
-
-        public IBaseRepository<Code> Codes
-        {
-            get
-            {
-                if (codeRepo == null)
-                {
-                    codeRepo = new BaseRepository<Code>(context);
-                }
-                return codeRepo;
-            }
-        }
-
         public IBaseRepository<Basket> Baskets
         {
             get
@@ -213,17 +121,7 @@ namespace DAL.Repositories
             }
         }
 
-        public IMailingRepository Mailings
-        {
-            get
-            {
-                if (mailingRepo == null)
-                {
-                    mailingRepo = new MailingRepository(context);
-                }
-                return mailingRepo;
-            }
-        }
+     
         #endregion
         public int Save()
         {

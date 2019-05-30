@@ -9,15 +9,7 @@ namespace Model.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IBaseRepository<ApplicationUser> Users { get; }
-        IBaseRepository<Recipient> Recipients { get; }
-        IContactRepository Contacts { get; }
-        IBaseRepository<Phone> Phones { get; }
-        IBaseRepository<Company> Companies { get; }
-        IBaseRepository<Operator> Operators { get; }
-        IBaseRepository<Code> Codes { get; }
-        IBaseRepository<Tariff> Tariffs { get; }
-        IBaseRepository<StopWord> StopWords { get; }
-
+        
         IBaseRepository<Basket> Baskets { get; }
         IBaseRepository<BasketCommodities> BasketCommoditieses { get; }
         IBaseRepository<LongDescription> LongDescriptions { get; }
@@ -27,11 +19,9 @@ namespace Model.Interfaces
         IBaseRepository<BlockedUser> BlockedUsers { get; }
         IBaseRepository<OrderUser> OrderUsers { get; }
         IBaseRepository<OrderCommodities> OrderCommoditieses { get;  }
-        IMailingRepository Mailings { get; }
+       
 
 
-        IBaseRepository<ApplicationGroup> ApplicationGroups { get; }
-     
         int Save();
     }
 
