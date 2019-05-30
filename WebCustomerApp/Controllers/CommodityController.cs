@@ -41,10 +41,10 @@ namespace WebApp.Controllers
         }
         [Authorize(Roles = "Moderator,Admin")]
         [HttpGet]
-        public IActionResult DeleteConfirmed(int Id)
+        public IActionResult DeleteConfirmed(int commodityId)
         {
 
-            commodityManager.Delete(Id);
+            commodityManager.Delete(commodityId);
             return RedirectToAction("Index", "Commodity");
         }
         [Authorize(Roles = "Moderator,Admin")]
@@ -73,9 +73,9 @@ namespace WebApp.Controllers
         }
         [Authorize(Roles = "Moderator")]
         [HttpGet]
-        public IActionResult Edit(int Id)
+        public IActionResult Edit(int commodityId)
         {
-            var commodity = commodityManager.Get(Id);
+            var commodity = commodityManager.Get(commodityId);
 
             if (commodity == null)
             {
@@ -116,5 +116,46 @@ namespace WebApp.Controllers
             var comms= commodityManager.GetUserCommodities();
             return View(comms);
         }
+   
+      
+
+       
+
+        public int GetCommoditiesCount(string searchValue)
+        {
+            if (searchValue == null)
+            {
+                searchValue = "";
+            }
+            if (!User.Identity.IsAuthenticated)
+            {
+                return 0;
+            }
+            return commodityManager.GetCommodityCount(searchValue);
+        }
+
+        public IEnumerable<CommodityUserViewModel> Get(int page, int countOnPage, string searchValue)
+        {
+            if (searchValue == null)
+            {
+                searchValue = "";
+            }
+
+            if (User.Identity.IsAuthenticated && User.IsInRole("Moderator"))
+            {
+                var moderatorId = moderatorManager.GetThisModerator(this.User.FindFirstValue(ClaimTypes.NameIdentifier))
+                    .Id;
+
+              
+
+                return commodityManager.GetCommodities(moderatorId, page, countOnPage, searchValue);
+            }
+            else
+            {
+              return commodityManager.GetCommodities(page, countOnPage, searchValue);
+            }
+        }
+
+       
     }
 }

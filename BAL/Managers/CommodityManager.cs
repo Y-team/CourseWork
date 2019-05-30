@@ -64,5 +64,33 @@ namespace BAL.Managers
             var commodities = unitOfWork.Commodities.GetAll();
             return mapper.Map<IEnumerable<Commodity>, IEnumerable<CommodityUserViewModel>>(commodities);
         }
+
+        public IEnumerable<CommodityUserViewModel> GetCommodities(int page, int countOnPage, string searchValue)
+        {
+            IEnumerable<Commodity> commodities = unitOfWork.Commodities.Get(ec => ec.Name.Contains(searchValue))
+                .Skip((page - 1) * countOnPage).Take(countOnPage);
+          
+            return mapper.Map<IEnumerable<Commodity>, IEnumerable<CommodityUserViewModel>>(commodities);
+        }
+
+        public IEnumerable<CommodityUserViewModel> GetCommodities(int ModeratorId, int page, int countOnPage, string searchValue)
+        {
+            IEnumerable<Commodity> commodities = unitOfWork.Commodities.Get(ec =>(ec.ModeratorId==ModeratorId)
+                                                                                 && (ec.Name.Contains(searchValue)))
+                .Skip((page - 1) * countOnPage).Take(countOnPage);
+
+            return mapper.Map<IEnumerable<Commodity>, IEnumerable<CommodityUserViewModel>>(commodities);
+        }
+
+        public int GetCommodityCount(string searchValue)
+        {
+            return unitOfWork.Commodities.Get(ec => ec.Name.Contains(searchValue)).Count();
+        }
+
+        public int GetCommodityCount(int moderatorId, string searchValue)
+        {
+            return unitOfWork.Commodities.Get(ec => (ec.ModeratorId == moderatorId) && (ec.Name.Contains(searchValue))).Count();
+        }
+
     }
 }
