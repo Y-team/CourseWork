@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Model.ViewModels.GroupViewModels;
 using WebCustomerApp.Models;
 using WebCustomerApp.Models.AccountViewModels;
 using WebCustomerApp.Services;

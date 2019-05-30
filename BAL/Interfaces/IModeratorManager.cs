@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Model.ViewModels.ModeratorViewModels;
-using Model.ViewModels.UserViewModels;
 using WebCustomerApp.Models;
 
 namespace BAL.Interfaces

@@ -1,16 +1,8 @@
 ﻿using AutoMapper;
-using Model.ViewModels.TariffViewModels;
-using Model.ViewModels.CompanyViewModels;
-using Model.ViewModels.RecipientViewModels;
-using Model.ViewModels.ContactViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Model.ViewModels.OperatorViewModels;
-using Model.ViewModels.CodeViewModels;
 using WebCustomerApp.Models;
-using Model.ViewModels.StopWordViewModels;
-using Model.ViewModels.GroupViewModels;
 using Model.ViewModels.UserViewModels;
 using BAL.Managers;
 using Model.DTOs;

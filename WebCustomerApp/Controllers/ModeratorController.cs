@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Model.ViewModels.GroupViewModels;
 using Model.ViewModels.ModeratorViewModels;
 using Model.ViewModels.UserViewModels;
 using WebCustomerApp.Models;

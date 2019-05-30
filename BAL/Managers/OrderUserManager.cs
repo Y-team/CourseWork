@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using Model.ViewModels.OrderViewModels;
 using StackExchange.Redis;
-using WebCustomerApp.Models;
 
 namespace BAL.Managers
 {

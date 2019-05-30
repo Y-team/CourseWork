@@ -1,46 +1,155 @@
 ﻿@using Model.ViewModels.CommodityViewModels;
 @model IEnumerable<CommodityViewModel>
-@{
-<div class="container">
 
-    <h1>Your commodity list</h1>
-    <p>
-        <a class="btn btn-success" asp-action="AddCommodity"><em class="glyphicon glyphicon-plus"></em>Add</a>
-    </p>
-   
-    <table class="table table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col" class="col-md-3">
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th scope="col" class="col-md-3">
-                    @Html.DisplayNameFor(model => model.Price)
-                </th>
-                <th scope="col" class="col-md-3"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>                  
-                    <td>
-                        <a class="btn btn-warning" asp-action="Details" asp-controller="Commodity" asp-route-commodityId="@item.Id"><em>Details</em></a> |
-                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id"><em class="glyphicon glyphicon-edit"></em></a> |
-                        <a class="btn btn-danger" asp-action="DeleteConfirmed" asp-route-Id="@item.Id"><em class="glyphicon glyphicon-trash"></em></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+ <html>
+ <body>
+     <div class="container">
 
-</div>
+         <h1>Your commodity list</h1>
+         <p>
+             <a class="btn btn-success" asp-action="AddCommodity"><em class="glyphicon glyphicon-plus"></em>Add new</a>
+         </p>
+         <br />
+         <div id="tables">
+            
+
+             <br />
+             <label>Comodity on page:</label><select v-model.lazy="CountOnPage" v-on:change="getData">
+                 <option>1</option>
+                 <option>5</option>
+                 <option>10</option>
+                 <option>20</option>
+             </select>
+             <label>Search</label>
+             <input v-model="searchValue">
+             <button value="Search" v-on:click="getData" class="btn btn-primary">Search</button>
 
 
-}
+             <table class="table table-striped table-bordered">
+                 <thead class="thead-dark">
+                 <tr>
+                     <th scope="col" class="col-md">
+                         @Html.DisplayNameFor(model => model.Name)
+                     </th>
+                     <th scope="col" class="col-md">
+                         @Html.DisplayNameFor(model => model.Price)
+                     </th>
+                 </tr>
+                 </thead>
+                 <tbody>
+                 <tr v-for="item in Commodities">
+
+                     <td>{{item.name}}</td>
+                     <td>{{item.price}}</td>
+                     <td>
+                         
+                         <a class="btn btn-warning" v-bind:href="'/Commodity/Details?commodityId='+item.id">Details</a>|
+                         <a class="btn btn-warning" v-bind:href="'/Commodity/Edit?commodityId='+item.id">Edit</a>|
+                         <a class="btn btn-danger" v-bind:href="'/Commodity/DeleteConfirmed?commodityId='+item.id">Delete"</a>
+                     </td>
+                 </tr>
+                 </tbody>
+             </table>
+             <div style="padding:inherit" class="btn-group">
+                 <button class="btn btn-default" v-on:click="previousPage"><span class='glyphicon glyphicon-triangle-left' /></button>
+                 <button class="btn btn-default" v-for="pageNumber in pages" v-on:click="getPageByNumber(pageNumber)">{{pageNumber}}</button>
+                 <button class="btn btn-default" v-on:click="nextPage"><span class='glyphicon glyphicon-triangle-right' /></button>
+             </div>
+         </div>
+       
+     </div>
+
+     <script src="~/js/vue.js"></script>
+     <script src="~/js/axios.js"></script>
+     <script src="//unpkg.com/vue-plain-pagination@0.2.1"></script>
+     <script>
+
+
+
+         var Vue1 = new Vue({
+
+             el: "#tables",
+             data: {
+                 Commodities: [],
+                 page: 1,
+                 CountOnPage: 10,
+                 PageCount: 1,
+                 pages: [],
+                 searchValue: ""
+             },
+             methods: {
+                 getCommodities() {
+                     axios({
+                         method: 'post',
+                         url: '/Commodity/Get',
+                         params: {
+                             page: this.page,
+                             countOnPage: this.CountOnPage,
+                             searchValue: this.searchValue,
+                         }
+                     })
+                         .then(response => {
+                             this.Commodities = response.data;
+                         })
+                         .catch(error => {
+                             console.log(error);
+                         })
+                         .finally();
+                 },
+                 getCommoditiesCount() {
+                     axios({
+                         method: 'post',
+                         url: '/Commodity/GetCommoditiesCount',
+                         params: {
+                             searchValue: this.searchValue,
+
+                         }
+                     })
+                         .then(response => {
+                             if (response.data % this.CountOnPage == 0)
+                                 this.PageCount = response.data / this.CountOnPage;
+                             else
+                                 this.PageCount = (response.data / this.CountOnPage) + 1;
+                             this.pages = [];
+                             for (let i = 1; i <= this.PageCount; i++) {
+                                 this.pages.push(i);
+                             }
+                         })
+                         .catch(error => {
+                             console.log(error);
+                         })
+                         .finally();
+                 },
+                 getData() {
+                     this.getCommodities();
+                     this.getCommoditiesCount();
+                 },
+                 nextPage() {
+                     if (this.page < parseInt(this.PageCount)) {
+                         this.page++;
+                         this.getData();
+                     }
+                 },
+                 previousPage() {
+                     if (this.page > 1) {
+                         this.page--;
+                         this.getData();
+                     }
+                 },
+                 getPageByNumber(pageNum) {
+                     this.page = pageNum;
+                     this.getData();
+                 }
+             },
+             mounted() {
+                 this.getData();
+             }
+
+         });
+
+
+     </script>
+
+
+ </body>
+</html>
