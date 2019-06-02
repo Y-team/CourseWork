@@ -5,47 +5,51 @@
 <div class="container">
 
     <h1>Your OrderCommodities List list</h1>
+    
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="col-md-3">
+                        @Html.DisplayNameFor(model => model.CommodityName)
+                    </th>
+                    <th scope="col" class="col-md-3">
+                        @Html.DisplayNameFor(model => model.IsConfirmeds)
+                    </th>
+                    <th scope="col" class="col-md-3"></th>
+                </tr>
+            </thead>
 
-    <table class="table table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col" class="col-md-3">
-                    @Html.DisplayNameFor(model => model.CommodityName)
-                </th>
-                <th scope="col" class="col-md-3">
-                    @Html.DisplayNameFor(model => model.IsConfirmeds)
-                </th>
-                <th scope="col" class="col-md-3"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CommodityName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsConfirmeds)
-                </td>
-                @if (item.IsConfirmeds)
+            <tbody>
+                @foreach (var item in Model)
                 {
+
+                <tr>
                     <td>
-                        |
-                        <a class="btn btn-success" asp-action="Conirm"><em class="glyphicon glyphicon-check"></em></a> |
+
+                        @Html.DisplayFor(modelItem => item.CommodityId)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.OrderId)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.CommodityName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsConfirmeds)
+                    </td>
+                    
+                    <td>
+                        <a class="btn btn-success" asp-action="Confirm" asp-route-CommodityId="@item.CommodityId"asp-route-OrderId="@item.OrderId"><em class="glyphicon glyphicon-edit"></em></a> |
                         <a class="btn btn-danger" asp-action="Delete"><em class="glyphicon glyphicon-trash"></em></a>
                     </td>
-                }
-                else
-                {
-                    <td>   
-                        <a class="btn btn-danger" asp-action="Delete"><em class="glyphicon glyphicon-trash"></em></a>
-                    </td>
-                }
+                   
 
-            </tr>
-            }
-        </tbody>
-    </table>
+                </tr>
 
+                }
+            </tbody>
+
+        </table>
 </div>

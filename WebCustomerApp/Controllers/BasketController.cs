@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Model.ViewModels.BasketViewModels;
+using Model.ViewModels.OrderViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,16 +20,26 @@ namespace WebApp.Controllers
         private readonly IBasketManager basketManager;
         private readonly IBasketCommoditiesManager basketCommoditiesManager;
         private readonly UserManager<ApplicationUser> userManager;
-        public BasketController(IBasketManager basketManager, IBasketCommoditiesManager basketCommoditiesManager, UserManager<ApplicationUser> userManager)
+        private readonly IOrderUserManager orderUserManager;
+        private readonly IOrderCommoditiesManager orderCommoditiesManager;
+
+        public BasketController(IBasketManager basketManager, 
+            IBasketCommoditiesManager basketCommoditiesManager, 
+            UserManager<ApplicationUser> userManager,
+            IOrderUserManager orderUserManager,
+            IOrderCommoditiesManager orderCommoditiesManager)
         {
             this.basketManager = basketManager;
             this.basketCommoditiesManager = basketCommoditiesManager;
             this.userManager = userManager;
+            this.orderUserManager = orderUserManager;
+            this.orderCommoditiesManager = orderCommoditiesManager;
         }
 
-        public IActionResult Delete(int busketId, int commodityId)
+        public IActionResult Delete(int basketId, int commodityId)
         {
-            basketCommoditiesManager.Delete(busketId, commodityId);
+            ViewData["basketId"] = basketId;
+            basketCommoditiesManager.Delete(basketId, commodityId);
             return RedirectToAction("Index", "Basket");
         }
         [HttpGet]
@@ -48,6 +59,7 @@ namespace WebApp.Controllers
                 };
                 basketU.CommodityUser = basketManager.ShowCommodity(userId);
             }
+            ViewData["basketId"] = basket.Id;
             if (this.User == null)
             {
                 ApplicationUser appUser = new ApplicationUser() { UserName = "NonathorizedUser", Basket = new Basket() };
@@ -64,6 +76,16 @@ namespace WebApp.Controllers
 
         public IActionResult Clean(int basketId)
         {
+            ViewData["basketId"] = basketId;
+            basketCommoditiesManager.Clean(basketId);
+            return RedirectToAction("Index", "Basket",new { basketId = basketId });
+        }
+
+        public IActionResult Confirm(int basketId)
+        {
+
+            orderCommoditiesManager.AddNewOrder(basketId);
+            ViewData["basketId"] = basketId;
             basketCommoditiesManager.Clean(basketId);
             return RedirectToAction("Index", "Basket");
         }

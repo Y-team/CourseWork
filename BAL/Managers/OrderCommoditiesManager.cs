@@ -60,34 +60,23 @@ namespace BAL.Managers
         }
 
         public IEnumerable<OrderCommodityViewModel> ShowOrderForModerUnAccepted(int moderId)
+
+
         {
             var comms = unitOfWork.OrderCommoditieses.Get(b => b.Commodity.ModeratorId == moderId).Where(oc=>oc.IsConfirmeds==false);
 
-            return mapper.Map<IEnumerable<OrderCommodities>, IEnumerable<OrderCommodityViewModel>>(comms);
-
-            
+            var coms =mapper.Map<IEnumerable<OrderCommodities>, IEnumerable<OrderCommodityViewModel>>(comms);
+            foreach (var item in coms)
+            {
+                item.CommodityName = unitOfWork.Commodities.GetById(item.CommodityId).Name;
+            }
+            return coms;
         }
 
         public IEnumerable<OrderCommodityViewModel> ShowAllOrderForModer(int moderId)
         {
 
-
-            //unitOfWork.OrderUsers.Insert(new OrderUser()
-            //{
-            //    DataOrder = DateTime.Now,
-            //    IsConfirmed = false,
-            //    UserId = "5a8af8de-db7e-48ac-9617-6a94fa446d1d"
-            //});
-            //unitOfWork.Save();
-            //var newOrder = unitOfWork.OrderUsers.Get(b => b.UserId == "5a8af8de-db7e-48ac-9617-6a94fa446d1d").First();
-            //OrderCommodities orderCommodities = new OrderCommodities()
-            //{
-            //    CommodityId = 1,
-            //    OrderId = newOrder.Id,
-            //    IsConfirmeds = false
-            //};
-            //unitOfWork.OrderCommoditieses.Insert(orderCommodities);
-            //unitOfWork.Save();
+            
 
             var comms = unitOfWork.OrderCommoditieses.Get(b => b.Commodity.ModeratorId == moderId);
             var commV = mapper.Map<IEnumerable<OrderCommodities>, IEnumerable<OrderCommodityViewModel>>(comms);
@@ -97,6 +86,46 @@ namespace BAL.Managers
                 item.CommodityName = commodity.Name;
             }
             return commV;
+        }
+
+        public void AddNewOrder(int basketId)
+        {
+            var basket = unitOfWork.Baskets.GetById(basketId);
+            if (basket == null) { return; }
+
+            var commodities = unitOfWork.BasketCommoditieses.Get(b => b.BasketId == basketId);
+            if (commodities == null) { return; }
+
+            var order = new OrderUser()
+            {
+                UserId = basket.UserId,
+                DataOrder = DateTime.Now,
+                IsConfirmed = false
+            };
+            unitOfWork.OrderUsers.Insert(order);
+
+            foreach (var item in commodities)
+            {
+                var newOrderCom = new OrderCommodities
+                {
+                    CommodityId = item.CommodityId,
+                    OrderUser = order
+                };
+
+                unitOfWork.OrderCommoditieses.Insert(newOrderCom);
+            }
+
+            unitOfWork.Save();
+           
+        }
+
+        public OrderCommodityViewModel Confirmed(int CommodityId, int OrderId)
+        {
+            var orderComm = unitOfWork.OrderCommoditieses.Get().Where(b => b.CommodityId == CommodityId && b.OrderId == OrderId).FirstOrDefault();
+
+            orderComm.IsConfirmeds = true;
+
+            return mapper.Map<OrderCommodities, OrderCommodityViewModel>(orderComm);
         }
     }
 }
