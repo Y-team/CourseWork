@@ -1,53 +1,55 @@
 ﻿@using Model.ViewModels.CommodityViewModels;
 @model IEnumerable<CommodityUserViewModel>
 @{
-    <div class="container">
+    <html>
+    <head>
+        <link href="~/css/Stylecom.css" rel="stylesheet" />
+    </head>
+    <body>
+    <h1>All commodity </h1>
+    <div class="features">
 
-        <h1>All commodity </h1>
-   
-        <table class="table table-hover">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col" class="col-md-3">
-                   
-                        @Html.DisplayNameFor(model => model.Name)
-                   
-                    </th>
-                    <th scope="col" class="col-md-3">
-                   
-                        @Html.DisplayNameFor(model => model.Price)
 
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
+        <ul class="features__list">
+
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                   
-                    </td>
-                    <td>
-                        <a class="btn btn-warning" asp-action="AddToBasket" asp-controller="Commodity" asp-route-commodityId="@item.Id"><em>Buy</em></a>
-                    </td>
-                    <td>
-                       @Html.DisplayFor(modelItem => item.Price)
-                    </td>  
-                    <td>
-                        @if (item.PhotoName != null)
-                        {
-                            <img class="logo" src=@item.PhotoName alt="logo"/>
-                        }
-                        else
-                        {
-                            <img class="logo" src="~/images/40.png" alt="Placeholder"/>
-                        }
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
 
+                <li class="features__item">
+                    <div class="content">
+                        <div>
+                            @if (item.PhotoName != null)
+                            {
+                                <img class="logo im" src=@item.PhotoName alt="logo"/>
+                            }
+                            else
+                            {
+                                <img class="logo" src="~/images/40.png" alt="Placeholder"/>
+                            }
+                        </div>
+
+                        <h4>
+                            @Html.DisplayNameFor(model => model.Name) : @Html.DisplayFor(modelItem => item.Name)
+                        </h4>
+                        <h4>
+                            @Html.DisplayNameFor(model => model.Price) : @Html.DisplayFor(modelItem => item.Price)
+                        </h4>
+
+
+
+                        <div scope="col" class="">
+                            <a class="btn btn-warning" asp-action="AddToBasket" asp-controller="Commodity" asp-route-commodityId="@item.Id"><em>Buy</em></a>
+
+
+                        </div>
+                    </div>
+
+                </li>
+
+            }
+
+        </ul>
     </div>
+    </body>
+    </html>
 }

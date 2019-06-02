@@ -96,15 +96,19 @@ namespace WebApp.Controllers
             return View(commodity);
         }
 
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = "Moderator,Admin")]
         [HttpGet]
         public IActionResult Index()
         {
-
+            if (User.IsInRole("Admin"))
+            {
+               return View(commodityManager.GetCommodities());
+            }
             var coms = commodityManager.GetModeratorCommodities(moderatorManager.GetThisModerator(
                        this.User.FindFirstValue(ClaimTypes.NameIdentifier)).Id);
             return View(coms);
         }
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult IndexAdmin()
@@ -127,7 +131,7 @@ namespace WebApp.Controllers
             var comms= commodityManager.GetUserCommodities();
             return View(comms);
         }
-   
+      [Authorize]
       public IActionResult AddToBasket(int commodityId)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -165,9 +169,6 @@ namespace WebApp.Controllers
             {
                 var moderatorId = moderatorManager.GetThisModerator(this.User.FindFirstValue(ClaimTypes.NameIdentifier))
                     .Id;
-
-              
-
                 return commodityManager.GetCommodities(moderatorId, page, countOnPage, searchValue);
             }
             else
