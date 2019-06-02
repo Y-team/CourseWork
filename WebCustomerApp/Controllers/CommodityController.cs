@@ -128,6 +128,7 @@ namespace WebApp.Controllers
             return View(comms);
         }
    
+        [Authorize]
       public IActionResult AddToBasket(int commodityId)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

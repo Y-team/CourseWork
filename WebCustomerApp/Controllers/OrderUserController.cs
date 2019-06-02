@@ -40,9 +40,9 @@ namespace WebApp.Controllers
 
             var moderatorId = moderatorManager.GetThisModerator(this.User.FindFirstValue(ClaimTypes.NameIdentifier)).Id;
 
+            var item = orderCommoditiesManager.ShowOrderForModerUnAccepted(moderatorId);
 
-
-            return View(orderCommoditiesManager.ShowAllOrderForModer(moderatorId));
+            return View(item);
         }
 
         [Authorize(Roles = "Moderator")]
@@ -64,13 +64,12 @@ namespace WebApp.Controllers
 
         [Authorize(Roles = "Moderator")]
         
-        public void Confirm(OrderCommodityViewModel item)
+        public IActionResult Confirm(int CommodityId,int OrderId)
         {
-            item.IsConfirmeds = true;
 
-            orderCommoditiesManager.Update(item);
+            orderCommoditiesManager.Update(orderCommoditiesManager.Confirmed(CommodityId,OrderId));
 
-            RedirectToAction("Index","OrderUser");
+            return RedirectToAction("Index","OrderUser");
         }
 
        

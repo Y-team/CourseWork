@@ -9,8 +9,10 @@ namespace BAL.Interfaces
     {
         void Insert(OrderCommodityViewModel item);
         void Update(OrderCommodityViewModel item);
+        void AddNewOrder(int basketId);
         void Delete(int id);
         IEnumerable<OrderCommodityViewModel> ShowAllOrderForModer(int moderId);
         IEnumerable<OrderCommodityViewModel> ShowOrderForModerUnAccepted(int moderId);
+        OrderCommodityViewModel Confirmed(int CommodityId,int OrderId);
     }
 }

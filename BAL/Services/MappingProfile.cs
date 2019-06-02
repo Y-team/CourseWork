@@ -68,12 +68,15 @@ namespace BAL.Services
 
             CreateMap<OrderUser, OrderUserViewModel>().ReverseMap();
             CreateMap<Photo, PhotoViewModel>().ReverseMap();
-            CreateMap<OrderCommodities, OrderCommodityViewModel>()
-                .ForMember(ocview => ocview.CommodityId, oc => oc.MapFrom(src => src.CommodityId))
-                .ForMember(ocview => ocview.CommodityName, oc => oc.MapFrom(src => src.Commodity.Name))
-                .ForMember(ocview => ocview.IsConfirmeds, oc => oc.MapFrom(src => src.IsConfirmeds));
+            CreateMap<OrderCommodities, OrderCommodityViewModel>().ReverseMap();
+            //    .ForMember(ocview => ocview.CommodityId, oc => oc.MapFrom(src => src.CommodityId))
+            //    .ForMember(ocview => ocview.CommodityName, oc => oc.MapFrom(src => src.Commodity.Name))
+            //    .ForMember(ocview => ocview.IsConfirmeds, oc => oc.MapFrom(src => src.IsConfirmeds));
 
-            CreateMap<OrderCommodityViewModel, OrderCommodities>();
+            //CreateMap<OrderCommodityViewModel, OrderCommodities>()
+            //    .ForMember(ocomview => ocomview.CommodityId, oc => oc.MapFrom(src => src.CommodityId))
+            //    .ForMember(ocomview => ocomview.OrderId, oc => oc.MapFrom(src => src.OrderId))
+            //    .ForMember(ocomview => ocomview.IsConfirmeds, oc => oc.MapFrom(src => src.IsConfirmeds));
                
         }
 
