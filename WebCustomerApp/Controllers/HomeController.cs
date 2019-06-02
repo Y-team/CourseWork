@@ -25,6 +25,12 @@ namespace WebCustomerApp.Controllers
             if (User.Identity.IsAuthenticated) { 
             basketManager.GetBusket(this.User.FindFirstValue(ClaimTypes.NameIdentifier), User.Identity.IsAuthenticated);
             }
+
+            if (!User.Identity.IsAuthenticated||( User.Identity.IsAuthenticated && User.IsInRole("User")))
+            {
+                return RedirectToAction("ShowCommodities","Commodity");
+            }
+
             return View();
         }
 

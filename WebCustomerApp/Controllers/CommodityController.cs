@@ -11,7 +11,7 @@ using WebCustomerApp.Models;
 
 namespace WebApp.Controllers
 {
-    [Authorize]
+   
     [Route("[controller]/[action]")]
     public class CommodityController:Controller
     {
@@ -120,7 +120,6 @@ namespace WebApp.Controllers
             return View(commodityManager.Get(commodityId));
         }
 
-        [Authorize(Roles = "Moderator,Admin,User")]
         [HttpGet]
         [AutoValidateAntiforgeryToken]
         public IActionResult ShowCommodities()
