@@ -128,7 +128,16 @@ namespace WebApp.Controllers
             return View(comms);
         }
    
-      
+      public IActionResult AddToBasket(int commodityId)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var bask = basketManager.GetBusket(userId, User.Identity.IsAuthenticated);
+
+            basketCommoditiesManager.Create(bask.Id, commodityId);
+
+            return RedirectToAction("ShowCommodities", "Commodity");
+        }
 
        
 
