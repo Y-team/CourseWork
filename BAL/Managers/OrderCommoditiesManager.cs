@@ -49,6 +49,7 @@ namespace BAL.Managers
             }
            OrderUser order = unitOfWork.OrderUsers.GetById(item.OrderId);
             order.IsConfirmed = true;
+            order.DataConfirmed = DateTime.Now;
             unitOfWork.OrderUsers.Update(order);
             unitOfWork.Save();
 
@@ -67,10 +68,10 @@ namespace BAL.Managers
                 commodities.Add(unitOfWork.Commodities.GetById(it.CommodityId));
             }
             int Count = 5;
-
+            var user = unitOfWork.Users.Get(u => u.Id == orderUser.UserId).FirstOrDefault();
             if (orderUser.IsConfirmed)
             {
-                stringBuilder.AppendFormat("User: {0}", orderUser.User.UserName).AppendLine();
+                stringBuilder.AppendFormat("User: {0}", user.UserName).AppendLine();
                 stringBuilder.AppendFormat("Name -- Count -- Price").AppendLine();
                 foreach (var it in commodities)
                 {
