@@ -19,6 +19,7 @@ namespace Model.Interfaces
         IBaseRepository<BlockedUser> BlockedUsers { get; }
         IBaseRepository<OrderUser> OrderUsers { get; }
         IBaseRepository<OrderCommodities> OrderCommoditieses { get;  }
+        IBaseRepository<Receipt> Receipts { get; }
        
 
 

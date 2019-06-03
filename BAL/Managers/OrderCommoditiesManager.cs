@@ -53,7 +53,52 @@ namespace BAL.Managers
             }
            OrderUser order = unitOfWork.OrderUsers.GetById(item.OrderId);
             order.IsConfirmed = true;
+            order.DataConfirmed = DateTime.Now;
+            unitOfWork.OrderUsers.Update(order);
             unitOfWork.Save();
+
+
+            #region Creating Receipt
+
+            var orderId = order.Id;
+            var orderComs = unitOfWork.OrderCommoditieses.Get().Where(b => b.OrderId == orderId);
+            var orderUser = unitOfWork.OrderUsers.GetById(orderId);
+
+            List<Commodity> commodities = new List<Commodity>();
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (var it in orderComs)
+            {
+                commodities.Add(unitOfWork.Commodities.GetById(it.CommodityId));
+            }
+            int Count = 5;
+            var user = unitOfWork.Users.Get(u => u.Id == orderUser.UserId).FirstOrDefault();
+            if (orderUser.IsConfirmed)
+            {
+                stringBuilder.AppendFormat("User: {0}", user.UserName).AppendLine();
+                stringBuilder.AppendFormat("Name -- Count -- Price").AppendLine();
+                foreach (var it in commodities)
+                {
+                    stringBuilder.AppendFormat("{0}--{1}--{2};", it.Name, Count, it.Price * Count).AppendLine();
+                    //stringBuilder.AppendLine();    
+                }
+                stringBuilder.AppendFormat("Date: {0}", orderUser.DataConfirmed);
+            }
+
+            Receipt receipt = new Receipt()
+            {
+                DateCheck = orderUser.DataConfirmed,
+                Description = stringBuilder.ToString(),
+                UserId = orderUser.UserId
+            };
+
+
+
+            unitOfWork.Receipts.Insert(receipt);
+            unitOfWork.OrderUsers.Delete(orderUser);
+            unitOfWork.Save();
+
+            #endregion
         }
 
         public IEnumerable<OrderUserViewModel> ShowOrderUsers(string userId)

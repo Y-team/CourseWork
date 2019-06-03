@@ -1,0 +1,44 @@
+﻿@using Model.ViewModels.ReceiptViewModels
+@model IEnumerable<ReceiptViewModel>
+@{
+}
+<div class="container">
+
+    <h1>Your Receiptions</h1>
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="col-md-3">
+                    @Html.DisplayNameFor(Model => Model.First().Description)
+                </th>
+                
+                <th scope="col" class="col-md-3"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.DateCheck)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                                      
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+</div>

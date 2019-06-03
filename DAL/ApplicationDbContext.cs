@@ -26,6 +26,7 @@ namespace WebCustomerApp.Data
         public DbSet<BlockedUser> BlokedUsers{ get; set; }
         public DbSet<OrderUser> OrderUsers { get; set; }
         public  DbSet<OrderCommodities> OrderCommoditieses { get; set; }
+        public DbSet<Receipt> Receipts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -45,6 +46,7 @@ namespace WebCustomerApp.Data
             builder.Entity<Photo>().HasKey(i => i.Id);
             builder.Entity<BlockedUser>().HasKey(i => i.Id);
             builder.Entity<OrderUser>().HasKey(i => i.Id);
+            builder.Entity<Receipt>().HasKey(i => i.Id);
 
             // Compound key for Many-To-Many joining table
 
@@ -89,6 +91,7 @@ namespace WebCustomerApp.Data
                 .WithOne(c => c.Commodity)
                 .HasForeignKey(bc => bc.CommodityId)
                 .OnDelete(DeleteBehavior.Cascade);
+
             builder.Entity<Basket>()
                 .HasMany(bc => bc.BasketCommoditieses)
                 .WithOne(b => b.Basket)

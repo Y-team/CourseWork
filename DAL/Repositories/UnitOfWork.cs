@@ -22,7 +22,7 @@ namespace DAL.Repositories
         private IBaseRepository<OrderUser> orderUserRepo;
         private IBaseRepository<OrderCommodities> ordercomoditiesRepo;
         private IBaseRepository<Photo> photoRepo;
-
+        private IBaseRepository<Receipt> receiptRepo;
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -121,7 +121,16 @@ namespace DAL.Repositories
             }
         }
 
-     
+        public IBaseRepository<Receipt> Receipts
+        {
+            get
+            {
+                if (receiptRepo == null) { receiptRepo = new BaseRepository<Receipt>(context); }
+                return receiptRepo;
+            }
+        }
+
+
         #endregion
         public int Save()
         {
