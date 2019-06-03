@@ -113,6 +113,7 @@ namespace WebCustomerApp
             services.AddScoped<IBasketCommoditiesManager, BasketCommoditiesManager>();
             services.AddTransient<IFileIoWrapper, FileIoWrapper>();
             services.AddTransient<IOrderCommoditiesManager, OrderCommoditiesManager>();
+            services.AddTransient<IReceiptManager, ReceiptManager>();
             // Start scheduler
 
           

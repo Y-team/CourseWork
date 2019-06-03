@@ -40,5 +40,11 @@ namespace BAL.Managers
             unitOfWork.Save();
         }
 
+        public IEnumerable<BasketCommodities> GetBasketCommodities(int basketId)
+        {
+            var baskets = unitOfWork.BasketCommoditieses.Get().Where(b => b.BasketId == basketId);
+
+            return baskets;
+        }
     }
 }

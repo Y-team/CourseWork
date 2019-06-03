@@ -15,6 +15,7 @@ using Model.ViewModels.OrderViewModels;
 using Model.ViewModels.PhoneViewModels;
 using System.IO;
 using Model.ViewModels.OrderCommodityViewModels;
+using Model.ViewModels.ReceiptViewModels;
 
 namespace BAL.Services
 {
@@ -69,14 +70,10 @@ namespace BAL.Services
             CreateMap<OrderUser, OrderUserViewModel>().ReverseMap();
             CreateMap<Photo, PhotoViewModel>().ReverseMap();
             CreateMap<OrderCommodities, OrderCommodityViewModel>().ReverseMap();
-            //    .ForMember(ocview => ocview.CommodityId, oc => oc.MapFrom(src => src.CommodityId))
-            //    .ForMember(ocview => ocview.CommodityName, oc => oc.MapFrom(src => src.Commodity.Name))
-            //    .ForMember(ocview => ocview.IsConfirmeds, oc => oc.MapFrom(src => src.IsConfirmeds));
 
-            //CreateMap<OrderCommodityViewModel, OrderCommodities>()
-            //    .ForMember(ocomview => ocomview.CommodityId, oc => oc.MapFrom(src => src.CommodityId))
-            //    .ForMember(ocomview => ocomview.OrderId, oc => oc.MapFrom(src => src.OrderId))
-            //    .ForMember(ocomview => ocomview.IsConfirmeds, oc => oc.MapFrom(src => src.IsConfirmeds));
+            CreateMap<Receipt, ReceiptViewModel>().ReverseMap();
+
+       
                
         }
 

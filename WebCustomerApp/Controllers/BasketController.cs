@@ -83,10 +83,14 @@ namespace WebApp.Controllers
 
         public IActionResult Confirm(int basketId)
         {
+            int basketCom = basketCommoditiesManager.GetBasketCommodities(basketId).Count();
+            if (basketCom >= 1)
+            {
+                orderCommoditiesManager.AddNewOrder(basketId);
+                ViewData["basketId"] = basketId;
+                basketCommoditiesManager.Clean(basketId);
+            }
 
-            orderCommoditiesManager.AddNewOrder(basketId);
-            ViewData["basketId"] = basketId;
-            basketCommoditiesManager.Clean(basketId);
             return RedirectToAction("Index", "Basket");
         }
     }
