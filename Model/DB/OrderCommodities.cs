@@ -11,5 +11,7 @@ namespace WebCustomerApp.Models
         public  int OrderId { get; set; }
         public OrderUser OrderUser { get; set; }
         public bool IsConfirmeds { get; set; }
+
+        public int Amount { get; set; }
     }
 }

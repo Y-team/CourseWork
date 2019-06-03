@@ -11,5 +11,7 @@ namespace WebCustomerApp.Models
 
         public int CommodityId { get; set; }
         public  Commodity Commodity { get; set; }
+
+        public int Amount { get; set; }
     }
 }

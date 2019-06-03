@@ -41,7 +41,7 @@ namespace BAL.Managers
             return mapper.Map<Basket, BasketViewModel>(bask);
         }
 
-        public BasketViewModel GetBusket(string userId,bool authorization)
+        public BasketCommoditiesUserViewModel GetBasket(string userId,bool authorization)
         {
 
             Basket bask = unitOfWork.Baskets.Get(b => b.UserId == userId).FirstOrDefault();
@@ -54,7 +54,7 @@ namespace BAL.Managers
                 bask = unitOfWork.Baskets.Get(b => b.UserId == userId).FirstOrDefault();
                 unitOfWork.Save();
             }
-            return mapper.Map<Basket, BasketViewModel>(bask);
+            return mapper.Map<Basket, BasketCommoditiesUserViewModel>(bask);
             
            
         }
@@ -89,12 +89,12 @@ namespace BAL.Managers
             unitOfWork.Save();
         }
 
-        public IEnumerable<CommodityUserViewModel> ShowCommodity(string userId)
+        public IEnumerable<CommodityBasketViewModel> ShowCommodity(string userId)
         {
             var bask = unitOfWork.Baskets.Get(b => b.UserId == userId).FirstOrDefault();
 
 
-            var basketComs = unitOfWork.BasketCommoditieses.GetAll().Where(b => b.BasketId == bask.Id);
+            var basketComs = unitOfWork.BasketCommoditieses.GetAll().Where(b => b.BasketId == bask.Id).ToList();
             List<Commodity> commodities = new List<Commodity>();
             foreach (var item in basketComs)
             {
@@ -104,7 +104,15 @@ namespace BAL.Managers
                     commodities.Add(com);
                 }
             }
-            return mapper.Map<IEnumerable<Commodity>, IEnumerable <CommodityUserViewModel>>(commodities);
+
+            var viewComms= mapper.Map<IEnumerable<Commodity>, List<CommodityBasketViewModel>>(commodities);
+
+            for (int i=0;i<basketComs.Count();i++)
+           {
+               viewComms[i].Amount = basketComs[i].Amount;
+           }
+
+            return viewComms;
         }
     }
 }

@@ -12,6 +12,9 @@
             <td scope="col" class="col-md-1">
                 <a class="btn btn-danger" asp-action="Clean" asp-route-basketId="@ViewData["basketId"]"><em>Clean</em></a>
             </td>
+            <td scope="col" class="col-md-1">
+                <a class="btn btn-danger" asp-action="Save" asp-route-basket="@Model"><em>Save</em></a>
+            </td>
             <td scope="col" class="col-md-11">
                 <a class="btn btn-success" asp-action="Confirm" asp-route-basketId="@ViewData["basketId"]"><em>Confirm</em></a>
             </td>
@@ -33,29 +36,32 @@
 
             @foreach (var item in Model.CommodityUser)
             {
-                <tr>
-                    <td>        
-                            @if (item.PhotoName != null)
-                            {
-                                <img class="logo basket-paint" src=@item.PhotoName alt="logo" />
-                            }
-                            else
-                            {
-                                <img class="logo basket-paint" src="~/images/43.png" alt="Placeholder" />
-                            }           
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
+            <tr>
+                <td>
+                    @if (item.PhotoName != null)
+                    {
+                        <img class="logo basket-paint" src=@item.PhotoName alt="logo" />
+                    }
+                    else
+                    {
+                        <img class="logo basket-paint" src="~/images/43.png" alt="Placeholder" />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
 
-                    <td>  
-                        <a class="btn btn-warning" asp-action="Delete" asp-route-basketId="@ViewData["basketId"]" asp-route-commodityId = "@item.Id"><em class="glyphicon glyphicon-trash"></em></a> |
+                <td>
+                    <a class="btn btn-warning" asp-action="Delete" asp-route-basketId="@ViewData["basketId"]" asp-route-commodityId="@item.Id"><em class="glyphicon glyphicon-trash"></em></a> |
 
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
             }
         </tbody>

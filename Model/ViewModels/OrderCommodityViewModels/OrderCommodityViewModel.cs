@@ -13,6 +13,11 @@ namespace Model.ViewModels.OrderCommodityViewModels
         public bool IsConfirmeds { get; set; }
         [Display(Name ="Commodity Name")]
         public string CommodityName{get;set;}
+
+        [Required(ErrorMessage = "The Amount field is required.")]
+        [Display(Name = "Amount")]
+        [Range(1, 999, ErrorMessage = "Amount  range {0} ... {1}")]
+        public int Amount { get; set; }
     }
 
 }

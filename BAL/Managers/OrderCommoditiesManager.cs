@@ -28,6 +28,10 @@ namespace BAL.Managers
         public void Insert(OrderCommodityViewModel item)
         {
             OrderCommodities orderCommodities = mapper.Map<OrderCommodityViewModel, OrderCommodities>(item);
+            if (orderCommodities.Amount <= 0)
+            {
+                orderCommodities.Amount = 1;
+            }
             unitOfWork.OrderCommoditieses.Insert(orderCommodities);
             unitOfWork.Save();
         }

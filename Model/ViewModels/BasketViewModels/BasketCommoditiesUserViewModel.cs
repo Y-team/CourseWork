@@ -17,6 +17,6 @@ namespace Model.ViewModels.BasketViewModels
         [Display(Name = "User Name")]
         public string UserName { get; set; }
 
-        public IEnumerable<CommodityUserViewModel> CommodityUser { get; set; }
+        public IEnumerable<CommodityBasketViewModel> CommodityUser { get; set; }
     }
 }

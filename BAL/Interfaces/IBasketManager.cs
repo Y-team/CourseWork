@@ -10,11 +10,11 @@ namespace BAL.Interfaces
     public interface IBasketManager
     {
         BasketViewModel Get(int id);
-        BasketViewModel GetBusket(string userId, bool authorization);
+        BasketCommoditiesUserViewModel GetBasket(string userId, bool authorization);
         void Insert(string userId);
         void Update(BasketViewModel item);
         void Delete(int id);
-        IEnumerable<CommodityUserViewModel> ShowCommodity(string userId);
+        IEnumerable<CommodityBasketViewModel> ShowCommodity(string userId);
         void CreateBasket(string userId);
     }
 }

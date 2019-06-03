@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Model.ViewModels.CommodityViewModels;
 using WebCustomerApp.Models;
 
 namespace WebApp.Controllers
@@ -47,7 +48,7 @@ namespace WebApp.Controllers
         {
             BasketCommoditiesUserViewModel basketU = new BasketCommoditiesUserViewModel();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var basket = basketManager.GetBusket(userId, User.Identity.IsAuthenticated);
+            var basket = basketManager.GetBasket(userId, User.Identity.IsAuthenticated);
             if (basket != null)
             {
                 basketU = new BasketCommoditiesUserViewModel()
@@ -89,5 +90,14 @@ namespace WebApp.Controllers
             basketCommoditiesManager.Clean(basketId);
             return RedirectToAction("Index", "Basket");
         }
+        public IActionResult Save(BasketCommoditiesUserViewModel basket)
+        {
+            IEnumerable<CommodityBasketViewModel> commodities = basket.CommodityUser;
+
+         basketCommoditiesManager.Update(commodities,basket.Id);
+
+            return RedirectToAction("Index", "Basket");
+        }
+
     }
 }

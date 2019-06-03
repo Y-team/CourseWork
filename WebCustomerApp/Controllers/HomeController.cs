@@ -23,7 +23,7 @@ namespace WebCustomerApp.Controllers
         public IActionResult Index()
         {
             if (User.Identity.IsAuthenticated) { 
-            basketManager.GetBusket(this.User.FindFirstValue(ClaimTypes.NameIdentifier), User.Identity.IsAuthenticated);
+            basketManager.GetBasket(this.User.FindFirstValue(ClaimTypes.NameIdentifier), User.Identity.IsAuthenticated);
             }
 
             if (!User.Identity.IsAuthenticated||( User.Identity.IsAuthenticated && User.IsInRole("User")))

@@ -16,6 +16,9 @@ namespace BAL.Interfaces
         void Update(ModeratorViewModel item);
         void Delete(int id);
         ModeratorViewModel GetThisModerator(string userId);
+        int GetModeratorsCount(string searchValue);
+        IEnumerable<ModeratorViewModel> GetModerators(int page, int countOnPage, string searchValue);
+
 
 
     }

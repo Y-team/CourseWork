@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Model.ViewModels.BasketViewModels;
+using Model.ViewModels.CommodityViewModels;
 using WebCustomerApp.Models;
 
 namespace BAL.Managers
@@ -14,6 +16,27 @@ namespace BAL.Managers
         public BasketCommoditiesManager(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
 
+        }
+
+
+        public void Update(IEnumerable<CommodityBasketViewModel> basketComms, int basketId)
+        {
+            try
+            {
+                foreach (var item in basketComms)
+                {
+                    unitOfWork.BasketCommoditieses.Update(
+                        new BasketCommodities()
+                        {
+                            CommodityId = item.Id,
+                            BasketId = basketId,
+                            Amount = item.Amount
+                        });
+                }
+            }
+            catch { return;}
+
+            unitOfWork.Save();
         }
 
         public void Delete(int basketId, int commodityId)
@@ -35,7 +58,7 @@ namespace BAL.Managers
 
         public void Create(int basketId, int commodityId)
         {
-            BasketCommodities basketCommodities = new BasketCommodities() { BasketId = basketId,CommodityId = commodityId };
+            BasketCommodities basketCommodities = new BasketCommodities() { BasketId = basketId,CommodityId = commodityId , Amount = 1};
             unitOfWork.BasketCommoditieses.Insert(basketCommodities);
             unitOfWork.Save();
         }

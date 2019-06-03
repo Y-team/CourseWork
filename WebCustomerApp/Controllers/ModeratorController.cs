@@ -116,5 +116,29 @@ namespace WebApp.Controllers
             }
             return RedirectToAction("Index", "Moderator");
         }
+
+        public int GetModeratorsCount(string searchValue)
+        {
+            if (searchValue == null)
+            {
+                searchValue = "";
+            }
+            if (!User.Identity.IsAuthenticated)
+            {
+                return 0;
+            }
+            return moderatorManager.GetModeratorsCount(searchValue);
+        }
+
+        public IEnumerable<ModeratorViewModel> Get(int page, int countOnPage, string searchValue)
+        {
+            if (searchValue == null)
+            {
+                searchValue = "";
+            }
+           
+               return moderatorManager.GetModerators(page, countOnPage, searchValue);
+           
+        }
     }
 }

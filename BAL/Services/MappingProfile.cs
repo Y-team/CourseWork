@@ -47,7 +47,10 @@ namespace BAL.Services
             CreateMap<Commodity, CommodityUserViewModel>()
                 .ForMember(ovm => ovm.PhotoName, opt => opt.MapFrom(com => GetPhoto(com)));
             CreateMap<CommodityUserViewModel, Commodity>();
-
+            CreateMap<Commodity, CommodityBasketViewModel>()
+                .ForMember(ovm => ovm.PhotoName, opt => opt.MapFrom(com => GetPhoto(com)));
+            CreateMap<Basket, BasketCommoditiesUserViewModel>().ReverseMap();
+            CreateMap<CommodityBasketViewModel, Commodity>();
 
             CreateMap<LongDescription, LongDescriptionViewModel>().ReverseMap();
 

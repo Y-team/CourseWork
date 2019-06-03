@@ -76,5 +76,40 @@ namespace BAL.Managers
             Moderator moder = unitOfWork.Moderators.Get(m => m.UserId == userId).FirstOrDefault();
             return mapper.Map<Moderator, ModeratorViewModel>(moder);
         }
+
+        public IEnumerable<ModeratorViewModel> GetModerators(int page, int countOnPage, string searchValue)
+        {
+            IEnumerable<Moderator> moders = unitOfWork.Moderators.GetAll();
+
+            var modersView = mapper.Map<IEnumerable<Moderator>, List<ModeratorViewModel>>(moders);
+            foreach (var moder in modersView)
+            {
+                var timeU = unitOfWork.Users.Get(u => u.Id == moder.UserId).First();
+                moder.Email = timeU.Email;
+                moder.UserName = timeU.UserName;
+            }
+          var view=  modersView.Where(m =>
+                    m.NameCompany.Contains(searchValue)|| m.Email.Contains(searchValue)||m.UserName.Contains(searchValue))
+                .Skip((page - 1) * countOnPage).Take(countOnPage);
+            return view;
+        }
+        public int GetModeratorsCount(string searchValue)
+        {
+            IEnumerable<Moderator> moders = unitOfWork.Moderators.GetAll();
+
+            var modersView = mapper.Map<IEnumerable<Moderator>, List<ModeratorViewModel>>(moders);
+            foreach (var moder in modersView)
+            {
+                var timeU = unitOfWork.Users.Get(u => u.Id == moder.UserId).First();
+                moder.Email = timeU.Email;
+                moder.UserName = timeU.UserName;
+            }
+
+            var view = modersView.Where(m =>
+                m.NameCompany.Contains(searchValue) || m.Email.Contains(searchValue) ||
+                m.UserName.Contains(searchValue)).Count();
+            return view;
+        }
+
     }
 }

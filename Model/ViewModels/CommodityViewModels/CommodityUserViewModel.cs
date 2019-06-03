@@ -18,6 +18,10 @@ namespace Model.ViewModels.CommodityViewModels
         public decimal Price { get; set; }
 
         public int ModeratorId { get; set; }
+        [Required(ErrorMessage = "The Description field is required.")]
+        [Display(Name = "Description")]
+        [StringLength(150)]
+        public string Description { get; set; }
 
         [Display(Name = "Photo")]
         public string PhotoName { get; set; }
