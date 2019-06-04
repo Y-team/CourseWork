@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using BAL.Interfaces;
 using BAL.Managers;
 using Model.ViewModels.BlokedUserBiewModels;
+using WebCustomerApp.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApp.Controllers
 {
@@ -15,10 +17,11 @@ namespace WebApp.Controllers
         public class BlockedUserController : Controller
         {
             private readonly  IBlockedUserManager blockedUserManager;
-
-            public BlockedUserController(IBlockedUserManager blockedUser)
+            private readonly UserManager<ApplicationUser> userManager;
+        public BlockedUserController(IBlockedUserManager blockedUser, UserManager<ApplicationUser> userManager)
             {
                 this.blockedUserManager = blockedUser;
+                this.userManager = userManager;
             }
 
         [HttpGet]
@@ -28,7 +31,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
             return View();
         }
@@ -88,13 +91,21 @@ namespace WebApp.Controllers
 
         
         [HttpPost]
-        public IActionResult Create(BlockedUserViewModel item)
+        public async Task<IActionResult> CreateAsync(BlockedUserViewModel item)
         {
             if (ModelState.IsValid)
             {
                 blockedUserManager.Insert(item);
             }
+            ApplicationUser user = blockedUserManager.GetUserByEmail(item.Email);
+            if (user == null)
+            {
+                return RedirectToAction("Index", "BlockedUser");
+            }
+            await userManager.RemoveFromRoleAsync(user, "BlockedUser");
+            await userManager.AddToRoleAsync(user, "BlockedUser");
 
+            await userManager.UpdateAsync(user);
 
             return RedirectToAction("Index", "BlockedUser");
         }

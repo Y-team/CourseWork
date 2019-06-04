@@ -211,6 +211,13 @@ namespace WebCustomerApp
                     IdentityResult roleResult = roleManager.
                     CreateAsync(role).Result;
                 }
+                if (!roleManager.RoleExistsAsync("BlockedUser").Result)
+                {
+                    IdentityRole role = new IdentityRole();
+                    role.Name = "BlockedUser";
+                    IdentityResult roleResult = roleManager.
+                        CreateAsync(role).Result;
+                }
             }
         }
 

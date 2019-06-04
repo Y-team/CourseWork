@@ -37,7 +37,7 @@ namespace BAL.Managers
         }
          public ApplicationUser GetUserByEmail(string email)
          {
-             var moderator = unitOfWork.Users.GetAll().Where(u => u.Email == email).FirstOrDefault();
+             var moderator = unitOfWork.Users.Get(u => u.Email == email).FirstOrDefault();
            
              return moderator;
         }

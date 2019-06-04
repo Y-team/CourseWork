@@ -10,13 +10,14 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using WebCustomerApp.Models;
+using WebCustomerApp.Models.AccountViewModels;
 using WebCustomerApp.Services;
 
 namespace BAL.Managers
 {
     public class OrderCommoditiesManager: BaseManager,IOrderCommoditiesManager
     {
-        private readonly IEmailSender emailSender;
+       
         public OrderCommoditiesManager(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
 
@@ -79,15 +80,15 @@ namespace BAL.Managers
             var user = unitOfWork.Users.Get(u => u.Id == orderUser.UserId).FirstOrDefault();
             if (orderUser.IsConfirmed)
             {
-                stringBuilder.AppendFormat("User: {0}", user.UserName).AppendLine();
-                stringBuilder.AppendFormat("Name -- Count -- Price").AppendLine();
+                stringBuilder.AppendFormat("User: {0}</br>", user.UserName).AppendLine();
+                stringBuilder.AppendFormat("Name -- Count -- Price</br>").AppendLine();
                 foreach (var it in commodities)
                 {
                     //var basketCom = unitOfWork.BasketCommoditieses.Get().Where(b => b.CommodityId == it.Id).FirstOrDefault();
-                    stringBuilder.AppendFormat("{0}--{1}--{2};", it.Name, 5, it.Price * 5).AppendLine();
+                    stringBuilder.AppendFormat("{0}--{1}--{2};</br>", it.Name, 5, it.Price * 5).AppendLine();
                     //stringBuilder.AppendLine();    
                 }
-                stringBuilder.AppendFormat("Date: {0}", orderUser.DataConfirmed);
+                stringBuilder.AppendFormat("Date: {0}</br>", orderUser.DataConfirmed);
             }
 
             Receipt receipt = new Receipt()
@@ -96,8 +97,12 @@ namespace BAL.Managers
                 Description = stringBuilder.ToString(),
                 UserId = orderUser.UserId
             };
-
-
+            string mail = receipt.Description;
+            
+            EmailSender emailSender =new EmailSender();
+           
+                emailSender.SendEmail(user.Email, "Y-Team Store", $"You check :\n{mail}");
+            
 
             unitOfWork.Receipts.Insert(receipt);
             unitOfWork.OrderUsers.Delete(orderUser);

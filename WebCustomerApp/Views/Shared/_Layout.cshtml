@@ -41,7 +41,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>@ViewData["Title"] SmsService</title>
+    <title>@ViewData["Title"] Y-Team</title>
     <environment include="Development">
         <link rel="stylesheet" href="~/css/style2.css">
         <link href="~/css/bootstrap.min.css" rel="stylesheet" />
@@ -73,7 +73,7 @@
                 <span class="logo-lg"><strong>Y</strong>-Team</span>
             </a>
             <nav class="navbar navbar-static-top">
-                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <a href="#"  class="sidebar-toggle" data-toggle="push-menu" role="button">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -83,17 +83,7 @@
                     <ul class="nav navbar-nav">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="dropdown notifications-menu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" onclick="onNotificationsOpened(); fillReport();">
-                                    <em class="fa fa-bell-o"></em>
-                                    <span class="label label-warning" id="notificationBadge"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li id="notificationMenu">
-                                    </li>
-                                    <li class="footer"><a role="button" data-toggle="modal" data-target="#notificationModal" onclick="fillModal();">View all</a></li>
-                                </ul>
-                            </li>
+                            
                         }
                        
                         <li class="dropdown user user-menu">
@@ -142,7 +132,18 @@
                 <ul class="sidebar-menu" data-widget="tree">
                     @if (!User.Identity.IsAuthenticated)
                     {
-
+                        <li>
+                            <a asp-area="" asp-controller="Account" asp-action="NewRegister">
+                                <em class="fa fa-list-ul"></em><span>Register</span>
+                                <span class="pull-right-container"> </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Account" asp-action="NewLogin">
+                                <em class="fa fa-list-ul"></em><span>Log in</span>
+                                <span class="pull-right-container"> </span>
+                            </a>
+                        </li>
                     }
                     @if (User.Identity.IsAuthenticated)
                     { <li>
@@ -176,6 +177,18 @@
                             <ul class="treeview-menu">
                                 <li><a asp-controller="Moderator" asp-action="Create"><em class="fa fa-plus-circle"></em>Create</a></li>
                                 <li><a asp-controller="Moderator" asp-action="Index"><em class="fa fa-list-ul"></em>List moderators</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <em class="fa fa-stop"></em> <span>Blocked User</span>
+                                <span class="pull-right-container">
+                                    <em class="fa fa-angle-left pull-right"></em>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a asp-controller="BlockedUser" asp-action="CreateAsync"><em class="fa fa-plus-circle"></em>Create</a></li>
+                                <li><a asp-controller="BlockedUser" asp-action="Index"><em class="fa fa-list-ul"></em>List User</a></li>
                             </ul>
                         </li>
 

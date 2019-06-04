@@ -114,7 +114,6 @@ namespace WebCustomerApp.Data
 
             builder.Entity<BasketCommodities>().HasKey(r => new { r.BasketId, r.CommodityId });
             builder.Entity<OrderCommodities>().HasKey(r => new { r.OrderId, r.CommodityId });
-
             
         }
     }
