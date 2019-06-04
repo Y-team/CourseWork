@@ -17,10 +17,10 @@ namespace BAL.Managers
         {
 
         }
-
-        public void Delete(int id)
+       
+        public void Delete(int commodityId, int orderId)
         {
-            OrderCommodities orderCom = unitOfWork.OrderCommoditieses.GetById(id);
+            OrderCommodities orderCom = unitOfWork.OrderCommoditieses.Get(oc => oc.CommodityId == commodityId && oc.OrderId == orderId).First();
             unitOfWork.OrderCommoditieses.Delete(orderCom);
             unitOfWork.Save();
         }
@@ -28,6 +28,7 @@ namespace BAL.Managers
         public void Insert(OrderCommodityViewModel item)
         {
             OrderCommodities orderCommodities = mapper.Map<OrderCommodityViewModel, OrderCommodities>(item);
+            
             if (orderCommodities.Amount <= 0)
             {
                 orderCommodities.Amount = 1;
@@ -66,6 +67,7 @@ namespace BAL.Managers
 
             List<Commodity> commodities = new List<Commodity>();
             StringBuilder stringBuilder = new StringBuilder();
+            
 
             foreach (var it in orderComs)
             {
@@ -75,15 +77,15 @@ namespace BAL.Managers
             var user = unitOfWork.Users.Get(u => u.Id == orderUser.UserId).FirstOrDefault();
             if (orderUser.IsConfirmed)
             {
-                stringBuilder.AppendFormat("User: {0}", user.UserName).AppendLine();
-                stringBuilder.AppendFormat("Name -- Count -- Price").AppendLine();
+                stringBuilder.AppendFormat("User: {0}</br>", user.UserName).AppendLine();
+                stringBuilder.AppendFormat("Name -- Count -- Price</br>").AppendLine();
                 foreach (var it in commodities)
                 {
                     //var basketCom = unitOfWork.BasketCommoditieses.Get().Where(b => b.CommodityId == it.Id).FirstOrDefault();
-                    stringBuilder.AppendFormat("{0}--{1}--{2};", it.Name, 5, it.Price * 5).AppendLine();
+                    stringBuilder.AppendFormat("{0}--{1}--{2};</br>", it.Name, 5, it.Price * 5).AppendLine();
                     //stringBuilder.AppendLine();    
                 }
-                stringBuilder.AppendFormat("Date: {0}", orderUser.DataConfirmed);
+                stringBuilder.AppendFormat("Date: {0}</br>", orderUser.DataConfirmed);
             }
 
             Receipt receipt = new Receipt()
@@ -159,7 +161,9 @@ namespace BAL.Managers
                 var newOrderCom = new OrderCommodities
                 {
                     CommodityId = item.CommodityId,
-                    OrderUser = order
+                    OrderUser = order,
+                    Amount = unitOfWork.BasketCommoditieses.Get(bc => bc.CommodityId == item.CommodityId).First().Amount
+                    
                 };
 
                 unitOfWork.OrderCommoditieses.Insert(newOrderCom);

@@ -40,6 +40,14 @@ namespace WebApp.Controllers
 
             var moderatorId = moderatorManager.GetThisModerator(this.User.FindFirstValue(ClaimTypes.NameIdentifier)).Id;
 
+            var item = orderCommoditiesManager.ShowAllOrderForModer(moderatorId);
+
+            return View(item);
+        }
+        public IActionResult UnConfirmed()
+        {
+            var moderatorId = moderatorManager.GetThisModerator(this.User.FindFirstValue(ClaimTypes.NameIdentifier)).Id;
+
             var item = orderCommoditiesManager.ShowOrderForModerUnAccepted(moderatorId);
 
             return View(item);
@@ -47,9 +55,9 @@ namespace WebApp.Controllers
 
         [Authorize(Roles = "Moderator")]
         [HttpGet]
-       public IActionResult Delete(int id)
+       public IActionResult Delete(int commodityId, int orderId)
         {
-            orderUserManager.Delete(id);
+            orderCommoditiesManager.Delete(commodityId,orderId);
             return RedirectToAction("Index", "OrderUser");
         }
 

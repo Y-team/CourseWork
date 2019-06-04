@@ -15,5 +15,7 @@ namespace BAL.Interfaces
         void Update(IEnumerable<CommodityBasketViewModel> basketComms,int basketId);
         void Create(int basketId, int commodityId);
         IEnumerable<BasketCommodities> GetBasketCommodities (int basketId);
+        void PlusOne(int basketId, int commodityId);
+        void MinusOne(int basketId, int commodityId);
     }
 }

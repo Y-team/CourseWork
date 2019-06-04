@@ -36,7 +36,16 @@ namespace WebApp.Controllers
             this.orderUserManager = orderUserManager;
             this.orderCommoditiesManager = orderCommoditiesManager;
         }
-
+        public IActionResult PlusOne(int basketId, int commodityId)
+        {
+            basketCommoditiesManager.PlusOne(basketId, commodityId);
+            return RedirectToAction("Index", "Basket");
+        }
+        public IActionResult MinusOne(int basketId, int commodityId)
+        {
+            basketCommoditiesManager.MinusOne(basketId, commodityId);
+            return RedirectToAction("Index", "Basket");
+        }
         public IActionResult Delete(int basketId, int commodityId)
         {
             ViewData["basketId"] = basketId;
@@ -102,6 +111,8 @@ namespace WebApp.Controllers
 
             return RedirectToAction("Index", "Basket");
         }
+
+
 
     }
 }

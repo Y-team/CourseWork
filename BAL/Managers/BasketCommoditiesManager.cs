@@ -74,6 +74,29 @@ namespace BAL.Managers
             }
         }
 
+        public void PlusOne(int basketId, int commodityId)
+        {
+            var basCom = unitOfWork.BasketCommoditieses.Get(bc => bc.CommodityId == commodityId && bc.BasketId == basketId).FirstOrDefault();
+            if (basCom.Amount <= 999)
+            {
+                basCom.Amount++;
+                unitOfWork.BasketCommoditieses.Update(basCom);
+                unitOfWork.Save();
+            }
+            
+        }
+
+        public void MinusOne(int basketId, int commodityId)
+        {
+            var basCom = unitOfWork.BasketCommoditieses.Get(bc => bc.CommodityId == commodityId && bc.BasketId == basketId).FirstOrDefault();
+            if (basCom.Amount > 1)
+            {
+                basCom.Amount--;
+                unitOfWork.BasketCommoditieses.Update(basCom);
+                unitOfWork.Save();
+            }
+        }
+
         public IEnumerable<BasketCommodities> GetBasketCommodities(int basketId)
         {
             var baskets = unitOfWork.BasketCommoditieses.Get().Where(b => b.BasketId == basketId);

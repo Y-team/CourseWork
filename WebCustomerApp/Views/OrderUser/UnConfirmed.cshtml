@@ -1,0 +1,56 @@
+﻿@using Model.ViewModels.OrderCommodityViewModels
+@model IEnumerable<OrderCommodityViewModel>
+@{
+}
+<div class="container">
+
+    <h1>Your unconfirmed commodities</h1>
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="col-md-3">
+                    <h3>Quantity of commodity</h3>
+                </th>
+                <th scope="col" class="col-md-3">
+                    <h3>Name of Commodity</h3>
+                </th>
+                <th scope="col" class="col-md-3"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.CommodityName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsConfirmeds)
+                    </td>
+                    @if (!item.IsConfirmeds)
+                    {
+                        <td>
+                            <a class="btn btn-success" asp-action="Confirm" asp-route-CommodityId="@item.CommodityId" asp-route-OrderId="@item.OrderId"><em class="glyphicon glyphicon-edit"></em></a> |
+                        </td>
+                    }
+                    else if (item.IsConfirmeds)
+                    {
+                        <td></td>
+                    }
+
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+</div>

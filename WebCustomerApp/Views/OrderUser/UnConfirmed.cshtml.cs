@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebApp.Views.OrderUser
 {
-    public class CconfirmingModel : PageModel
+    public class UnConfirmedModel : PageModel
     {
         public void OnGet()
         {

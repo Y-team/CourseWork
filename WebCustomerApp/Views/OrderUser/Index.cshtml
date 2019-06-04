@@ -4,16 +4,16 @@
 }
 <div class="container">
 
-    <h1>Your OrderCommodities List list</h1>
+    <h1>Your sold commodities</h1>
     
         <table class="table table-hover">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col" class="col-md-3">
-                        @Html.DisplayNameFor(model => model.CommodityName)
+                        <h3>Quantity of commodity</h3>
                     </th>
                     <th scope="col" class="col-md-3">
-                        @Html.DisplayNameFor(model => model.IsConfirmeds)
+                        <h3>Name of Commodity</h3>
                     </th>
                     <th scope="col" class="col-md-3"></th>
                 </tr>
@@ -26,12 +26,9 @@
                 <tr>
                     <td>
 
-                        @Html.DisplayFor(modelItem => item.CommodityId)
+                        @Html.DisplayFor(modelItem => item.Amount)
                     </td>
-                    <td>
-
-                        @Html.DisplayFor(modelItem => item.OrderId)
-                    </td>
+                    
                     <td>
 
                         @Html.DisplayFor(modelItem => item.CommodityName)
@@ -39,12 +36,15 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.IsConfirmeds)
                     </td>
-                    
+                    @if (!item.IsConfirmeds) {
                     <td>
-                        <a class="btn btn-success" asp-action="Confirm" asp-route-CommodityId="@item.CommodityId"asp-route-OrderId="@item.OrderId"><em class="glyphicon glyphicon-edit"></em></a> |
-                        <a class="btn btn-danger" asp-action="Delete"><em class="glyphicon glyphicon-trash"></em></a>
+                        <a class="btn btn-success" asp-action="Confirm" asp-route-CommodityId="@item.CommodityId"asp-route-OrderId="@item.OrderId"><em class="glyphicon glyphicon-edit"></em></a> |             
                     </td>
-                   
+                    }
+                    else if (item.IsConfirmeds)
+                    {
+                        <td></td>
+                    }
 
                 </tr>
 
