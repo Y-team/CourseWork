@@ -58,9 +58,20 @@ namespace BAL.Managers
 
         public void Create(int basketId, int commodityId)
         {
+            
             BasketCommodities basketCommodities = new BasketCommodities() { BasketId = basketId,CommodityId = commodityId , Amount = 1};
-            unitOfWork.BasketCommoditieses.Insert(basketCommodities);
-            unitOfWork.Save();
+            var basCom = unitOfWork.BasketCommoditieses.Get(bc => bc.BasketId == basketId && bc.CommodityId == commodityId).FirstOrDefault();
+            if (basCom!=null && basketCommodities.BasketId == basCom.BasketId && basketCommodities.CommodityId == basCom.CommodityId)
+            {
+                basCom.Amount++;
+                unitOfWork.BasketCommoditieses.Update(basCom);
+                unitOfWork.Save();
+            }
+            else
+            {
+                unitOfWork.BasketCommoditieses.Insert(basketCommodities);
+                unitOfWork.Save();
+            }
         }
 
         public IEnumerable<BasketCommodities> GetBasketCommodities(int basketId)
