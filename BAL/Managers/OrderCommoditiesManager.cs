@@ -6,13 +6,17 @@ using Model.ViewModels.OrderViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
+using System.Threading.Tasks;
 using WebCustomerApp.Models;
+using WebCustomerApp.Services;
 
 namespace BAL.Managers
 {
     public class OrderCommoditiesManager: BaseManager,IOrderCommoditiesManager
     {
+        private readonly IEmailSender emailSender;
         public OrderCommoditiesManager(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
 
@@ -176,5 +180,7 @@ namespace BAL.Managers
 
             return mapper.Map<OrderCommodities, OrderCommodityViewModel>(orderComm);
         }
+
+        
     }
 }
