@@ -71,7 +71,7 @@ namespace BAL.Managers
             {
                 commodities.Add(unitOfWork.Commodities.GetById(it.CommodityId));
             }
-            int Count = 5;
+            //int Count = 5;
             var user = unitOfWork.Users.Get(u => u.Id == orderUser.UserId).FirstOrDefault();
             if (orderUser.IsConfirmed)
             {
@@ -79,7 +79,8 @@ namespace BAL.Managers
                 stringBuilder.AppendFormat("Name -- Count -- Price").AppendLine();
                 foreach (var it in commodities)
                 {
-                    stringBuilder.AppendFormat("{0}--{1}--{2};", it.Name, Count, it.Price * Count).AppendLine();
+                    //var basketCom = unitOfWork.BasketCommoditieses.Get().Where(b => b.CommodityId == it.Id).FirstOrDefault();
+                    stringBuilder.AppendFormat("{0}--{1}--{2};", it.Name, 5, it.Price * 5).AppendLine();
                     //stringBuilder.AppendLine();    
                 }
                 stringBuilder.AppendFormat("Date: {0}", orderUser.DataConfirmed);
