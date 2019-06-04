@@ -39,12 +39,17 @@
                         </h5>
 
 
+                        @if (!User.IsInRole("BlockedUser"))
+                        {
+                            
+                        
+                             <div scope="col" class="">
+                             <a class="btn btn-warning" asp-action="AddToBasket" asp-controller="Commodity" asp-route-commodityId="@item.Id"><em>Buy</em></a>
 
-                        <div scope="col" class="">
-                            <a class="btn btn-warning" asp-action="AddToBasket" asp-controller="Commodity" asp-route-commodityId="@item.Id"><em>Buy</em></a>
 
+                              </div>
 
-                        </div>
+                        }
                     </div>
 
                 </li>

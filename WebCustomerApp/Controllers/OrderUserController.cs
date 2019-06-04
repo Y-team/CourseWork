@@ -75,7 +75,7 @@ namespace WebApp.Controllers
         public IActionResult Confirm(int CommodityId,int OrderId)
         {
 
-            orderCommoditiesManager.Update(orderCommoditiesManager.Confirmed(CommodityId,OrderId));
+           orderCommoditiesManager.Update(orderCommoditiesManager.Confirmed(CommodityId,OrderId));
 
             return RedirectToAction("Index","OrderUser");
         }

@@ -43,7 +43,7 @@
     <Content Update="Views\Moderator\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\BlockedUser\Create.cshtml">
+    <Content Update="Views\BlockedUser\CreateAsync.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\BlockedUser\Delete.cshtml">

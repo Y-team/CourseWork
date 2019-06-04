@@ -14,7 +14,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>@ViewData["Title"] SmsService</title>
+    <title>@ViewData["Title"] Y-Team</title>
     <environment include="Development">
         <link rel="stylesheet" href="~/css/style2.css">
         <link href="~/css/bootstrap.min.css" rel="stylesheet" />
@@ -61,17 +61,7 @@
                     <ul class="nav navbar-nav">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="dropdown notifications-menu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" onclick="onNotificationsOpened(); fillReport();">
-                                    <em class="fa fa-bell-o"></em>
-                                    <span class="label label-warning" id="notificationBadge"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li id="notificationMenu">
-                                    </li>
-                                    <li class="footer"><a role="button" data-toggle="modal" data-target="#notificationModal" onclick="fillModal();">View all</a></li>
-                                </ul>
-                            </li>
+                            
                         }
                         
                         <li class="dropdown user user-menu">
@@ -120,33 +110,37 @@
                 <ul class="sidebar-menu" data-widget="tree">
                     @if (!User.Identity.IsAuthenticated)
                     {
-                        
-                           }
+                        <li>
+                            <a asp-area="" asp-controller="Account" asp-action="NewRegister">
+                                <em class="fa fa-list-ul"></em><span>Register</span>
+                                <span class="pull-right-container"> </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Account" asp-action="NewLogin">
+                                <em class="fa fa-list-ul"></em><span>Log in</span>
+                                <span class="pull-right-container"> </span>
+                            </a>
+                        </li>
+                    }
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li class="treeview">
-                            <a href="#">
-                                <em class="fa fa-comments-o"></em> <span>Basket</span>
-                                <span class="pull-right-container">
-                                    <em class="fa fa-angle-left pull-right"></em>
-                                </span>
+                        <li>
+                            <a asp-area="" asp-controller="Basket" asp-action="Index">
+                                <em class="fa fa-list-ul"></em><span>Basket</span>
+                                <span class="pull-right-container"> </span>
                             </a>
-                            <ul class="treeview-menu">
-                                <li><a asp-controller="Basket" asp-action="Index"><em class="fa fa-list-ul"></em>Basket</a></li>
-                            </ul>
                         </li>
 
-                        <li class="treeview">
-                            <a href="#">
-                                <em class="fa fa-stop"></em> <span>Commodity</span>
-                                <span class="pull-right-container">
-                                    <em class="fa fa-angle-left pull-right"></em>
-                                </span>
+                        <li>
+                            <a asp-area="" asp-controller="Commodity" asp-action="ShowCommodities">
+                                <em class="fa fa-list-ul"></em><span>Commodity</span>
+                                <span class="fa fa-angle-left pull-right"> </span>
                             </a>
-                            <ul class="treeview-menu">
-                                <li><a asp-controller="Commodity" asp-action="ShowCommodities"><em class="fa fa-list-ul"></em>Commodity</a></li>
-                            </ul>
                         </li>
+
+
+
                     }
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
@@ -164,32 +158,52 @@
                                 <li><a asp-controller="Moderator" asp-action="Index"><em class="fa fa-list-ul"></em>List moderators</a></li>
                             </ul>
                         </li>
-
-
-                    }
-                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Moderator") || User.IsInRole("Admin")))
-                    {
                         <li class="treeview">
                             <a href="#">
-                                <em class="fa fa-users"></em> <span>Commodity Engine</span>
+                                <em class="fa fa-stop"></em> <span>Blocked User</span>
                                 <span class="pull-right-container">
                                     <em class="fa fa-angle-left pull-right"></em>
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                @if (User.Identity.IsAuthenticated && User.IsInRole("Moderator"))
-                                {
-                                    <li><a asp-area="" asp-controller="Commodity" asp-action="AddCommodity"><em class="fa fa-envelope-open-o"></em>Add new </a></li>
-
-                                    <li><a asp-area="" asp-controller="Commodity" asp-action="Index"><em class="fa fa-list-ul"></em>List Commodity</a></li>
-                                }
-                                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                                {
-                                    <li><a asp-area="" asp-controller="Commodity" asp-action="IndexAdmin"><em class="fa fa-list-ul"></em>ALL Commodity</a></li>
-                                }
+                                <li><a asp-controller="BlockedUser" asp-action="CreateAsync"><em class="fa fa-plus-circle"></em>Create</a></li>
+                                <li><a asp-controller="BlockedUser" asp-action="Index"><em class="fa fa-list-ul"></em>List User</a></li>
                             </ul>
                         </li>
+
+
                     }
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Moderator") || User.IsInRole("Admin")))
+                    {@if (User.IsInRole("Moderator"))
+                        {
+                            <li>
+                                <a asp-area="" asp-controller="OrderUser" asp-action="Index">
+                                    <em class="fa fa-list-ul"></em><span>Order</span>
+                                    <span class="fa fa-angle-left pull-right"> </span>
+                                </a>
+                            </li>
+                        }
+                    <li class="treeview">
+                        <a href="#">
+                            <em class="fa fa-users"></em> <span>Commodity Engine</span>
+                            <span class="pull-right-container">
+                                <em class="fa fa-angle-left pull-right"></em>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (User.IsInRole("Moderator"))
+                            {
+                                <li><a asp-area="" asp-controller="Commodity" asp-action="AddCommodity"><em class="fa fa-envelope-open-o"></em>Add new </a></li>
+
+                                <li><a asp-area="" asp-controller="Commodity" asp-action="Index"><em class="fa fa-list-ul"></em>List Commodity</a></li>
+                            }
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li><a asp-area="" asp-controller="Commodity" asp-action="IndexAdmin"><em class="fa fa-list-ul"></em>ALL Commodity</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
                 </ul>
             </section>
         </aside>

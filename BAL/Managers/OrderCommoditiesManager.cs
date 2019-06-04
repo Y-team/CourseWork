@@ -6,13 +6,18 @@ using Model.ViewModels.OrderViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
+using System.Threading.Tasks;
 using WebCustomerApp.Models;
+using WebCustomerApp.Models.AccountViewModels;
+using WebCustomerApp.Services;
 
 namespace BAL.Managers
 {
     public class OrderCommoditiesManager: BaseManager,IOrderCommoditiesManager
     {
+       
         public OrderCommoditiesManager(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
 
@@ -94,8 +99,12 @@ namespace BAL.Managers
                 Description = stringBuilder.ToString(),
                 UserId = orderUser.UserId
             };
-
-
+            string mail = receipt.Description;
+            
+            EmailSender emailSender =new EmailSender();
+           
+                emailSender.SendEmail(user.Email, "Y-Team Store", $"You check :\n{mail}");
+            
 
             unitOfWork.Receipts.Insert(receipt);
             unitOfWork.OrderUsers.Delete(orderUser);
@@ -181,5 +190,7 @@ namespace BAL.Managers
 
             return mapper.Map<OrderCommodities, OrderCommodityViewModel>(orderComm);
         }
+
+        
     }
 }

@@ -4,6 +4,7 @@ using Model.Interfaces;
 using Model.ViewModels.BlokedUserBiewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using WebCustomerApp.Models;
 
@@ -37,7 +38,12 @@ namespace BAL.Managers
 
             return mapper.Map<IEnumerable<BlockedUser>, List<BlockedUserViewModel>>(blockedUsers);
         }
+        public ApplicationUser GetUserByEmail(string email)
+        {
+            var moderator = unitOfWork.Users.Get(u => u.Email == email).FirstOrDefault();
 
+            return moderator;
+        }
         public BlockedUserViewModel GetById(int id)
         {
             BlockedUser blockedUser = unitOfWork.BlockedUsers.GetById(id);
