@@ -17,6 +17,10 @@ namespace Model.ViewModels.CommodityViewModels
         [Display(Name = "Price")]
         public decimal Price { get; set; }
 
+        [Required(ErrorMessage = "The Quantity field is required.")]
+        [Display(Name = "QuantityInStorage")]
+        [Range(20, 999, ErrorMessage = "Amount  range {0} ... {1}")]
+        public int QuantityInStorage { get; set; }
         public int ModeratorId { get; set; }
         [Required(ErrorMessage = "The Description field is required.")]
         [Display(Name = "Description")]

@@ -62,12 +62,10 @@ namespace WebCustomerApp.Data
                 .HasForeignKey<Basket>(au => au.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-           
-
-            builder.Entity<Commodity>()
-                .HasOne(s => s.LongDescription)
-                .WithOne(c => c.Commodity)
-                .HasForeignKey<LongDescription>(c => c.CommodityId);
+           // builder.Entity<Commodity>()
+              //  .HasOne(s => s.LongDescription)
+               // .WithOne(c => c.Commodity)
+                //.HasForeignKey<LongDescription>(c => c.CommodityId);
 
             builder.Entity<Moderator>()
                 .HasMany(c => c.Commodities)

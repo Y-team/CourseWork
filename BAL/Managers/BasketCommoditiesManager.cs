@@ -61,11 +61,10 @@ namespace BAL.Managers
             
             BasketCommodities basketCommodities = new BasketCommodities() { BasketId = basketId,CommodityId = commodityId , Amount = 1};
             var basCom = unitOfWork.BasketCommoditieses.Get(bc => bc.BasketId == basketId && bc.CommodityId == commodityId).FirstOrDefault();
+            var comm = unitOfWork.Commodities.Get(c => c.Id == commodityId).FirstOrDefault();
             if (basCom!=null && basketCommodities.BasketId == basCom.BasketId && basketCommodities.CommodityId == basCom.CommodityId)
             {
-                basCom.Amount++;
-                unitOfWork.BasketCommoditieses.Update(basCom);
-                unitOfWork.Save();
+                PlusOne(basketId, commodityId);      
             }
             else
             {
@@ -77,7 +76,8 @@ namespace BAL.Managers
         public void PlusOne(int basketId, int commodityId)
         {
             var basCom = unitOfWork.BasketCommoditieses.Get(bc => bc.CommodityId == commodityId && bc.BasketId == basketId).FirstOrDefault();
-            if (basCom.Amount <= 999)
+            var comm = unitOfWork.Commodities.Get(c => c.Id == commodityId).FirstOrDefault();
+            if (basCom.Amount <= 999 && basCom.Amount <= comm.QuantityInStorage-1)
             {
                 basCom.Amount++;
                 unitOfWork.BasketCommoditieses.Update(basCom);

@@ -139,8 +139,8 @@ namespace BAL.Managers
                 emailSender.SendEmail(user.Email, "Y-Team Store", $"You check :\n{mail}");
             
 
-         
-            unitOfWork.OrderUsers.Delete(orderUser);
+            unitOfWork.Receipts.Insert(receipt);
+           // unitOfWork.OrderUsers.Delete(orderUser);
             unitOfWork.Save();
 
             #endregion
@@ -170,9 +170,9 @@ namespace BAL.Managers
         public IEnumerable<OrderCommodityViewModel> ShowAllOrderForModer(int moderId)
         {
 
-            
 
-            var comms = unitOfWork.OrderCommoditieses.Get(b => b.Commodity.ModeratorId == moderId);
+
+            var comms = unitOfWork.OrderCommoditieses.Get(b => b.Commodity.ModeratorId == moderId).Where(c => c.IsConfirmeds == true);
             var commV = mapper.Map<IEnumerable<OrderCommodities>, IEnumerable<OrderCommodityViewModel>>(comms);
             foreach (var  item in commV)
             {
@@ -225,8 +225,10 @@ namespace BAL.Managers
         public OrderCommodityViewModel Confirmed(int CommodityId, int OrderId)
         {
             var orderComm = unitOfWork.OrderCommoditieses.Get().Where(b => b.CommodityId == CommodityId && b.OrderId == OrderId).FirstOrDefault();
+            var comm = unitOfWork.Commodities.GetById(CommodityId);
 
             orderComm.IsConfirmeds = true;
+            comm.QuantityInStorage -= orderComm.Amount;
 
             return mapper.Map<OrderCommodities, OrderCommodityViewModel>(orderComm);
         }

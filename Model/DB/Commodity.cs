@@ -9,7 +9,7 @@ namespace WebCustomerApp.Models
         public  int Id { get; set; }
         public string Name { get; set; }
         public bool IsConfirmed { get; set; }
-
+        public int QuantityInStorage { get; set; }
         public decimal Price { get; set; }
 
         public ICollection <Photo> Photo { get; set; }
@@ -17,7 +17,7 @@ namespace WebCustomerApp.Models
         public ICollection<BasketCommodities> BasketCommoditieses { get; set; }
         public ICollection<ReceiptCommodities> ReceiptCommoditieses { get; set; }
         public string Description { get; set; }
-        public virtual LongDescription LongDescription { get; set; }
+        public string LongDescription { get; set; }
         public  int ModeratorId { get; set; }
         public  Moderator Moderator { get; set; }
    }

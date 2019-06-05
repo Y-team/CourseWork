@@ -9,9 +9,9 @@
     <h1>All commodity </h1>
     <div class="features">
 
-
+        
         <ul class="features__list">
-
+           
             @foreach (var item in Model)
             {
 
@@ -20,11 +20,11 @@
                         <div>
                             @if (item.PhotoName != null)
                             {
-                                <img class="logo im" src=@item.PhotoName alt="logo"/>
+                                <img class="logo im" src=@item.PhotoName alt="logo" />
                             }
                             else
                             {
-                                <img class="logo" src="~/images/43.png" alt="Placeholder"/>
+                                <img class="logo" src="~/images/43.png" alt="Placeholder" />
                             }
                         </div>
 
@@ -39,17 +39,24 @@
                         </h5>
 
 
-                        @if (!User.IsInRole("BlockedUser"))
-                        {
-                            
                         
-                             <div scope="col" class="">
-                             <a class="btn btn-warning" asp-action="AddToBasket" asp-controller="Commodity" asp-route-commodityId="@item.Id"><em>Buy</em></a>
 
 
-                              </div>
+                        <div scope="col" class="">
+                            @if (!User.IsInRole("BlockedUser") && item.QuantityInStorage > 0)
+                            {
+                                <a class="btn btn-warning" asp-action="AddToBasket" asp-controller="Commodity" asp-route-commodityId="@item.Id"><em>Buy</em></a>
+                            }
+                            <a class="btn btn-success" asp-action="CommodityMain" asp-controller="Commodity" asp-route-commodityId="@item.Id"><em>View</em></a>
 
-                        }
+                        </div>
+
+                        
+                        
+                        <h6>
+                            @Html.DisplayNameFor(model => model.QuantityInStorage) : @Html.DisplayFor(modelItem => item.QuantityInStorage)
+                        </h6>
+
                     </div>
 
                 </li>
