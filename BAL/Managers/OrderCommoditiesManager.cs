@@ -84,6 +84,7 @@ namespace BAL.Managers
             var user = unitOfWork.Users.Get(u => u.Id == orderUser.UserId).FirstOrDefault();
             if (orderUser.IsConfirmed)
             {
+              
                 stringBuilder.AppendFormat("User Login: {0}<br/>", user.UserName).AppendLine();
                 stringBuilder.AppendFormat("Phone Number: {0}<br/>", requiredInformation.PhoneNumber).AppendLine();
                 stringBuilder.AppendFormat("User full name: {0}<br/>", requiredInformation.FullName).AppendLine();
@@ -102,6 +103,7 @@ namespace BAL.Managers
                 stringBuilder.AppendFormat("Shipping method: {0}<br/>", requiredInformation.ShippingMethod).AppendLine();
                 
                 stringBuilder.AppendFormat("Date: {0}<br/>", orderUser.DataConfirmed);
+             
             }
 
             Receipt receipt = new Receipt()
