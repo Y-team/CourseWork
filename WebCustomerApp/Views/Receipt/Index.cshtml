@@ -4,7 +4,7 @@
 }
 <div class="container">
 
-    <h1>Your Receiptions</h1>
+    <h1>Your Receipts</h1>
 
     <table class="table table-hover">
         <thead class="thead-dark">
@@ -43,6 +43,13 @@
                         <br/>   @Html.DisplayFor(modelItem => item.City)
                         <br/>   @Html.DisplayFor(modelItem => item.AddressLine1)
                         <br/>   @Html.DisplayFor(modelItem => item.AddressLine2)
+                        @foreach (var citem in item.CommodityUser)
+                        {
+                            @*<br/>  @
+                            @Html.DisplayFor(modelCitem => citem.Name)
+                            @Html.DisplayFor(modelCitem => citem.Amount)     
+                            @Html.DisplayFor(modelCitem => citem.Price)*@     
+                        }
                         <br/>   @Html.DisplayFor(modelItem => item.PostalCode)
                         <br/>   @Html.DisplayFor(modelItem => item.PaymentMethod)
                         <br/>   @Html.DisplayFor(modelItem => item.ShippingMethod)

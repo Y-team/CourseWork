@@ -62,12 +62,15 @@ namespace BAL.Managers
                 item.PhoneNumber = reqInf.PhoneNumber;
                 item.PostalCode = reqInf.PostalCode;
                 item.ShippingMethod = reqInf.ShippingMethod;
+                item.CommodityUser=new List<CommodityBasketViewModel>();
                 var recCommodities = unitOfWork.ReceiptCommoditieses.Get(rc => rc.ReceiptId == item.Id);
                 foreach (var citems in recCommodities)
                 {
-                    var com = unitOfWork.Commodities.GetById(citems.CommodityId);
+                    var com = unitOfWork.Commodities.GetById(citems.CommodityId); 
+                   
                     var com2 = mapper.Map<Commodity, CommodityBasketViewModel>(com);
-                       item.CommodityUser.Add(com2);
+                    com2.Amount = citems.Amount;
+                    item.CommodityUser.Add(com2);
 
                 }
 
