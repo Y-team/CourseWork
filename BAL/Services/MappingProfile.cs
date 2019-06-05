@@ -16,6 +16,7 @@ using Model.ViewModels.PhoneViewModels;
 using System.IO;
 using Model.ViewModels.OrderCommodityViewModels;
 using Model.ViewModels.ReceiptViewModels;
+using Model.ViewModels.RequiredInformationViewModel;
 
 namespace BAL.Services
 {
@@ -76,8 +77,8 @@ namespace BAL.Services
 
             CreateMap<Receipt, ReceiptViewModel>().ReverseMap();
 
-       
-               
+            CreateMap<RequiredInformation, RequiredInformationViewModel>().ReverseMap();
+
         }
 
         private string GetPhoto(Commodity commodity)

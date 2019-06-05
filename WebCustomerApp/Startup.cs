@@ -114,9 +114,10 @@ namespace WebCustomerApp
             services.AddTransient<IFileIoWrapper, FileIoWrapper>();
             services.AddTransient<IOrderCommoditiesManager, OrderCommoditiesManager>();
             services.AddTransient<IReceiptManager, ReceiptManager>();
+            services.AddTransient<IRequiredInormationManager, RequiredInormationManager>();
             // Start scheduler
 
-          
+
             // Configure sessions
 
             services.AddDistributedMemoryCache();

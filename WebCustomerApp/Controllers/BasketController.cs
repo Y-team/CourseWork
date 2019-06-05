@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Model.ViewModels.CommodityViewModels;
 using WebCustomerApp.Models;
+using Model.ViewModels.RequiredInformationViewModel;
 
 namespace WebApp.Controllers
 {
@@ -91,18 +92,7 @@ namespace WebApp.Controllers
             return RedirectToAction("Index", "Basket",new { basketId = basketId });
         }
 
-        public IActionResult Confirm(int basketId)
-        {
-            int basketCom = basketCommoditiesManager.GetBasketCommodities(basketId).Count();
-            if (basketCom >= 1)
-            {
-                orderCommoditiesManager.AddNewOrder(basketId);
-                ViewData["basketId"] = basketId;
-                basketCommoditiesManager.Clean(basketId);
-            }
-
-            return RedirectToAction("Index", "Basket");
-        }
+      
         public IActionResult Save(BasketCommoditiesUserViewModel basket)
         {
             IEnumerable<CommodityBasketViewModel> commodities = basket.CommodityUser;

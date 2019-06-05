@@ -1,4 +1,5 @@
 ﻿using Model.ViewModels.OrderCommodityViewModels;
+using Model.ViewModels.RequiredInformationViewModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace BAL.Interfaces
     {
         void Insert(OrderCommodityViewModel item);
         void Update(OrderCommodityViewModel item);
-        void AddNewOrder(int basketId);
+        void AddNewOrder(RequiredInformationViewModel recInfo);
         void Delete(int commodityId, int orderId);
         IEnumerable<OrderCommodityViewModel> ShowAllOrderForModer(int moderId);
         IEnumerable<OrderCommodityViewModel> ShowOrderForModerUnAccepted(int moderId);

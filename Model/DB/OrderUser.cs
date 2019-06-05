@@ -19,6 +19,7 @@ namespace WebCustomerApp.Models
 
         public DateTime DataOrder { get; set; }
         public DateTime DataConfirmed { get; set; }
+        public int RequiredInformationId { get; set; }
 
         public ICollection<OrderCommodities> OrderCommoditieses { get; set; }
 

@@ -20,6 +20,7 @@ namespace WebCustomerApp.Data
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<BasketCommodities> BasketCommoditieses { get; set; }
         public DbSet<LongDescription> LongDescriptions { get; set; }
+        public DbSet<ReceiptCommodities> ReceiptCommoditieses { get; set; }
         public DbSet<Commodity> Commodities{ get; set; }
         public DbSet<Moderator> Moderators { get; set; }
         public DbSet<Photo> Photoes{ get; set; }
@@ -27,6 +28,8 @@ namespace WebCustomerApp.Data
         public DbSet<OrderUser> OrderUsers { get; set; }
         public  DbSet<OrderCommodities> OrderCommoditieses { get; set; }
         public DbSet<Receipt> Receipts { get; set; }
+        public DbSet<RequiredInformation> RequiredInformations { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -47,6 +50,7 @@ namespace WebCustomerApp.Data
             builder.Entity<BlockedUser>().HasKey(i => i.Id);
             builder.Entity<OrderUser>().HasKey(i => i.Id);
             builder.Entity<Receipt>().HasKey(i => i.Id);
+            builder.Entity<RequiredInformation>().HasKey(i => i.Id);
 
             // Compound key for Many-To-Many joining table
 
@@ -58,7 +62,9 @@ namespace WebCustomerApp.Data
                 .HasForeignKey<Basket>(au => au.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-           builder.Entity<Commodity>()
+           
+
+            builder.Entity<Commodity>()
                 .HasOne(s => s.LongDescription)
                 .WithOne(c => c.Commodity)
                 .HasForeignKey<LongDescription>(c => c.CommodityId);
@@ -73,13 +79,23 @@ namespace WebCustomerApp.Data
                 .WithOne(m => m.ApplicationUser)
                 .HasForeignKey<Moderator>(m => m.UserId);
 
+            builder.Entity<Receipt>()
+                .HasOne(m => m.RequiredInformation)
+                .WithOne(m => m.Receipt)
+                .HasForeignKey<RequiredInformation>(m => m.Id);
+          
+
             builder.Entity<ApplicationUser>()
                 .HasMany(o=>o.Orders)
                 .WithOne(m => m.User)
                 .HasForeignKey(m => m.UserId);
 
+            builder.Entity<ApplicationUser>()
+                .HasMany(ag => ag.Receipts)
+                .WithOne(au => au.ApplicationUser)
+                .HasForeignKey(au => au.UserId);
 
-           
+          
 
             #endregion
 
@@ -110,11 +126,21 @@ namespace WebCustomerApp.Data
                 .WithOne(o => o.OrderUser)
                 .HasForeignKey(oc => oc.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
-
+            builder.Entity<Commodity>()
+                .HasMany(oc => oc.ReceiptCommoditieses)
+                .WithOne(c => c.Commodity)
+                .HasForeignKey(oc => oc.CommodityId)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Receipt>()
+                .HasMany(oc => oc.ReceiptCommoditieses)
+                .WithOne(c => c.Receipt)
+                .HasForeignKey(oc => oc.ReceiptId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<BasketCommodities>().HasKey(r => new { r.BasketId, r.CommodityId });
             builder.Entity<OrderCommodities>().HasKey(r => new { r.OrderId, r.CommodityId });
-            
+            builder.Entity<ReceiptCommodities>().HasKey(r => new { r.ReceiptId, r.CommodityId });
+
         }
     }
 }

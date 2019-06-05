@@ -15,6 +15,7 @@ namespace WebCustomerApp.Models
         public ICollection <Photo> Photo { get; set; }
         public ICollection<OrderCommodities> OrderCommoditieses { get; set; }
         public ICollection<BasketCommodities> BasketCommoditieses { get; set; }
+        public ICollection<ReceiptCommodities> ReceiptCommoditieses { get; set; }
         public string Description { get; set; }
         public virtual LongDescription LongDescription { get; set; }
         public  int ModeratorId { get; set; }

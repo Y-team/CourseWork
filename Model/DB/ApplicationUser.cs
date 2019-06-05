@@ -15,6 +15,7 @@ namespace WebCustomerApp.Models
 
         public  Moderator Moderator { get; set; }
 
+        public ICollection< Receipt> Receipts { get; set; }
         public ICollection<OrderUser> Orders { get; set; }
         public int InviteId { get; set; } = 0; // this field filled up when user has inviting to group//Delete
     }

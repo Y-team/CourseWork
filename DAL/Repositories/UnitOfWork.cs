@@ -23,6 +23,9 @@ namespace DAL.Repositories
         private IBaseRepository<OrderCommodities> ordercomoditiesRepo;
         private IBaseRepository<Photo> photoRepo;
         private IBaseRepository<Receipt> receiptRepo;
+        private IBaseRepository<ReceiptCommodities> ReceiptCommoditiesesRepo;
+        private IBaseRepository<RequiredInformation> RequiredInformationsRepo;
+       
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -50,6 +53,23 @@ namespace DAL.Repositories
             }
         }
 
+        public IBaseRepository<ReceiptCommodities> ReceiptCommoditieses
+        {
+            get
+            {
+                if( ReceiptCommoditiesesRepo== null) { ReceiptCommoditiesesRepo = new BaseRepository<ReceiptCommodities>(context); }
+                return ReceiptCommoditiesesRepo;
+            }
+        }
+        public IBaseRepository<RequiredInformation> RequiredInformations
+        {
+            get
+            {
+                if (RequiredInformationsRepo == null) { RequiredInformationsRepo = new BaseRepository<RequiredInformation>(context); }
+                return RequiredInformationsRepo;
+            }
+        }
+      
         public IBaseRepository<BlockedUser> BlockedUsers
         {
             get

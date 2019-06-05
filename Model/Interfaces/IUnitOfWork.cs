@@ -20,7 +20,10 @@ namespace Model.Interfaces
         IBaseRepository<OrderUser> OrderUsers { get; }
         IBaseRepository<OrderCommodities> OrderCommoditieses { get;  }
         IBaseRepository<Receipt> Receipts { get; }
-       
+        IBaseRepository<ReceiptCommodities> ReceiptCommoditieses { get; }
+        IBaseRepository<RequiredInformation> RequiredInformations { get; }
+
+
 
 
         int Save();

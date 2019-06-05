@@ -3,6 +3,7 @@ using BAL.Interfaces;
 using Model.Interfaces;
 using Model.ViewModels.OrderCommodityViewModels;
 using Model.ViewModels.OrderViewModels;
+using Model.ViewModels.RequiredInformationViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,8 +66,9 @@ namespace BAL.Managers
 
 
             #region Creating Receipt
-
+            
             var orderId = order.Id;
+            var requiredInformation = unitOfWork.RequiredInformations.Get(ri => ri.OrderId == orderId).FirstOrDefault();
             var orderComs = unitOfWork.OrderCommoditieses.Get().Where(b => b.OrderId == orderId);
             var orderUser = unitOfWork.OrderUsers.GetById(orderId);
 
@@ -82,7 +84,9 @@ namespace BAL.Managers
             var user = unitOfWork.Users.Get(u => u.Id == orderUser.UserId).FirstOrDefault();
             if (orderUser.IsConfirmed)
             {
-                stringBuilder.AppendFormat("User: {0}</br>", user.UserName).AppendLine();
+                stringBuilder.AppendFormat("User Login: {0}</br>", user.UserName).AppendLine();
+                stringBuilder.AppendFormat("Phone Number: {0}</br>", requiredInformation.PhoneNumber).AppendLine();
+                stringBuilder.AppendFormat("User full name: {0}</br>", requiredInformation.FullName).AppendLine();
                 stringBuilder.AppendFormat("Name -- Count -- Price</br>").AppendLine();
                 foreach (var it in commodities)
                 {
@@ -90,15 +94,44 @@ namespace BAL.Managers
                     stringBuilder.AppendFormat("{0}--{1}--{2};</br>", it.Name, 5, it.Price * 5).AppendLine();
                     //stringBuilder.AppendLine();    
                 }
+                stringBuilder.AppendFormat("City: {0}</br>", requiredInformation.City).AppendLine();
+                stringBuilder.AppendFormat("Address Line1: {0}</br>", requiredInformation.AddressLine1).AppendLine();
+                stringBuilder.AppendFormat("Address Line2: {0}</br>", requiredInformation.AddressLine2).AppendLine();
+                stringBuilder.AppendFormat("Postal Code: {0}</br>", requiredInformation.PostalCode).AppendLine();
+                stringBuilder.AppendFormat("Payment method: {0}</br>", requiredInformation.PaymentMethod).AppendLine();
+                stringBuilder.AppendFormat("Shipping method: {0}</br>", requiredInformation.ShippingMethod).AppendLine();
+                
                 stringBuilder.AppendFormat("Date: {0}</br>", orderUser.DataConfirmed);
             }
 
             Receipt receipt = new Receipt()
-            {
+            {   RequiredInformationId = requiredInformation.Id,
                 DateCheck = orderUser.DataConfirmed,
                 Description = stringBuilder.ToString(),
-                UserId = orderUser.UserId
+                UserId = orderUser.UserId,
+                ReceiptCommoditieses = new List<ReceiptCommodities>()
+                {
+
+                }
+                
             };
+            unitOfWork.Receipts.Insert(receipt);
+
+            foreach (var item2 in orderComs)
+            {
+                var newRecCom = new ReceiptCommodities()
+                {
+                    CommodityId = item2.CommodityId,
+                    Receipt = receipt,
+                    Amount = item2.Amount
+
+                };
+
+                unitOfWork.ReceiptCommoditieses.Insert(newRecCom);
+            }
+
+            
+
             string mail = receipt.Description;
             
             EmailSender emailSender =new EmailSender();
@@ -106,7 +139,7 @@ namespace BAL.Managers
                 emailSender.SendEmail(user.Email, "Y-Team Store", $"You check :\n{mail}");
             
 
-            unitOfWork.Receipts.Insert(receipt);
+         
             unitOfWork.OrderUsers.Delete(orderUser);
             unitOfWork.Save();
 
@@ -149,12 +182,12 @@ namespace BAL.Managers
             return commV;
         }
 
-        public void AddNewOrder(int basketId)
+        public void AddNewOrder(RequiredInformationViewModel recInfo)
         {
-            var basket = unitOfWork.Baskets.GetById(basketId);
+            var basket = unitOfWork.Baskets.GetById(recInfo.BasketId);
             if (basket == null) { return; }
 
-            var commodities = unitOfWork.BasketCommoditieses.Get(b => b.BasketId == basketId);
+            var commodities = unitOfWork.BasketCommoditieses.Get(b => b.BasketId == recInfo.BasketId);
             if (commodities == null) { return; }
 
             var order = new OrderUser()
@@ -164,7 +197,8 @@ namespace BAL.Managers
                 IsConfirmed = false
             };
             unitOfWork.OrderUsers.Insert(order);
-
+            
+         
             foreach (var item in commodities)
             {
                 var newOrderCom = new OrderCommodities
@@ -179,7 +213,13 @@ namespace BAL.Managers
             }
 
             unitOfWork.Save();
-           
+
+            var neworder = unitOfWork.OrderUsers.Get(o => o.DataOrder == order.DataOrder&&o.IsConfirmed==order.IsConfirmed).First();
+
+            var reqInformation = mapper.Map<RequiredInformationViewModel, RequiredInformation>(recInfo);
+            reqInformation.OrderId = neworder.Id;
+            unitOfWork.RequiredInformations.Insert(reqInformation);
+            unitOfWork.Save();
         }
 
         public OrderCommodityViewModel Confirmed(int CommodityId, int OrderId)
