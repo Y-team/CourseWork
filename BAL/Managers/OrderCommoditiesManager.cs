@@ -90,8 +90,8 @@ namespace BAL.Managers
                 stringBuilder.AppendFormat("Name -- Count -- Price<br/>").AppendLine();
                 foreach (var it in commodities)
                 {
-                    //var basketCom = unitOfWork.BasketCommoditieses.Get().Where(b => b.CommodityId == it.Id).FirstOrDefault();
-                    stringBuilder.AppendFormat("{0}--{1}--{2};<br/>", it.Name, 5, it.Price * 5).AppendLine();
+                    var basketCom = orderComs.Where(b => b.CommodityId == it.Id).FirstOrDefault();
+                    stringBuilder.AppendFormat("{0}--{1}--{2};<br/>", it.Name, basketCom.Amount, it.Price * basketCom.Amount).AppendLine();
                     //stringBuilder.AppendLine();    
                 }
                 stringBuilder.AppendFormat("City: {0}<br/>", requiredInformation.City).AppendLine();
