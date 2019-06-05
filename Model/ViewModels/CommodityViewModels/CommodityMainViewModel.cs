@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Model.ViewModels.CommodityViewModels
 {
-    public class CommodityViewModel
+    class CommodityMainViewModel
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "The Name field is required.")]
@@ -21,14 +21,10 @@ namespace Model.ViewModels.CommodityViewModels
         public int QuantityInStorage { get; set; }
         public int ModeratorId { get; set; }
         [Required(ErrorMessage = "The Description field is required.")]
-        [Display(Name = "Description")]
-        [StringLength(150)]
-        public string Description { get; set; }
-        [Required(ErrorMessage = "The Description field is required.")]
-        [Display(Name = "Description")]
+        [Display(Name = "LongDescription")]
         [StringLength(1500)]
         public string LongDescription { get; set; }
+
         public string PhotoName { get; set; }
-        
     }
 }

@@ -1,0 +1,49 @@
+﻿@using Model.ViewModels.CommodityViewModels;
+@model CommodityViewModel
+@{
+    <html>
+
+    <head>
+        <link href="~/css/Stylecom.css" rel="stylesheet" />
+        <h1>@Model.Name</h1>
+    </head>
+
+    <body>
+
+        <div class="features">
+           
+            <table>
+                 <tr>
+                     <td align="left">
+                         <div>
+                             @if (Model.PhotoName != null)
+                             {
+                                 <img class="logo im" src=@Model.PhotoName alt="logo" />
+                             }
+                             else
+                             {
+                                 <img class="logo" src="~/images/43.png" alt="Placeholder" />
+                             }
+                         </div>
+                        
+                     </td>
+                     <td class="col-md-1">
+                         
+                             <a class="btn btn-warning" asp-action="AddToBasket" asp-controller="Commodity" asp-route-commodityId="@Model.Id"><em>Buy</em></a>
+                             <h3>@Model.Price</h3>
+                         
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>
+                         <div>
+                         <strong><h3>Desciptions:</h3></strong>
+                             <h5>@Model.LongDescription</h5>
+                         </div>
+                     </td>
+                 </tr>
+            </table>     
+        </div>
+    </body>
+</html>
+}

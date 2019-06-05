@@ -30,7 +30,7 @@ namespace Model.ViewModels.CommodityViewModels
 
         [Required(ErrorMessage = "The Amount field is required.")]
         [Display(Name = "Amount")]
-        [Range(1, 999, ErrorMessage = "Amount  range {0} ... {1}")]
+        [Range(1, 20, ErrorMessage = "Amount  range {0} ... {1}")]
         public int Amount { get; set; }
     }
 }

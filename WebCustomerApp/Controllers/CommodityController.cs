@@ -144,10 +144,14 @@ namespace WebApp.Controllers
                 basketCommoditiesManager.Create(bask.Id, commodityId);
             }
 
-            return RedirectToAction("ShowCommodities", "Commodity");
+            return RedirectToAction("Index", "Basket");
         }
 
-       
+       public IActionResult CommodityMain(int commodityId)
+        {
+            var comm = commodityManager.Get(commodityId);
+            return View(comm);
+        }
 
         public int GetCommoditiesCount(string searchValue)
         {
