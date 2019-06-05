@@ -84,24 +84,24 @@ namespace BAL.Managers
             var user = unitOfWork.Users.Get(u => u.Id == orderUser.UserId).FirstOrDefault();
             if (orderUser.IsConfirmed)
             {
-                stringBuilder.AppendFormat("User Login: {0}</br>", user.UserName).AppendLine();
-                stringBuilder.AppendFormat("Phone Number: {0}</br>", requiredInformation.PhoneNumber).AppendLine();
-                stringBuilder.AppendFormat("User full name: {0}</br>", requiredInformation.FullName).AppendLine();
-                stringBuilder.AppendFormat("Name -- Count -- Price</br>").AppendLine();
+                stringBuilder.AppendFormat("User Login: {0}<br/>", user.UserName).AppendLine();
+                stringBuilder.AppendFormat("Phone Number: {0}<br/>", requiredInformation.PhoneNumber).AppendLine();
+                stringBuilder.AppendFormat("User full name: {0}<br/>", requiredInformation.FullName).AppendLine();
+                stringBuilder.AppendFormat("Name -- Count -- Price<br/>").AppendLine();
                 foreach (var it in commodities)
                 {
                     //var basketCom = unitOfWork.BasketCommoditieses.Get().Where(b => b.CommodityId == it.Id).FirstOrDefault();
-                    stringBuilder.AppendFormat("{0}--{1}--{2};</br>", it.Name, 5, it.Price * 5).AppendLine();
+                    stringBuilder.AppendFormat("{0}--{1}--{2};<br/>", it.Name, 5, it.Price * 5).AppendLine();
                     //stringBuilder.AppendLine();    
                 }
-                stringBuilder.AppendFormat("City: {0}</br>", requiredInformation.City).AppendLine();
-                stringBuilder.AppendFormat("Address Line1: {0}</br>", requiredInformation.AddressLine1).AppendLine();
-                stringBuilder.AppendFormat("Address Line2: {0}</br>", requiredInformation.AddressLine2).AppendLine();
-                stringBuilder.AppendFormat("Postal Code: {0}</br>", requiredInformation.PostalCode).AppendLine();
-                stringBuilder.AppendFormat("Payment method: {0}</br>", requiredInformation.PaymentMethod).AppendLine();
-                stringBuilder.AppendFormat("Shipping method: {0}</br>", requiredInformation.ShippingMethod).AppendLine();
+                stringBuilder.AppendFormat("City: {0}<br/>", requiredInformation.City).AppendLine();
+                stringBuilder.AppendFormat("Address Line1: {0}<br/>", requiredInformation.AddressLine1).AppendLine();
+                stringBuilder.AppendFormat("Address Line2: {0}<br/>", requiredInformation.AddressLine2).AppendLine();
+                stringBuilder.AppendFormat("Postal Code: {0}<br/>", requiredInformation.PostalCode).AppendLine();
+                stringBuilder.AppendFormat("Payment method: {0}<br/>", requiredInformation.PaymentMethod).AppendLine();
+                stringBuilder.AppendFormat("Shipping method: {0}<br/>", requiredInformation.ShippingMethod).AppendLine();
                 
-                stringBuilder.AppendFormat("Date: {0}</br>", orderUser.DataConfirmed);
+                stringBuilder.AppendFormat("Date: {0}<br/>", orderUser.DataConfirmed);
             }
 
             Receipt receipt = new Receipt()

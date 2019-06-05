@@ -10,7 +10,7 @@
         <thead class="thead-dark">
             <tr>
                 <th scope="col" class="col-md-3">
-                    @Html.DisplayNameFor(Model => Model.First().Description)
+                 Check
                 </th>
                 
                 <th scope="col" class="col-md-3"></th>
@@ -22,17 +22,35 @@
             {
 
                 <tr>
-                    <td scope="col" class="col-md-3">
+                    <td scope="col" class="col-md-1">
 
-                        @Html.DisplayFor(modelItem => item.UserId)
-                    </td>
-                    <td scope="col" class="col-md-3">
+                        @Html.DisplayNameFor(modelItem => item.FullName) : 
+                        <br/>   @Html.DisplayNameFor(modelItem => item.PhoneNumber) :  
+                        <br/>   @Html.DisplayNameFor(modelItem => item.City) :  
+                        <br/>   @Html.DisplayNameFor(modelItem => item.AddressLine1) :
+                        
+                        <br/>   @Html.DisplayNameFor(modelItem => item.AddressLine2) : 
+                        <br/>   @Html.DisplayNameFor(modelItem => item.PostalCode) :
+                        <br/>   @Html.DisplayNameFor(modelItem => item.PaymentMethod) :
+                        <br/>   @Html.DisplayNameFor(modelItem => item.ShippingMethod) : 
+                        <br/>   @Html.DisplayNameFor(modelItem => item.DateCheck) : 
 
-                        @Html.DisplayFor(modelItem => item.DateCheck)
                     </td>
                     <td scope="col" class="col-md-1">
 
-                        @Html.DisplayFor(modelItem => item.Description)
+                        @Html.DisplayFor(modelItem => item.FullName)
+                        <br/>   @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        <br/>   @Html.DisplayFor(modelItem => item.City)
+                        <br/>   @Html.DisplayFor(modelItem => item.AddressLine1)
+                        <br/>   @Html.DisplayFor(modelItem => item.AddressLine2)
+                        <br/>   @Html.DisplayFor(modelItem => item.PostalCode)
+                        <br/>   @Html.DisplayFor(modelItem => item.PaymentMethod)
+                        <br/>   @Html.DisplayFor(modelItem => item.ShippingMethod)
+                        <br/>   @Html.DisplayFor(modelItem => item.DateCheck)
+
+                    </td>
+                    <td scope="col" class="col-md-7">
+
                     </td>
                                       
                 </tr>

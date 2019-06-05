@@ -102,6 +102,11 @@ namespace WebApp.Controllers
             {
                 return RedirectToAction("Index", "BlockedUser");
             }
+
+            if (user.Email == "Admin@gmail.com")
+            {
+                return RedirectToAction("Index", "BlockedUser");
+            }
             await userManager.RemoveFromRoleAsync(user, "BlockedUser");
             await userManager.AddToRoleAsync(user, "BlockedUser");
 
